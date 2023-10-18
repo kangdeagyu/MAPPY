@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "279454569909",
+    "project_id": "rein-2cf82",
+    "storage_bucket": "rein-2cf82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279454569909:android:53ad15557e417a556f75fc",
+        "android_client_info": {
+          "package_name": "com.example.final_main_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5QKp7lDya6hh_2PsHesbYRmoB7-L7iFc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
