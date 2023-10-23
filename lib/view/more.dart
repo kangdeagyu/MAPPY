@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class More extends StatelessWidget {
   const More({super.key});
@@ -74,27 +75,28 @@ class More extends StatelessWidget {
                                   width: 1, color: Color(0x7F454545)),
                             ),
                           ),
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.add_circle_outline),
-                                  Text(
-                                    '충전하기',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF191919),
-                                      fontSize: 20,
-                                      fontFamily: 'Lato',
-                                      fontWeight: FontWeight.w700,
-                                      height: 0,
-                                    ),
-                                  ),
-                                ],
+                          child: TextButton.icon(
+                            onPressed: () {
+                              Get.bottomSheet(
+                                Column(
+                                  children: [],
+                                ),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.add_circle_outline,
+                              color: Colors.black,
+                            ),
+                            label: const Text(
+                              '충전하기',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 20),
+                            ),
+                            style: TextButton.styleFrom(
+                              shape: BeveledRectangleBorder(
+                                borderRadius: BorderRadius.circular(0.1),
                               ),
-                            ],
+                            ),
                           ),
                         ),
                         Container(
@@ -107,27 +109,24 @@ class More extends StatelessWidget {
                                   width: 1, color: Color(0x7F454545)),
                             ),
                           ),
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.list_alt_rounded),
-                                  Text(
-                                    '사용내역',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF191919),
-                                      fontSize: 20,
-                                      fontFamily: 'Lato',
-                                      fontWeight: FontWeight.w700,
-                                      height: 0,
-                                    ),
-                                  ),
-                                ],
+                          child: TextButton.icon(
+                            onPressed: () {
+                              //
+                            },
+                            icon: const Icon(
+                              Icons.list_alt,
+                              color: Colors.black,
+                            ),
+                            label: const Text(
+                              '사용내역',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 20),
+                            ),
+                            style: TextButton.styleFrom(
+                              shape: BeveledRectangleBorder(
+                                borderRadius: BorderRadius.circular(0.1),
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ],
