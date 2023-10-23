@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatbotView extends StatelessWidget {
   const ChatbotView({Key? key}) : super(key: key);
@@ -33,26 +34,30 @@ class ChatbotView extends StatelessWidget {
                 final userId = message['userid'];
 
               if (userId == 'seah') {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,  // 상단 정렬
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: AssetImage('assets/images/Chatbot_Icon.png'),  // 'seah'의 프로필 이미지 경로
-                      radius: 20,  // 원하는 크기로 조정
-                    ),
-                    SizedBox(width: 8),  // 이미지와 메시지 사이의 간격
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(8.0),
-                        margin: const EdgeInsets.only(right: 80.0, bottom: 5.0),
-                        decoration: BoxDecoration(
-                          color: Colors.blue[100],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(content),
+                return Padding(
+                  padding: EdgeInsets.all(8.0.h),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,  // 상단 정렬
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: AssetImage('assets/images/Chatbot_Icon.png'),  // 'seah'의 프로필 이미지 경로
+                        backgroundColor: Colors.white,
+                        radius: 20,  // 원하는 크기로 조정
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 8),  // 이미지와 메시지 사이의 간격
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(8.0),
+                          margin: const EdgeInsets.only(right: 80.0, bottom: 5.0),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(content),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
                 } else {
                   return Align(
@@ -61,10 +66,13 @@ class ChatbotView extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       margin: const EdgeInsets.only(left: 80.0, bottom: 5.0),
                       decoration: BoxDecoration(
-                        color: Colors.green[100],
+                        color: Colors.green[600],
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Text(content),
+                      child: Text(
+                        content,
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   );
                 }
