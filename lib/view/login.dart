@@ -30,6 +30,12 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Column(
                 children: [
+                  Image.asset(
+                    "assets/images/splash.png",
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.fill, //이미지 가득채우기
+                  ),
                   TextFormField(
                     keyboardType: TextInputType.text,
                     controller: uidController,
