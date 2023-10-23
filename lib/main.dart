@@ -1,7 +1,7 @@
 import 'package:final_main_project/view/login.dart';
-import 'package:final_main_project/view/tabbar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +13,8 @@ void main() async {
   );
 }
 
+const seedColor = Color(0xff309cff);
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -22,7 +24,13 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: seedColor, 
+          brightness: Brightness.light,
+        ),
+        textTheme: GoogleFonts.notoSansNKoTextTheme(
+          Theme.of(context).textTheme,
+        ),
         useMaterial3: true,
       ),
       home: const LoginScreen(),
