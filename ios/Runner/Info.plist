@@ -47,5 +47,9 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSCameraUsageDescription</key>
+		<string>카메라 사용 권한.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>사진 라이브러리 사용 권한.</string>
 	</dict>
 </plist>
