@@ -18,6 +18,9 @@ class More extends StatelessWidget {
                 width: 100,
                 height: 100,
                 decoration: const ShapeDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/임시.jpeg'),
+                      fit: BoxFit.fill),
                   shape: OvalBorder(
                     side: BorderSide(width: 1, color: Color(0xFF2F9BFF)),
                   ),
@@ -82,7 +85,7 @@ class More extends StatelessWidget {
             height: 30,
           ),
           // 유저 금액 내역
-          Container(
+          SizedBox(
             width: 332,
             height: 78,
             child: Row(
@@ -168,7 +171,7 @@ class More extends StatelessWidget {
             ),
           ), // 유저 금액 내역끝
           const SizedBox(
-            height: 28,
+            height: 35,
           ),
           // 유저 프로필
           SizedBox(
@@ -181,14 +184,14 @@ class More extends StatelessWidget {
                   width: 36,
                   height: 36,
                   clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/임시.jpeg'),
                     ),
                   ),
                 ),
                 const Text(
-                  'Account',
+                  'User',
                   style: TextStyle(
                     color: Color(0xFF2F9BFF),
                     fontSize: 20,
@@ -201,26 +204,271 @@ class More extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 20,
-          ),
-          const SizedBox(
-            width: 280,
+            height: 30,
+          ), // 유저 프로필 끝
+          // 페이먼트
+          SizedBox(
+            width: 350,
             height: 30,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  'Edit Profile',
+                Container(
+                  width: 36,
+                  height: 36,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/임시.jpeg'),
+                    ),
+                  ),
+                ),
+                const Text(
+                  'Payment',
                   style: TextStyle(
-                    color: Color(0xFF454545),
-                    fontSize: 15,
+                    color: Color(0xFF2F9BFF),
+                    fontSize: 20,
                     fontFamily: 'Lato',
                     fontWeight: FontWeight.w700,
                     height: 0,
                   ),
-                )
+                ),
               ],
             ),
-          ) // 유저 프로필 끝
+          ), // 페이먼트 끝
+          const SizedBox(
+            height: 30,
+          ),
+          // 알람
+          SizedBox(
+            width: 350,
+            height: 30,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/임시.jpeg'),
+                    ),
+                  ),
+                ),
+                const Text(
+                  'Notification',
+                  style: TextStyle(
+                    color: Color(0xFF2F9BFF),
+                    fontSize: 20,
+                    fontFamily: 'Lato',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                ),
+              ],
+            ),
+          ), // 알람 끝
+          const SizedBox(
+            height: 30,
+          ),
+          SizedBox(
+            width: 324,
+            height: 24,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const Text(
+                  'Notification',
+                  style: TextStyle(
+                    color: Color(0xFF454545),
+                    fontSize: 20,
+                    fontFamily: 'Lato',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                ),
+                const SizedBox(width: 140),
+                SizedBox(
+                  width: 47,
+                  height: 23,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 1,
+                        child: Container(
+                          width: 47,
+                          height: 21,
+                          decoration: ShapeDecoration(
+                            color: Color(0xFFF5F5F5),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.50),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 24,
+                        top: 0,
+                        child: Container(
+                          width: 23,
+                          height: 23,
+                          decoration: const ShapeDecoration(
+                            color: Color(0xFF2F9BFF),
+                            shape: OvalBorder(),
+                            shadows: [
+                              BoxShadow(
+                                color: Color(0x4F000000),
+                                blurRadius: 3,
+                                offset: Offset(0, 0),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          // 기타
+          SizedBox(
+            width: 350,
+            height: 30,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/임시.jpeg'),
+                    ),
+                  ),
+                ),
+                const Text(
+                  'Other',
+                  style: TextStyle(
+                    color: Color(0xFF2F9BFF),
+                    fontSize: 20,
+                    fontFamily: 'Lato',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                ),
+              ],
+            ),
+          ), // 기타 끝
+          const SizedBox(
+            height: 30,
+          ),
+          SizedBox(
+            width: 324,
+            height: 24,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const Text(
+                  'Dark Mode',
+                  style: TextStyle(
+                    color: Color(0xFF454545),
+                    fontSize: 20,
+                    fontFamily: 'Lato',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                ),
+                const SizedBox(width: 140),
+                SizedBox(
+                  width: 47,
+                  height: 23,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 1,
+                        child: Container(
+                          width: 47,
+                          height: 21,
+                          decoration: ShapeDecoration(
+                            color: Color(0xFFF5F5F5),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.50),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 24,
+                        top: 0,
+                        child: Container(
+                          width: 23,
+                          height: 23,
+                          decoration: const ShapeDecoration(
+                            color: Color(0xFF2F9BFF),
+                            shape: OvalBorder(),
+                            shadows: [
+                              BoxShadow(
+                                color: Color(0x4F000000),
+                                blurRadius: 3,
+                                offset: Offset(0, 0),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          // 로그아웃
+          SizedBox(
+            width: 350,
+            height: 30,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/임시.jpeg'),
+                    ),
+                  ),
+                ),
+                const Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: Color(0xFF2F9BFF),
+                    fontSize: 20,
+                    fontFamily: 'Lato',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                ),
+              ],
+            ),
+          ), // 로그아웃 끝
         ],
       ),
     );
