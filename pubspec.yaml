@@ -45,6 +45,8 @@ dependencies:
   google_fonts: ^6.1.0
   # Photo Library
   image_picker: ^1.0.4
+  # Screen auto sizing
+  flutter_screenutil: ^5.9.0
 
 dev_dependencies:
   flutter_test:
