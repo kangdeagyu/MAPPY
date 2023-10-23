@@ -28,150 +28,12 @@ class More extends StatelessWidget {
                     ),
                   ),
                 ),
-                // 유저 기본 정보
-                const SizedBox(
-                  width: 40,
-                ),
-                const SizedBox(
-                  width: 130,
-                  height: 98,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 177,
-                        child: Text(
-                          'Name',
-                          style: TextStyle(
-                            color: Color(0xFF2F9BFF),
-                            fontSize: 33,
-                            fontFamily: 'Lato',
-                            fontWeight: FontWeight.w700,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 3),
-                      SizedBox(
-                        width: 152,
-                        child: Text(
-                          'id',
-                          style: TextStyle(
-                            color: Color(0xFF454545),
-                            fontSize: 23,
-                            fontFamily: 'Lato',
-                            fontWeight: FontWeight.w700,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 3),
-                      Text(
-                        'since 2022',
-                        style: TextStyle(
-                          color: Color(0xFF454545),
-                          fontSize: 20,
-                          fontFamily: 'Lato',
-                          fontWeight: FontWeight.w700,
-                          height: 0,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
               ],
             ), // 유저기본정보 끝
             const SizedBox(
               height: 40,
             ),
-            // 유저 금액 내역
-            SizedBox(
-              width: 332,
-              height: 78,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 166,
-                    height: 78,
-                    decoration: const ShapeDecoration(
-                      color: Color(0x00E0D6D6),
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0x7F454545)),
-                      ),
-                    ),
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'PKR125',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFF2F9BFF),
-                            fontSize: 21,
-                            fontFamily: 'Lato',
-                            fontWeight: FontWeight.w700,
-                            height: 0,
-                          ),
-                        ),
-                        Text(
-                          '지갑',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFF191919),
-                            fontSize: 20,
-                            fontFamily: 'Lato',
-                            fontWeight: FontWeight.w700,
-                            height: 0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: 166,
-                    height: 78,
-                    decoration: const ShapeDecoration(
-                      color: Color(0x00E0D6D6),
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0x7F454545)),
-                      ),
-                    ),
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'PKR 2K+',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFF2F9BFF),
-                            fontSize: 21,
-                            fontFamily: 'Lato',
-                            fontWeight: FontWeight.w700,
-                            height: 0,
-                          ),
-                        ),
-                        Text(
-                          'Spent',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFF454545),
-                            fontSize: 20,
-                            fontFamily: 'Lato',
-                            fontWeight: FontWeight.w700,
-                            height: 0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ), // 유저 금액 내역끝
+
             const SizedBox(
               height: 40,
             ),
@@ -188,7 +50,7 @@ class More extends StatelessWidget {
                     clipBehavior: Clip.antiAlias,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/임시.jpeg'),
+                        image: AssetImage('assets/images/user.png'),
                       ),
                     ),
                   ),
@@ -221,7 +83,7 @@ class More extends StatelessWidget {
                     clipBehavior: Clip.antiAlias,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/임시.jpeg'),
+                        image: AssetImage('assets/images/payment.png'),
                       ),
                     ),
                   ),
@@ -254,7 +116,7 @@ class More extends StatelessWidget {
                     clipBehavior: Clip.antiAlias,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/임시.jpeg'),
+                        image: AssetImage('assets/images/notification.png'),
                       ),
                     ),
                   ),
@@ -354,7 +216,7 @@ class More extends StatelessWidget {
                     clipBehavior: Clip.antiAlias,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/임시.jpeg'),
+                        image: AssetImage('assets/images/setting.png'),
                       ),
                     ),
                   ),
@@ -454,7 +316,7 @@ class More extends StatelessWidget {
                     clipBehavior: Clip.antiAlias,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/임시.jpeg'),
+                        image: AssetImage('assets/images/logout.png'),
                       ),
                     ),
                   ),
