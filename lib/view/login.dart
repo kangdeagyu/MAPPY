@@ -1,4 +1,5 @@
 import 'package:final_main_project/view/tabbar_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ElevatedButton(
+        child: CupertinoButton.filled(
           onPressed: () {
             Get.to(const TabBarScreen());
           }, 

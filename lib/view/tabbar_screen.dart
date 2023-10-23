@@ -31,7 +31,7 @@ class _HomeState extends State<TabBarScreen> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
 
-    int initialTabIndex = Get.arguments ?? 0;
+    int initialTabIndex = Get.arguments ?? 1;
     _tabController.index = initialTabIndex;
 
     return Scaffold(
@@ -44,9 +44,12 @@ class _HomeState extends State<TabBarScreen> with SingleTickerProviderStateMixin
           More(),
         ],
       ),
-      bottomNavigationBar: SizedBox(
+      bottomNavigationBar: Container(
         height: 70,
+        color: Theme.of(context).colorScheme.onPrimary,
         child: TabBar(
+
+          labelColor: Theme.of(context).colorScheme.primary,
           controller: _tabController,
           tabs: const [
             Tab(

@@ -6,8 +6,8 @@ class AgePrediction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('나이 예측'),
+      body: Center(
+        child:  Text('hi'),
       ),
     );
   }
