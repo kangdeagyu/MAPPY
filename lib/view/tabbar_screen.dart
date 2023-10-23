@@ -1,5 +1,5 @@
 import 'package:final_main_project/view/age_prediction.dart';
-import 'package:final_main_project/view/chatbot.dart';
+import 'package:final_main_project/view/chatbot_page.dart';
 import 'package:final_main_project/view/home.dart';
 import 'package:final_main_project/view/more.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,7 @@ class _TabBarScreenState extends State<TabBarScreen> with SingleTickerProviderSt
         children: const [
           Home(),
           AgePrediction(),
-          ChatBot(),
+          ChatbotView(),
           More(),
         ],
       ),
