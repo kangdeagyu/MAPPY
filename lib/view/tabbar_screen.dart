@@ -44,34 +44,33 @@ class _HomeState extends State<TabBarScreen> with SingleTickerProviderStateMixin
           More(),
         ],
       ),
-      bottomNavigationBar: TabBar(
-        controller: _tabController,
-        tabs: const [
-          Tab(
-            icon: Icon(
-              Icons.home,
+      bottomNavigationBar: SizedBox(
+        height: 70,
+        child: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(
+              icon: Icon(
+                Icons.home,
+              ),
             ),
-            text: '홈',
-          ),
-          Tab(
-            icon: Icon(
-              Icons.face,
+            Tab(
+              icon: Icon(
+                Icons.face,
+              ),
             ),
-            text: '나이예측',
-          ),
-          Tab(
-            icon: Icon(
-              Icons.chat,
+            Tab(
+              icon: Icon(
+                Icons.chat_bubble,
+              ),
             ),
-            text: '챗봇',
-          ),
-          Tab(
-            icon: Icon(
-              Icons.more,
+            Tab(
+              icon: Icon(
+                Icons.more_horiz,
+              ),
             ),
-            text: '더보기',
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
