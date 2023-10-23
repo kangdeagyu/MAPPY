@@ -12,8 +12,8 @@ class TabBarScreen extends StatefulWidget {
   State<TabBarScreen> createState() => _TabBarScreenState();
 }
 
-class _TabBarScreenState extends State<TabBarScreen> with SingleTickerProviderStateMixin {
-
+class _TabBarScreenState extends State<TabBarScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController; // 탭바 컨트롤러
 
   @override
@@ -30,8 +30,7 @@ class _TabBarScreenState extends State<TabBarScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-
-    int initialTabIndex = Get.arguments ?? 1;
+    int initialTabIndex = Get.arguments ?? 3;
     _tabController.index = initialTabIndex;
 
     return Scaffold(

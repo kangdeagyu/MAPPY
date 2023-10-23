@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class More extends StatelessWidget {
   const More({super.key});
@@ -7,33 +8,135 @@ class More extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+        padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // 유저 화면
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // 유저 사진 자리
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: const ShapeDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/임시.jpeg'),
-                        fit: BoxFit.fill),
-                    shape: OvalBorder(
-                      side: BorderSide(width: 1, color: Color(0xFF2F9BFF)),
-                    ),
+            // 유저 코인
+            Container(
+              width: 360.w,
+              height: 160.h,
+              color: Colors.grey[200],
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20.h,
                   ),
-                ),
-              ],
-            ), // 유저기본정보 끝
-            const SizedBox(
-              height: 40,
+                  SizedBox(
+                    width: 340.w,
+                    height: 30.h,
+                    child: const Text('현재 보유 코인'),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 36.w,
+                        height: 36.h,
+                        child: const Icon(
+                          Icons.monetization_on,
+                          color: Colors.green,
+                        ),
+                      ),
+                      Text(
+                        '0',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          fontSize: 20,
+                          fontFamily: 'Lato',
+                          fontWeight: FontWeight.w700,
+                          height: 0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  // 유저 금액 내역
+                  Container(
+                    width: 330.w,
+                    height: 40.h,
+                    color: Theme.of(context).colorScheme.background,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 180,
+                          height: 78,
+                          decoration: const ShapeDecoration(
+                            color: Color(0x00E0D6D6),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 1, color: Color(0x7F454545)),
+                            ),
+                          ),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.add_circle_outline),
+                                  Text(
+                                    '충전하기',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF191919),
+                                      fontSize: 20,
+                                      fontFamily: 'Lato',
+                                      fontWeight: FontWeight.w700,
+                                      height: 0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 180,
+                          height: 78,
+                          decoration: const ShapeDecoration(
+                            color: Color(0x00E0D6D6),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 1, color: Color(0x7F454545)),
+                            ),
+                          ),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.list_alt_rounded),
+                                  Text(
+                                    '사용내역',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF191919),
+                                      fontSize: 20,
+                                      fontFamily: 'Lato',
+                                      fontWeight: FontWeight.w700,
+                                      height: 0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ), // 유저 금액 내역끝
+                ],
+              ),
             ),
-
+            // 유저기본정보 끝
             const SizedBox(
               height: 40,
             ),
@@ -55,7 +158,7 @@ class More extends StatelessWidget {
                     ),
                   ),
                   const Text(
-                    'User',
+                    '나의 프로필',
                     style: TextStyle(
                       color: Color(0xFF2F9BFF),
                       fontSize: 20,
@@ -88,7 +191,7 @@ class More extends StatelessWidget {
                     ),
                   ),
                   const Text(
-                    'Payment',
+                    '등록카드',
                     style: TextStyle(
                       color: Color(0xFF2F9BFF),
                       fontSize: 20,
@@ -121,7 +224,7 @@ class More extends StatelessWidget {
                     ),
                   ),
                   const Text(
-                    'Notification',
+                    '알람',
                     style: TextStyle(
                       color: Color(0xFF2F9BFF),
                       fontSize: 20,
@@ -221,7 +324,7 @@ class More extends StatelessWidget {
                     ),
                   ),
                   const Text(
-                    'Other',
+                    '기타',
                     style: TextStyle(
                       color: Color(0xFF2F9BFF),
                       fontSize: 20,
