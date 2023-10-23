@@ -1,3 +1,4 @@
+import 'package:final_main_project/widget/charge_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -78,9 +79,13 @@ class More extends StatelessWidget {
                           child: TextButton.icon(
                             onPressed: () {
                               Get.bottomSheet(
-                                Column(
-                                  children: [],
+                                Container(
+                                  height:
+                                      600.h, // 높이를 조절하려면 height 매개변수를 사용합니다.
+                                  color: Colors.white, // 백그라운드 색상 설정
+                                  child: const ChargeWidget(),
                                 ),
+                                isScrollControlled: true,
                               );
                             },
                             icon: const Icon(
