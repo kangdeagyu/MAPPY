@@ -181,7 +181,11 @@ class More extends StatelessWidget {
                   width: 36,
                   height: 36,
                   clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/임시.jpeg'),
+                    ),
+                  ),
                 ),
                 const Text(
                   'Account',
