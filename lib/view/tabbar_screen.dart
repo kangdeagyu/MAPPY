@@ -3,6 +3,7 @@ import 'package:final_main_project/view/chatbot_page.dart';
 import 'package:final_main_project/view/home.dart';
 import 'package:final_main_project/view/more.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class TabBarScreen extends StatefulWidget {
@@ -38,7 +39,7 @@ class _TabBarScreenState extends State<TabBarScreen>
         controller: _tabController,
         // 탭바 스와이프 제한
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
+        children: [
           Home(),
           AgePrediction(),
           ChatbotView(),
@@ -46,7 +47,7 @@ class _TabBarScreenState extends State<TabBarScreen>
         ],
       ),
       bottomNavigationBar: Container(
-        height: 70,
+        height: 70.h,
         color: Theme.of(context).colorScheme.onPrimary,
         child: TabBar(
           labelColor: Theme.of(context).colorScheme.primary,
