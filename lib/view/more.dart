@@ -166,7 +166,57 @@ class More extends StatelessWidget {
                 ),
               ],
             ),
-          ) // 유저 금액 내역
+          ), // 유저 금액 내역끝
+          const SizedBox(
+            height: 28,
+          ),
+          // 유저 프로필
+          SizedBox(
+            width: 350,
+            height: 30,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(),
+                ),
+                const Text(
+                  'Account',
+                  style: TextStyle(
+                    color: Color(0xFF2F9BFF),
+                    fontSize: 20,
+                    fontFamily: 'Lato',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const SizedBox(
+            width: 280,
+            height: 30,
+            child: Row(
+              children: [
+                Text(
+                  'Edit Profile',
+                  style: TextStyle(
+                    color: Color(0xFF454545),
+                    fontSize: 15,
+                    fontFamily: 'Lato',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                )
+              ],
+            ),
+          ) // 유저 프로필 끝
         ],
       ),
     );
