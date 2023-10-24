@@ -1,10 +1,11 @@
+import 'package:final_main_project/styles/button_style.dart';
 import 'package:final_main_project/viewmodel/card_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget cardwidget() {
+Widget cardwidget(BuildContext context) {
   final cardobs = Get.put(CardGet());
   return Column(
     children: [
@@ -16,7 +17,7 @@ Widget cardwidget() {
           isHolderNameVisible: true,
           cardNumber: cardobs.stCardnumber.value, // 카드번호
           expiryDate: cardobs.stCarddate.value, // 날짜
-          cardHolderName: '', // 카드 이름
+          cardHolderName: 'CARD', // 카드 이름
           cvvCode: cardobs.stCardsvv.value, // cvv
           chipColor: Colors.amber,
           cardBgColor: Colors.black,
@@ -101,6 +102,19 @@ Widget cardwidget() {
             ),
           ),
         ],
+      ),
+      const SizedBox(
+        height: 20,
+      ),
+      SizedBox(
+        width: 340.w,
+        child: ElevatedButton(
+          onPressed: () {
+            //
+          },
+          style: primaryButtonStyle(context),
+          child: const Text("등록하기"),
+        ),
       )
     ],
   );
