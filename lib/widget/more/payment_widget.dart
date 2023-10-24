@@ -1,10 +1,13 @@
+import 'package:final_main_project/view/payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 Widget paymentWidget() {
   return InkWell(
     onTap: () {
       // 페이지 전환
+      Get.to(const PaymentPage());
     },
     child: SizedBox(
       width: 320.w,
