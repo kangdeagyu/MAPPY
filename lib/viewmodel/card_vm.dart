@@ -29,4 +29,24 @@ class CardVm extends GetxController {
   void clearMyData() {
     cardDataList.clear();
   }
+
+  Future<void> addCard(CardModel card) async {
+    // 카드 추가 메소드
+    try {
+      CollectionReference cardsRef =
+          FirebaseFirestore.instance.collection('card');
+
+      await cardsRef.add({
+        'uid': card.uid,
+        'number': card.number,
+        'date': card.date,
+        'cvc': card.cvc,
+      });
+
+      cardDataList.add(card);
+    } catch (e) {
+      print(e);
+      // 에러 처리...
+    }
+  }
 }

@@ -19,64 +19,66 @@ class PaymentPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Obx(
-              () => ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: cardVm.cardDataList.length,
-                itemBuilder: (context, index) {
-                  var data = cardVm.cardDataList[index];
-                  return CreditCardWidget(
-                    obscureCardNumber: true,
-                    obscureCardCvv: true,
-                    isHolderNameVisible: true,
-                    cardNumber: data.number,
-                    expiryDate: data.date,
-                    cardHolderName: 'CARD',
-                    cvvCode: data.cvc,
-                    chipColor: Colors.amber,
-                    cardBgColor: Colors.black,
-                    showBackView: false,
-                    onCreditCardWidgetChange: (CreditCardBrand) {},
-                  );
-                },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Obx(
+                () => ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: cardVm.cardDataList.length,
+                  itemBuilder: (context, index) {
+                    var data = cardVm.cardDataList[index];
+                    return CreditCardWidget(
+                      obscureCardNumber: true,
+                      obscureCardCvv: true,
+                      isHolderNameVisible: true,
+                      cardNumber: data.number,
+                      expiryDate: data.date,
+                      cardHolderName: 'CARD',
+                      cvvCode: data.cvc,
+                      chipColor: Colors.amber,
+                      cardBgColor: Colors.black,
+                      showBackView: false,
+                      onCreditCardWidgetChange: (CreditCardBrand) {},
+                    );
+                  },
+                ),
               ),
-            ),
-            if (cardVm.cardDataList.length <
-                3) // 카드 데이터가 3개 미만일 때만 Container 표시
-              InkWell(
-                onTap: () {
-                  // 카드내역 삭제
-                  cardobs.remove();
-                  // 카드 등록
-                  Get.bottomSheet(
-                    Container(
-                      height: 400.h,
-                      color: Colors.white,
-                      child: cardwidget(context),
+              if (cardVm.cardDataList.length <
+                  3) // 카드 데이터가 3개 미만일 때만 Container 표시
+                InkWell(
+                  onTap: () {
+                    // 카드내역 삭제
+                    cardobs.remove();
+                    // 카드 등록
+                    Get.bottomSheet(
+                      Container(
+                        height: 400.h,
+                        color: Colors.white,
+                        child: cardwidget(context),
+                      ),
+                      isScrollControlled: true,
+                      isDismissible: false,
+                    );
+                  },
+                  child: Container(
+                    width: 310.w,
+                    height: 145.h,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    isScrollControlled: true,
-                    isDismissible: false,
-                  );
-                },
-                child: Container(
-                  width: 310.w,
-                  height: 145.h,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.add_card,
-                      size: 40,
+                    child: const Center(
+                      child: Icon(
+                        Icons.add_card,
+                        size: 40,
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

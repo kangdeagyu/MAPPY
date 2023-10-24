@@ -5,10 +5,10 @@ class CardGet extends GetxController {
   // 카드 번호 상태관리
   RxString stCardnumber = ''.obs;
   RxString stCarddate = ''.obs;
-  RxString stCardsvv = ''.obs;
+  RxString stCardcvc = ''.obs;
   Rx<TextEditingController> numberController = TextEditingController().obs;
   Rx<TextEditingController> dateController = TextEditingController().obs;
-  Rx<TextEditingController> svvController = TextEditingController().obs;
+  Rx<TextEditingController> cvcController = TextEditingController().obs;
 
   // 카드 번호를 업데이트하는 메서드
   void updateCardNumber(String cardNumber) {
@@ -22,16 +22,16 @@ class CardGet extends GetxController {
 
   // svv를 업데이트하는 메서드
   void updateCardSvv(String cardSvv) {
-    stCardsvv.value = cardSvv;
+    stCardcvc.value = cardSvv;
   }
 
   // 초기화
   void remove() {
     stCardnumber.value = "";
     stCarddate.value = "";
-    stCardsvv.value = "";
+    stCardcvc.value = "";
     numberController.value.text = "";
     dateController.value.text = "";
-    svvController.value.text = "";
+    cvcController.value.text = "";
   }
 }

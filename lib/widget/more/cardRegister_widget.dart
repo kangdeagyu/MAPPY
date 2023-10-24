@@ -1,5 +1,7 @@
+import 'package:final_main_project/model/card_model.dart';
 import 'package:final_main_project/styles/button_style.dart';
 import 'package:final_main_project/viewmodel/card_obs.dart';
+import 'package:final_main_project/viewmodel/card_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +9,7 @@ import 'package:get/get.dart';
 
 Widget cardwidget(BuildContext context) {
   final cardobs = Get.put(CardGet());
+  final cardVm = Get.put(CardVm());
   return Column(
     children: [
       Obx(
@@ -18,7 +21,7 @@ Widget cardwidget(BuildContext context) {
           cardNumber: cardobs.stCardnumber.value, // 카드번호
           expiryDate: cardobs.stCarddate.value, // 날짜
           cardHolderName: 'CARD', // 카드 이름
-          cvvCode: cardobs.stCardsvv.value, // cvv
+          cvvCode: cardobs.stCardcvc.value, // cvc
           chipColor: Colors.amber,
           cardBgColor: Colors.black,
           showBackView: false,
@@ -88,7 +91,7 @@ Widget cardwidget(BuildContext context) {
           SizedBox(
             width: 160.w,
             child: TextField(
-              controller: cardobs.svvController.value,
+              controller: cardobs.cvcController.value,
               maxLength: 3,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -109,8 +112,18 @@ Widget cardwidget(BuildContext context) {
       SizedBox(
         width: 340.w,
         child: ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
             // firebase에 카드 등록
+            CardModel newCard = CardModel(
+              uid: "wook",
+              number: cardobs.stCardnumber.value,
+              date: cardobs.stCarddate.value,
+              cvc: cardobs.stCardcvc.value,
+            );
+
+            // Add the new card to Firebase and local state.
+            await cardVm.addCard(newCard);
+
             Get.back();
           },
           style: primaryButtonStyle(context),
