@@ -63,6 +63,8 @@ dependencies:
   percent_indicator: ^4.2.3
   # 카카오 로그인
   kakao_flutter_sdk_user: ^1.6.1
+  # Keyboard 반응 설정
+  flutter_keyboard_visibility: ^5.4.1
 
 dev_dependencies:
   flutter_test:

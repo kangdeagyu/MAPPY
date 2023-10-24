@@ -77,7 +77,7 @@ class _ChatbotViewState extends State<ChatbotView> with TickerProviderStateMixin
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: const Row(
@@ -94,6 +94,8 @@ class _ChatbotViewState extends State<ChatbotView> with TickerProviderStateMixin
           centerTitle: false,
         ),
         body: SingleChildScrollView(
+          // 화면을 스크롤 할 때 키보드가 닫아지게 하는 코드.
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           padding: EdgeInsets.only(bottom: bottomSheetHeight ?? 0),
           controller: _scrollController,
           child: Column(
