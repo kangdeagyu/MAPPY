@@ -5,28 +5,65 @@ import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class ChatbotView extends StatelessWidget {
-  final TextEditingController _controller = TextEditingController();
-
+class ChatbotView extends StatefulWidget {
   ChatbotView({Key? key}) : super(key: key);
+
+  @override
+  _ChatbotViewState createState() => _ChatbotViewState();
+}
+
+class _ChatbotViewState extends State<ChatbotView>
+    with TickerProviderStateMixin {
+  final TextEditingController _controller = TextEditingController();
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation;
+  late AnimationController _scaleController;
+  late Animation<double> _scaleAnimation;
+  late AnimationController _fadeController;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _scaleController.dispose();
+    _fadeController.dispose();
+    super.dispose();
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(0, 1),
+      end: Offset(0, 0),
+    ).animate(
+        CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
+
+    _scaleController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
+    _scaleAnimation =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_scaleController);
+
+    _fadeController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
+    _fadeAnimation =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_fadeController);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Row(
-          children: [
-            CircleAvatar(
-              backgroundImage: AssetImage('assets/images/Chatbot_Icon.png'),
-              backgroundColor: Colors.white,
-              radius: 20,
-            ),
-            SizedBox(width: 8),
-            Text('세아'),
-          ],
-        ),
-        centerTitle: false,
-      ),
+      // ... [AppBar remains the same]
+
       body: Column(
         children: [
           Expanded(
@@ -48,55 +85,8 @@ class ChatbotView extends StatelessWidget {
                       final message = messages[index];
                       final content = message['content'] ?? '';
                       final userId = message['userid'];
-                      if (userId == 'seah') {
-                        return Padding(
-                          padding: EdgeInsets.all(8.0.h),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('assets/images/Chatbot_Icon.png'),
-                                backgroundColor: Colors.white,
-                                radius: 20,
-                              ),
-                              const SizedBox(width: 8),
-                              Align(
-                                child: Container(
-                                  padding: const EdgeInsets.all(12.0),
-                                  margin: const EdgeInsets.only(
-                                      right: 80.0, bottom: 5.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(content),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      } else {
-                        return Padding(
-                          padding: EdgeInsets.all(8.0.h),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              padding: const EdgeInsets.all(12.0),
-                              margin: const EdgeInsets.only(
-                                  left: 80.0, bottom: 5.0),
-                              decoration: BoxDecoration(
-                                color: Colors.green[600],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                content,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        );
-                      }
+
+                      return _buildChatItem(userId, content);
                     },
                   );
                 }
@@ -107,6 +97,79 @@ class ChatbotView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildChatItem(String userId, String content) {
+    if (_animationController.status != AnimationStatus.completed ||
+        _scaleController.status != AnimationStatus.completed ||
+        _fadeController.status != AnimationStatus.completed) {
+      _animationController.forward(from: 0.0);
+      _scaleController.forward(from: 0.0);
+      _fadeController.forward(from: 0.0);
+    }
+
+    if (userId == 'seah') {
+      return SlideTransition(
+        position: _slideAnimation,
+        child: Padding(
+          padding: EdgeInsets.all(8.0.h),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CircleAvatar(
+                backgroundImage: AssetImage('assets/images/Chatbot_Icon.png'),
+                backgroundColor: Colors.white,
+                radius: 20,
+              ),
+              const SizedBox(width: 8),
+              Align(
+                  child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 240.h),
+                child: Container(
+                  padding: const EdgeInsets.all(12.0),
+                  margin: const EdgeInsets.only(right: 80.0, bottom: 5.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(content),
+                ),
+              )),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return SlideTransition(
+          position: _slideAnimation,
+          child: ScaleTransition(
+            scale: _scaleAnimation,
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: Padding(
+                padding: EdgeInsets.all(8.0.h),
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                          maxWidth: 240.h), // 여기에서 maxWidth를 설정합니다.
+                      child: Container(
+                        padding: const EdgeInsets.all(12.0),
+                        margin: const EdgeInsets.only(left: 80.0, bottom: 5.0),
+                        decoration: BoxDecoration(
+                          color: Colors.green[600],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          content,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )),
+              ),
+            ),
+          ));
+    }
   }
 
   Widget _buildChatInputField() {
@@ -126,7 +189,8 @@ class ChatbotView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                   borderSide: BorderSide.none,
                 ),
-                contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0), // 패딩 값을 조절
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
               ),
             ),
           ),
@@ -145,17 +209,13 @@ class ChatbotView extends StatelessWidget {
     );
   }
 
-  void addChat(String userid, String content) async {
-    CollectionReference rein = FirebaseFirestore.instance.collection('chat');
-
-    await rein.add({
-      'userid': userid,
-      'content': content,
-      'insertdate': Timestamp.fromDate(DateTime.now()),
-    });
-  }
-
   Future<void> sendChatText(String text) async {
+    // 1. 사용자 메시지 화면에 즉시 표시
+    addChat("donghyun", text);
+
+    // 2. "대화를 분석 중..." 메시지 화면에 즉시 표시
+    DocumentReference tempRef = await addChat("seah", "대화를 분석 중...");
+
     final url = 'http://127.0.0.1:5000/ChatModel/chat';
     final response = await http.post(
       Uri.parse(url),
@@ -168,16 +228,26 @@ class ChatbotView extends StatelessWidget {
     );
 
     if (response.statusCode == 200) {
-      // 요청이 성공한 경우
-      addChat("donghyun", text);
       var responseData = json.decode(response.body);
       print(responseData);
       String resultText = responseData['result'];
-      addChat("seah", resultText);
+
+      // 3. 백그라운드에서 메시지를 데이터베이스에 저장하고 "대화를 분석 중..." 메시지 업데이트
+      await tempRef.update({'content': resultText});
     } else {
-      // 요청이 실패한 경우
       print('Failed to send the text. StatusCode: ${response.statusCode}');
+      // 실패한 경우 "대화를 분석 중..." 메시지를 "응답을 받지 못했습니다."로 업데이트
+      await tempRef.update({'content': "응답을 받지 못했습니다."});
     }
   }
 
+  // addChat 함수를 업데이트해서 DocumentReference를 반환하도록 변경
+  Future<DocumentReference> addChat(String userid, String content) async {
+    CollectionReference rein = FirebaseFirestore.instance.collection('chat');
+    return await rein.add({
+      'userid': userid,
+      'content': content,
+      'insertdate': Timestamp.fromDate(DateTime.now()),
+    });
+  }
 }
