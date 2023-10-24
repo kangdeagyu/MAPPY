@@ -41,14 +41,11 @@ Widget resultButtonWidget(BuildContext context) {
         ),
       );
     },
-    child: Padding(
-      padding: EdgeInsets.fromLTRB(5.w, 10.h, 5.w, 10.h),
-      child: const Text(
-        '확인하기',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 17,
-        ),
+    child: const Text(
+      '확인하기',
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 17,
       ),
     ),
   );

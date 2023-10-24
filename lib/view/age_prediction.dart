@@ -13,6 +13,11 @@ class AgePrediction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      vm.showQuestion();
+    });
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -51,6 +56,7 @@ class AgePrediction extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: 10.h,),
             questionAreaWidget(context),
             Padding(
               padding: EdgeInsets.all(5.0.h),

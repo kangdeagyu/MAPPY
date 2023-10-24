@@ -8,7 +8,7 @@ Widget answerAreaWidget(BuildContext context) {
 
   final vm = Get.find<AgeVM>();
 
-  return Obx(() => vm.displayResult.value // 이미지가 null이 아니면
+  return Obx(() => vm.displayAnswer.value // 이미지가 null이 아니면
       ? Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
