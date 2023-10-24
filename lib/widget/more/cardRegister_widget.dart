@@ -1,5 +1,5 @@
 import 'package:final_main_project/styles/button_style.dart';
-import 'package:final_main_project/viewmodel/card_vm.dart';
+import 'package:final_main_project/viewmodel/card_obs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
