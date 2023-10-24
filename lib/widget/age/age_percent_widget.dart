@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-Widget buildCustomPercentIndicator(int age, double percent, Color color) {
+Widget agePercentWidget(int age, double percent, Color color) {
   return Padding(
     padding: EdgeInsets.fromLTRB(5.w, 2.h, 5.w, 2.h),
     child: Row(
