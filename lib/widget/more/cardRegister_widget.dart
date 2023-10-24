@@ -110,7 +110,8 @@ Widget cardwidget(BuildContext context) {
         width: 340.w,
         child: ElevatedButton(
           onPressed: () {
-            //
+            // firebase에 카드 등록
+            Get.back();
           },
           style: primaryButtonStyle(context),
           child: const Text("등록하기"),
