@@ -1,5 +1,7 @@
+import 'package:final_main_project/widget/more/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class PaymentPage extends StatelessWidget {
   const PaymentPage({super.key});
@@ -17,6 +19,14 @@ class PaymentPage extends StatelessWidget {
             InkWell(
               onTap: () {
                 // 카드
+                Get.bottomSheet(
+                  Container(
+                    height: 600.h,
+                    color: Colors.white,
+                    child: cardwidget(),
+                  ),
+                  isScrollControlled: true,
+                );
               },
               child: Container(
                 width: 340.w,
