@@ -61,6 +61,10 @@ dependencies:
   flutter_credit_card: ^4.0.1
   # 퍼센트 인디케이터
   percent_indicator: ^4.2.3
+  # 카카오 로그인
+  kakao_flutter_sdk_user: ^1.6.1
+  # shared preferences
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

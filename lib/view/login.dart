@@ -244,3 +244,51 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+
+// // functions
+// // kakao login
+//   kakao() async {
+//     try {
+//       bool isInstalled = await isKakaoTalkInstalled();
+
+//       OAuthToken token = isInstalled
+//           ? await UserApi.instance.loginWithKakaoTalk()
+//           : await UserApi.instance.loginWithKakaoAccount();
+
+//       final url = Uri.https('kapi.kakao.com', '/v2/user/me');
+
+//       final response = await http.get(
+//         url,
+//         headers: {
+//           HttpHeaders.authorizationHeader: 'Bearer ${token.accessToken}'
+//         },
+//       );
+
+//       final profileInfo = json.decode(response.body);
+//       print(profileInfo.toString());
+//       print(profileInfo["id"]);
+//       print(profileInfo["kakao_account"]);
+
+//       try {
+//         User user = await UserApi.instance.me();
+//         print('사용자 정보 요청 성공'
+//             '\n회원번호: ${user.id}'
+//             '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
+//             '\n이메일: ${user.kakaoAccount?.email}');
+
+//         //  이메일이 회원가입이 되어있는지 아닌지 확인하기
+//         Future<int> rsNum = kakaoLoginAction(user.kakaoAccount?.email);
+//         int rs = await rsNum;
+//         if (rs == 1) {
+//           _showDialog();
+//         } else {
+//           toSignUp(user.kakaoAccount?.email);
+//         }
+//       } catch (error) {
+//         print('사용자 정보 요청 실패 $error');
+//       }
+//     } catch (error) {
+//       print('카카오톡으로 로그인 실패 $error');
+//     }
+//   }
