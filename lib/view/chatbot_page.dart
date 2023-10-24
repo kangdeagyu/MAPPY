@@ -1,97 +1,156 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class ChatbotView extends StatelessWidget {
-  const ChatbotView({Key? key}) : super(key: key);
+  final TextEditingController _controller = TextEditingController();
+
+  ChatbotView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // addTempData();  // 주의: build 메서드 내에서 호출하면 여러 번 호출될 수 있습니다.
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("채팅방"),
+        title: const Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: AssetImage('assets/images/Chatbot_Icon.png'),
+              backgroundColor: Colors.white,
+              radius: 20,
+            ),
+            SizedBox(width: 8),
+            Text('세아'),
+          ],
+        ),
+        centerTitle: false,
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-        .collection("chat")
-        .orderBy('insertdate', descending: true)
-        .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const CircularProgressIndicator(); // 로딩 인디케이터를 보여줍니다.
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            // 데이터가 있는 경우, 해당 데이터로 리스트 뷰 등을 만들어 반환합니다.
-            final messages = snapshot.data!.docs;
-            return ListView.builder(
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                final message = messages[index];
-                final content = message['content'] ?? '';
-                final userId = message['userid'];
-
-              if (userId == 'seah') {
-                return Padding(
-                  padding: EdgeInsets.all(8.0.h),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,  // 상단 정렬
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/Chatbot_Icon.png'),  // 'seah'의 프로필 이미지 경로
-                        backgroundColor: Colors.white,
-                        radius: 20,  // 원하는 크기로 조정
-                      ),
-                      SizedBox(width: 8),  // 이미지와 메시지 사이의 간격
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(8.0),
-                          margin: const EdgeInsets.only(right: 80.0, bottom: 5.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(content),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+      body: Column(
+        children: [
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection("chat")
+                  .orderBy('insertdate', descending: false)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
                 } else {
-                  return Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      margin: const EdgeInsets.only(left: 80.0, bottom: 5.0),
-                      decoration: BoxDecoration(
-                        color: Colors.green[600],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        content,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+                  final messages = snapshot.data!.docs;
+                  return ListView.builder(
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      final message = messages[index];
+                      final content = message['content'] ?? '';
+                      final userId = message['userid'];
+                      if (userId == 'seah') {
+                        return Padding(
+                          padding: EdgeInsets.all(8.0.h),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/Chatbot_Icon.png'),
+                                backgroundColor: Colors.white,
+                                radius: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Align(
+                                child: Container(
+                                  padding: const EdgeInsets.all(12.0),
+                                  margin: const EdgeInsets.only(
+                                      right: 80.0, bottom: 5.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(content),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Padding(
+                          padding: EdgeInsets.all(8.0.h),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Container(
+                              padding: const EdgeInsets.all(12.0),
+                              margin: const EdgeInsets.only(
+                                  left: 80.0, bottom: 5.0),
+                              decoration: BoxDecoration(
+                                color: Colors.green[600],
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                content,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    },
                   );
                 }
               },
-            );
-          }
-        },
+            ),
+          ),
+          _buildChatInputField(),
+        ],
       ),
     );
   }
 
-  // Functions ----
-  void addTempData() async {
+  Widget _buildChatInputField() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      color: Colors.white,
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                hintText: '세아에게 보내기',
+                filled: true,
+                fillColor: Colors.grey[100],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0), // 패딩 값을 조절
+              ),
+            ),
+          ),
+          SizedBox(width: 10.0),
+          IconButton(
+            icon: Icon(Icons.send),
+            onPressed: () {
+              if (_controller.text.isNotEmpty) {
+                addTempData(_controller.text);
+                _controller.clear();
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void addTempData(String content) async {
     CollectionReference rein = FirebaseFirestore.instance.collection('chat');
+    String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
 
     await rein.add({
       'userid': 'donghyun',
-      'content': 'Test Question.',
-      'insertdate': DateTime.now().toIso8601String(),
+      'content': content,
+      'insertdate': formattedDate,
     });
   }
 }
