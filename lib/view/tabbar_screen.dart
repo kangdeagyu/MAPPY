@@ -3,6 +3,7 @@ import 'package:final_main_project/view/chatbot_page.dart';
 import 'package:final_main_project/view/home.dart';
 import 'package:final_main_project/view/more.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class TabBarScreen extends StatefulWidget {
@@ -12,8 +13,8 @@ class TabBarScreen extends StatefulWidget {
   State<TabBarScreen> createState() => _TabBarScreenState();
 }
 
-class _TabBarScreenState extends State<TabBarScreen> with SingleTickerProviderStateMixin {
-
+class _TabBarScreenState extends State<TabBarScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController; // 탭바 컨트롤러
 
   @override
@@ -30,8 +31,7 @@ class _TabBarScreenState extends State<TabBarScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-
-    int initialTabIndex = Get.arguments ?? 1;
+    int initialTabIndex = Get.arguments ?? 3;
     _tabController.index = initialTabIndex;
 
     return Scaffold(
@@ -39,7 +39,7 @@ class _TabBarScreenState extends State<TabBarScreen> with SingleTickerProviderSt
         controller: _tabController,
         // 탭바 스와이프 제한
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
+        children: [
           Home(),
           AgePrediction(),
           ChatbotView(),
@@ -47,7 +47,7 @@ class _TabBarScreenState extends State<TabBarScreen> with SingleTickerProviderSt
         ],
       ),
       bottomNavigationBar: Container(
-        height: 70,
+        height: 70.h,
         color: Theme.of(context).colorScheme.onPrimary,
         child: TabBar(
           labelColor: Theme.of(context).colorScheme.primary,
