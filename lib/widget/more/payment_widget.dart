@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget paymentWidget() {
+Widget paymentWidget(BuildContext context) {
   return InkWell(
     onTap: () {
       // 페이지 전환
@@ -25,10 +25,10 @@ Widget paymentWidget() {
               ),
             ),
           ),
-          const Text(
+          Text(
             '등록카드',
             style: TextStyle(
-              color: Color(0xFF2F9BFF),
+              color: Theme.of(context).colorScheme.primary,
               fontSize: 20,
               fontFamily: 'Lato',
               fontWeight: FontWeight.w700,

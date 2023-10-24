@@ -21,7 +21,7 @@ class More extends StatelessWidget {
             Container(
               width: 360.w,
               height: 160.h,
-              color: Colors.grey[200],
+              color: Theme.of(context).colorScheme.onBackground,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -31,7 +31,12 @@ class More extends StatelessWidget {
                   SizedBox(
                     width: 340.w,
                     height: 30.h,
-                    child: const Text('현재 보유 코인'),
+                    child: Text(
+                      '현재 보유 코인',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.background,
+                      ),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -47,7 +52,7 @@ class More extends StatelessWidget {
                       Text(
                         '0',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
+                          color: Theme.of(context).colorScheme.background,
                           fontSize: 20,
                           fontFamily: 'Lato',
                           fontWeight: FontWeight.w700,
@@ -59,7 +64,7 @@ class More extends StatelessWidget {
                   SizedBox(
                     height: 20.h,
                   ),
-                  // 유저 금액 내역
+                  // 유저 충전, 사용
                   Container(
                     width: 330.w,
                     height: 40.h,
@@ -69,14 +74,17 @@ class More extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // 충전하기
                         Container(
                           width: 180,
                           height: 78,
-                          decoration: const ShapeDecoration(
-                            color: Color(0x00E0D6D6),
+                          decoration: ShapeDecoration(
+                            color: Theme.of(context).colorScheme.onPrimary,
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
-                                  width: 1, color: Color(0x7F454545)),
+                                width: 1,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             ),
                           ),
                           child: TextButton.icon(
@@ -90,14 +98,16 @@ class More extends StatelessWidget {
                                 isScrollControlled: true,
                               );
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.add_circle_outline,
-                              color: Colors.black,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
-                            label: const Text(
+                            label: Text(
                               '충전하기',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 20),
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontSize: 20,
+                              ),
                             ),
                             style: TextButton.styleFrom(
                               shape: BeveledRectangleBorder(
@@ -106,28 +116,31 @@ class More extends StatelessWidget {
                             ),
                           ),
                         ),
+                        // 사용 내역
                         Container(
                           width: 180,
                           height: 78,
-                          decoration: const ShapeDecoration(
-                            color: Color(0x00E0D6D6),
+                          decoration: ShapeDecoration(
+                            color: Theme.of(context).colorScheme.onPrimary,
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
-                                  width: 1, color: Color(0x7F454545)),
+                                  width: 1,
+                                  color: Theme.of(context).colorScheme.primary),
                             ),
                           ),
                           child: TextButton.icon(
                             onPressed: () {
                               //
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.list_alt,
-                              color: Colors.black,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
-                            label: const Text(
+                            label: Text(
                               '사용내역',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 20),
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: 20),
                             ),
                             style: TextButton.styleFrom(
                               shape: BeveledRectangleBorder(
@@ -153,7 +166,7 @@ class More extends StatelessWidget {
               height: 10.h,
             ),
             // 페이먼트
-            paymentWidget(),
+            paymentWidget(context),
             // 페이먼트 끝
             const SizedBox(
               height: 30,
@@ -191,7 +204,7 @@ class More extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            SizedBox(
+            const SizedBox(
               width: 324,
               height: 24,
               child: Row(
@@ -199,7 +212,7 @@ class More extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
+                  Text(
                     'Notification',
                     style: TextStyle(
                       color: Color(0xFF454545),
@@ -207,49 +220,6 @@ class More extends StatelessWidget {
                       fontFamily: 'Lato',
                       fontWeight: FontWeight.w700,
                       height: 0,
-                    ),
-                  ),
-                  const SizedBox(width: 140),
-                  SizedBox(
-                    width: 47,
-                    height: 23,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 0,
-                          top: 1,
-                          child: Container(
-                            width: 47,
-                            height: 21,
-                            decoration: ShapeDecoration(
-                              color: Color(0xFFF5F5F5),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.50),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 24,
-                          top: 0,
-                          child: Container(
-                            width: 23,
-                            height: 23,
-                            decoration: const ShapeDecoration(
-                              color: Color(0xFF2F9BFF),
-                              shape: OvalBorder(),
-                              shadows: [
-                                BoxShadow(
-                                  color: Color(0x4F000000),
-                                  blurRadius: 3,
-                                  offset: Offset(0, 0),
-                                  spreadRadius: 0,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ],
