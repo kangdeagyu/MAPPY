@@ -7,6 +7,7 @@ import 'package:image/image.dart' as img; // image 패키지 추가
 class AgeVM extends GetxController {
   // Property
   var faceImage = Rx<XFile?>(null);
+  var displayResult = false.obs;
 
   // Function
   getGalleryImage() async {
@@ -22,6 +23,7 @@ class AgeVM extends GetxController {
 
       faceImage.value = XFile(resizedImage.path);
     }
+    updateFaceImage();
   }
 
   getCameraImage() async {
@@ -37,10 +39,7 @@ class AgeVM extends GetxController {
 
       faceImage.value = XFile(resizedImage.path);
     }
-  }
-
-  getAgeResult() async {
-    
+    updateFaceImage();
   }
 
   Future<File> resizeImage(String imagePath, double maxHeight) async {
@@ -56,4 +55,9 @@ class AgeVM extends GetxController {
 
     return resizedFile;
   }
+
+  void updateFaceImage() { 
+    Future.delayed(const Duration(seconds :1), () => displayResult.value = true);
+}
+
 }
