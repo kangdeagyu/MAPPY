@@ -12,8 +12,7 @@ class ChatbotView extends StatefulWidget {
   _ChatbotViewState createState() => _ChatbotViewState();
 }
 
-class _ChatbotViewState extends State<ChatbotView>
-    with TickerProviderStateMixin {
+class _ChatbotViewState extends State<ChatbotView> with TickerProviderStateMixin {
   final TextEditingController _controller = TextEditingController();
   late AnimationController _animationController;
   late Animation<Offset> _slideAnimation;
@@ -21,6 +20,9 @@ class _ChatbotViewState extends State<ChatbotView>
   late Animation<double> _scaleAnimation;
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey bottomSheetKey = GlobalKey();
+  double? bottomSheetHeight;
 
   @override
   void dispose() {
@@ -57,44 +59,81 @@ class _ChatbotViewState extends State<ChatbotView>
     );
     _fadeAnimation =
         Tween<double>(begin: 0.0, end: 1.0).animate(_fadeController);
+
+    // 바텀 시트의 높이를 첫 프레임 렌더링 후에 가져오기
+  WidgetsBinding.instance!.addPostFrameCallback((_) {
+    setState(() {
+      bottomSheetHeight = getBottomSheetHeight();
+      _scrollToBottom();
+    });
+  });
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // ... [AppBar remains the same]
-
-      body: Column(
-        children: [
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("chat")
-                  .orderBy('insertdate', descending: false)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  final messages = snapshot.data!.docs;
-                  return ListView.builder(
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final message = messages[index];
-                      final content = message['content'] ?? '';
-                      final userId = message['userid'];
-
-                      return _buildChatItem(userId, content);
-                    },
-                  );
-                }
-              },
-            ),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: AssetImage('assets/images/Chatbot_Icon.png'),
+                backgroundColor: Colors.white,
+                radius: 20,
+              ),
+              SizedBox(width: 8),
+              Text('세아'),
+            ],
           ),
-          _buildChatInputField(),
-        ],
+          centerTitle: false,
+        ),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: bottomSheetHeight ?? 0),
+          controller: _scrollController,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("chat")
+                    .orderBy('insertdate', descending: false)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final messages = snapshot.data!.docs;
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      primary: false,
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        final message = messages[index];
+                        final content = message['content'] ?? '';
+                        final userId = message['userid'];
+                              
+                        return _buildChatItem(userId, content);
+                      },
+                      // 아래 코드는 키보드가 활성화될 때 입력 필드가 스크린 밖으로 밀리지 않게 하기 위함입니다.
+                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                    );
+                  }
+                },
+              ),
+              
+            ],
+          ),
+        ),
+        bottomSheet: _buildChatInputField(),
       ),
     );
   }
@@ -174,6 +213,7 @@ class _ChatbotViewState extends State<ChatbotView>
 
   Widget _buildChatInputField() {
     return Container(
+      key: bottomSheetKey,
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       color: Colors.white,
       child: Row(
@@ -212,9 +252,11 @@ class _ChatbotViewState extends State<ChatbotView>
   Future<void> sendChatText(String text) async {
     // 1. 사용자 메시지 화면에 즉시 표시
     addChat("donghyun", text);
+    _scrollToBottom();
 
     // 2. "대화를 분석 중..." 메시지 화면에 즉시 표시
     DocumentReference tempRef = await addChat("seah", "대화를 분석 중...");
+    _scrollToBottom();
 
     final url = 'http://127.0.0.1:5000/ChatModel/chat';
     final response = await http.post(
@@ -239,6 +281,9 @@ class _ChatbotViewState extends State<ChatbotView>
       // 실패한 경우 "대화를 분석 중..." 메시지를 "응답을 받지 못했습니다."로 업데이트
       await tempRef.update({'content': "응답을 받지 못했습니다."});
     }
+
+    _scrollToBottom();
+
   }
 
   // addChat 함수를 업데이트해서 DocumentReference를 반환하도록 변경
@@ -250,4 +295,21 @@ class _ChatbotViewState extends State<ChatbotView>
       'insertdate': Timestamp.fromDate(DateTime.now()),
     });
   }
+
+  void _scrollToBottom() {
+    Future.delayed(Duration(milliseconds: 100), () {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    });
+  }
+
+  double? getBottomSheetHeight() {
+    final RenderBox? renderBox = bottomSheetKey.currentContext?.findRenderObject() as RenderBox?;
+    print("바텀 시트 높이 = (${renderBox?.size.height})");
+    return renderBox?.size.height;
+  }
+
+
+
 }
