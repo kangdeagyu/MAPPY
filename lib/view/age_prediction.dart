@@ -14,6 +14,31 @@ class AgePrediction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Row(
+          children: [
+            SizedBox(width: 10,),
+            CircleAvatar(
+              backgroundImage: AssetImage('assets/images/Age_Icon.png'),
+              backgroundColor: Colors.white,
+              radius: 20,
+            ),
+            SizedBox(width: 8),
+            Text('예나'),
+          ],
+        ),
+        actions: const [
+          Icon(
+            Icons.monetization_on,
+            color: Colors.green,
+            size: 25,
+          ),
+          SizedBox(width: 5,),
+          Text('100', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
+          SizedBox(width: 30,)
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -62,25 +87,38 @@ class AgePrediction extends StatelessWidget {
                 Get.to(const AgeResultScreen());
               },
               child: Padding(
-                padding: const EdgeInsets.all(2),
+                padding: EdgeInsets.fromLTRB(5.w, 10.h, 5.w, 10.h),
                 child: Column(
                   children: [
                     const Text(
                       '결과 확인하기',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
                       ),
                     ),
-                    SizedBox(height: 5.h,),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.monetization_on,
-                          color: Colors.green,
-                          size: 25,
-                        ),
-                        Text('data')
-                      ],
+                    SizedBox(
+                      width: 100.w,
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '30',
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                          Icon(
+                            Icons.monetization_on,
+                            color: Colors.green,
+                            size: 25,
+                          ),
+                          Text(
+                            ' 차감',
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
