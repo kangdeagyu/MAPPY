@@ -7,9 +7,12 @@ import 'package:image/image.dart' as img; // image 패키지 추가
 class AgeVM extends GetxController {
   // Property
   var faceImage = Rx<XFile?>(null);
-  var displayResult = false.obs;
+  var displayAnswer = false.obs;
+  var displayQuestion = false.obs;
 
   // Function
+
+
   getGalleryImage() async {
     ImagePicker picker = ImagePicker();
     XFile? pickedImage = await picker.pickImage(
@@ -57,7 +60,11 @@ class AgeVM extends GetxController {
   }
 
   void updateFaceImage() { 
-    Future.delayed(const Duration(seconds :1), () => displayResult.value = true);
-}
+    Future.delayed(const Duration(seconds :1), () => displayAnswer.value = true);
+  }
+
+  void showQuestion() {
+    Future.delayed(const Duration(milliseconds: 700), () => displayQuestion.value = true);
+  }
 
 }
