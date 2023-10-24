@@ -1,9 +1,10 @@
+import 'package:final_main_project/styles/button_style.dart';
 import 'package:final_main_project/view/age_result.dart';
 import 'package:final_main_project/viewmodel/age_vm.dart';
+import 'package:final_main_project/widget/age/photo_area_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'dart:io';
 
 class AgePrediction extends StatelessWidget {
   AgePrediction({super.key});
@@ -12,20 +13,12 @@ class AgePrediction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    ButtonStyle customButtonStyle = ButtonStyle(
-      backgroundColor:
-          MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
-      foregroundColor:
-          MaterialStateProperty.all(Theme.of(context).colorScheme.onPrimary),
-    );
-
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildPhotoArea(),
+            photoAreaWidget(),
             SizedBox(
               height: 5.h,
             ),
@@ -35,7 +28,7 @@ class AgePrediction extends StatelessWidget {
                 ElevatedButton.icon(
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('카메라'),
-                  style: customButtonStyle,
+                  style: primaryButtonStyle(context),
                   onPressed: () {
                     Get.defaultDialog(
                       title: '경고!',
@@ -51,7 +44,7 @@ class AgePrediction extends StatelessWidget {
                   width: 15.w,
                 ),
                 ElevatedButton.icon(
-                  style: customButtonStyle,
+                  style: primaryButtonStyle(context),
                   icon: const Icon(Icons.photo),
                   label: const Text('갤러리'),
                   onPressed: () {
@@ -64,31 +57,38 @@ class AgePrediction extends StatelessWidget {
               height: 50.h,
             ),
             ElevatedButton(
-              style: customButtonStyle,
+              style: onPrimaryButtonStyle(context),
               onPressed: () {
                 Get.to(const AgeResultScreen());
               },
-              child: const Text('결과 확인'),
+              child: Padding(
+                padding: const EdgeInsets.all(2),
+                child: Column(
+                  children: [
+                    const Text(
+                      '결과 확인하기',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    SizedBox(height: 5.h,),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.monetization_on,
+                          color: Colors.green,
+                          size: 25,
+                        ),
+                        Text('data')
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
       ),
-    );
-  }
-  Widget _buildPhotoArea() {
-    return Obx(
-      () => vm.faceImage.value != null
-          ? SizedBox(
-              height: 320.h,
-              width: 250.w,
-              child:
-                  Image.file(File(vm.faceImage.value!.path)), // show image in screen
-            )
-          : Container(
-              height: 320.h,
-              width: 250.w,
-              color: Colors.grey,
-            ),
     );
   }
 }
