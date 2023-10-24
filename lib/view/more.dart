@@ -1,4 +1,5 @@
 import 'package:final_main_project/components/charge_components.dart';
+import 'package:final_main_project/widget/more/payment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -177,35 +178,8 @@ class More extends StatelessWidget {
               height: 30,
             ), // 유저 프로필 끝
             // 페이먼트
-            SizedBox(
-              width: 350,
-              height: 30,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 36,
-                    height: 36,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/payment.png'),
-                      ),
-                    ),
-                  ),
-                  const Text(
-                    '등록카드',
-                    style: TextStyle(
-                      color: Color(0xFF2F9BFF),
-                      fontSize: 20,
-                      fontFamily: 'Lato',
-                      fontWeight: FontWeight.w700,
-                      height: 0,
-                    ),
-                  ),
-                ],
-              ),
-            ), // 페이먼트 끝
+            paymentWidget(),
+            // 페이먼트 끝
             const SizedBox(
               height: 30,
             ),

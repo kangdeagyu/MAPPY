@@ -1,4 +1,4 @@
-import 'package:final_main_project/widget/charge_widget.dart';
+import 'package:final_main_project/widget/more/charge_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
