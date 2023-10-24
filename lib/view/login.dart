@@ -32,51 +32,65 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  "assets/images/login.png",
-                  width: 300.w,
-                  height: 300.h,
-                  fit: BoxFit.fill, //이미지 가득채우기
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 80.h),
+                  child: GestureDetector(
+                    onTap: () => Get.to(const TabBarScreen()),
+                    child: Image.asset(
+                      "assets/images/login.png",
+                      width: 300.w,
+                      height: 350.h,
+                      fit: BoxFit.fill, //이미지 가득채우기
+                    ),
+                  ),
                 ),
                 Visibility(
                   visible: !_visibility,
                   child: Column(
                     children: [
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        controller: uidController,
-                        decoration: InputDecoration(
-                          labelText: 'ID',
-                          hintText: 'Enter your ID',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+                      SizedBox(
+                        width: 340.w,
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          controller: uidController,
+                          decoration: InputDecoration(
+                            labelText: '계정',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
                         ),
                       ),
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        controller: upasswordController,
-                        obscureText: !_passwordVisible, //이것은 텍스트를 동적으로 가리게 할 것이다
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          hintText: 'Enter your password',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              // passwordVisible 상태에 따라 아이콘을 선택한다
-                              _passwordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Colors.black,
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      SizedBox(
+                        width: 340.w,
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          controller: upasswordController,
+                          obscureText:
+                              !_passwordVisible, //이것은 텍스트를 동적으로 가리게 할 것이다
+                          decoration: InputDecoration(
+                            labelText: '비밀번호',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            onPressed: () {
-                              // 상태를 업데이트한다. 즉, passwordVisible 변수의 상태를 토글한다.
-                              setState(() {
-                                _passwordVisible = !_passwordVisible;
-                              });
-                            },
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                // passwordVisible 상태에 따라 아이콘을 선택한다
+                                _passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                // 상태를 업데이트한다. 즉, passwordVisible 변수의 상태를 토글한다.
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -98,9 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               // 버튼 누르기 액션
                               // dart code
                               _visibility = !_visibility;
-                              setState(() {
-                                
-                              });
+                              setState(() {});
                             },
                             style: TextButton.styleFrom(
                               // 버튼 스타일
@@ -114,6 +126,26 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ],
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          //login();
+                          _visibility = !_visibility;
+                          Get.to(const TabBarScreen());
+                          setState(() {});
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFFF4081), // 버튼 배경색
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onPrimary, // 버튼 글씨색
+                          shape: RoundedRectangleBorder(
+                            //  버튼 모양 깎기
+                            borderRadius: BorderRadius.circular(10), // 10은 파라미터
+                          ),
+                        ),
+                        child: const Text(
+                          "로그인",
+                        ),
                       ),
                     ],
                   ),
@@ -140,6 +172,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           "로그인",
                         ),
                       ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
                       ElevatedButton(
                         onPressed: () {
                           //login();
@@ -158,32 +193,48 @@ class _LoginScreenState extends State<LoginScreen> {
                           "회원가입",
                         ),
                       ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     print("버튼 클릭");
+                      //   },
+                      //   child: SizedBox(
+                      //     width: 300,
+                      //     height: 40,
+                      //     child: Image.asset(
+                      //       "assets/images/kakao_login.png",
+                      //       fit: BoxFit.fill,
+                      //     ),
+                      //   ),
+                      // ),
+                      ElevatedButton(
+                        onPressed: () {
+                          //login();
+                          //_visibility = !_visibility;
+                          setState(() {});
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            //  버튼 모양 깎기
+                            borderRadius: BorderRadius.circular(30), // 10은 파라미터
+                          ),
+                          backgroundColor: const Color.fromARGB(255, 255, 240, 0),
+                          minimumSize: const Size(300, 40),
+                        ),
+                        child: Image.asset(
+                          "assets/images/kakao_login.png",
+                          //fit: BoxFit.fill,
+                          width: 250,
+                          height: 40,
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 SizedBox(
                   height: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    //login();
-                    _visibility = !_visibility;
-                    Get.to(const TabBarScreen());
-                    setState(() {});
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primary, // 버튼 배경색
-                    foregroundColor:
-                        Theme.of(context).colorScheme.onPrimary, // 버튼 글씨색
-                    shape: RoundedRectangleBorder(
-                      //  버튼 모양 깎기
-                      borderRadius: BorderRadius.circular(10), // 10은 파라미터
-                    ),
-                  ),
-                  child: const Text(
-                    "클릭(지울거)",
-                  ),
                 ),
               ],
             ),
@@ -193,3 +244,51 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+
+// // functions
+// // kakao login
+//   kakao() async {
+//     try {
+//       bool isInstalled = await isKakaoTalkInstalled();
+
+//       OAuthToken token = isInstalled
+//           ? await UserApi.instance.loginWithKakaoTalk()
+//           : await UserApi.instance.loginWithKakaoAccount();
+
+//       final url = Uri.https('kapi.kakao.com', '/v2/user/me');
+
+//       final response = await http.get(
+//         url,
+//         headers: {
+//           HttpHeaders.authorizationHeader: 'Bearer ${token.accessToken}'
+//         },
+//       );
+
+//       final profileInfo = json.decode(response.body);
+//       print(profileInfo.toString());
+//       print(profileInfo["id"]);
+//       print(profileInfo["kakao_account"]);
+
+//       try {
+//         User user = await UserApi.instance.me();
+//         print('사용자 정보 요청 성공'
+//             '\n회원번호: ${user.id}'
+//             '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
+//             '\n이메일: ${user.kakaoAccount?.email}');
+
+//         //  이메일이 회원가입이 되어있는지 아닌지 확인하기
+//         Future<int> rsNum = kakaoLoginAction(user.kakaoAccount?.email);
+//         int rs = await rsNum;
+//         if (rs == 1) {
+//           _showDialog();
+//         } else {
+//           toSignUp(user.kakaoAccount?.email);
+//         }
+//       } catch (error) {
+//         print('사용자 정보 요청 실패 $error');
+//       }
+//     } catch (error) {
+//       print('카카오톡으로 로그인 실패 $error');
+//     }
+//   }
