@@ -10,8 +10,19 @@ Widget resultButtonWidget(BuildContext context) {
     onPressed: () {
       Get.dialog(
         AlertDialog(
-          title: const Text('결제 확인'),
-          content: const Text('30코인을 사용하여 결과를 확인하시겠습니까?'),
+          title: Row(
+              children: [
+                Image.asset(
+                  'assets/images/yena_crop.png',
+                  height: 70.h,
+                ),
+                SizedBox(width: 10.w,),
+                const Text(
+                  '30코인을 사용해서\n결과를 확인하시겠어요?',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
           actions: [
             TextButton(
               onPressed: () {

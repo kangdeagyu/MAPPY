@@ -18,10 +18,6 @@ Widget photoAreaWidget() {
                 Image.file(File(vm.faceImage.value!.path)), // show image on screen
           )
         : Container(
-            height: 250.h,
-            width: 250.w,
-            color: Colors.grey[300],
-            child: Image.asset('assets/images/add_photo.png'),
           ),
   );
 }
