@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_main_project/view/register.dart';
 import 'package:final_main_project/view/tabbar_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,12 +15,48 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver{
   // property
   bool _passwordVisible = false;
-  TextEditingController upasswordController = TextEditingController();
-  TextEditingController uidController = TextEditingController(); //text: Message
+  late TextEditingController uidController;
+  late TextEditingController upasswordController;
   bool _visibility = true;
+
+  late AppLifecycleState _lastLifeCycleState;
+
+  @override
+  void initState() {
+    super.initState();
+    uidController = TextEditingController(text: "");
+    upasswordController = TextEditingController(text: "");
+
+    WidgetsBinding.instance.addObserver(this);
+    _initSharedPreferences(uidController,upasswordController); // Shared Preference 초기화
+  }
+
+  //  ID PW 지우기    앱상태로 프린트찍기  => Observer
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.detached:
+        print("detached");
+        break;
+      case AppLifecycleState.resumed:
+        print("resume");
+        break;
+      case AppLifecycleState.inactive:
+        _disposeSharedPreferences();
+        print("inactive");
+        break;
+      case AppLifecycleState.paused:
+        print("paused");
+        break;
+      case AppLifecycleState.hidden:
+        // TODO: Handle this case.
+    }
+    _lastLifeCycleState = state;
+    super.didChangeAppLifecycleState(state);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -207,6 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ElevatedButton(
                         onPressed: () {
                           kakao();
+                          
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -228,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 20.h,
                 ),
               ],
             ),
@@ -240,51 +277,6 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 // // functions
-// // kakao login
-//   kakao() async {
-//     try {
-//       bool isInstalled = await isKakaoTalkInstalled();
-
-//       OAuthToken token = isInstalled
-//           ? await UserApi.instance.loginWithKakaoTalk()
-//           : await UserApi.instance.loginWithKakaoAccount();
-
-//       final url = Uri.https('kapi.kakao.com', '/v2/user/me');
-
-//       final response = await http.get(
-//         url,
-//         headers: {
-//           HttpHeaders.authorizationHeader: 'Bearer ${token.accessToken}'
-//         },
-//       );
-
-//       final profileInfo = json.decode(response.body);
-//       print(profileInfo.toString());
-//       print(profileInfo["id"]);
-//       print(profileInfo["kakao_account"]);
-
-//       try {
-//         User user = await UserApi.instance.me();
-//         print('사용자 정보 요청 성공'
-//             '\n회원번호: ${user.id}'
-//             '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
-//             '\n이메일: ${user.kakaoAccount?.email}');
-
-//         //  이메일이 회원가입이 되어있는지 아닌지 확인하기
-//         Future<int> rsNum = kakaoLoginAction(user.kakaoAccount?.email);
-//         int rs = await rsNum;
-//         if (rs == 1) {
-//           _showDialog();
-//         } else {
-//           toSignUp(user.kakaoAccount?.email);
-//         }
-//       } catch (error) {
-//         print('사용자 정보 요청 실패 $error');
-//       }
-//     } catch (error) {
-//       print('카카오톡으로 로그인 실패 $error');
-//     }
-//   }
 
 kakao() async {
   // 카카오 로그인 구현 예제
@@ -326,6 +318,7 @@ kakao() async {
       print("중복은${rs}");
       if (rs == 1) {
         //_showDialog();
+        _ksaveSharedPreferences(user.kakaoAccount?.email);
         Get.to(const TabBarScreen());
       } else {
         //toSignUp(user.kakaoAccount?.email);
@@ -378,4 +371,39 @@ Future<int> loginCheck(String id,String pw) async {
         ),
       ],
     );
+  }
+
+
+  // Shared Preferneces
+
+  _initSharedPreferences(TextEditingController id,TextEditingController pw) async {
+    // shared preference 인스턴스 생성
+    final Future<SharedPreferences> preference = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await preference;
+
+    
+    id.text = prefs.getString("p_userId") ?? ""; // null 이면 빈문자를 넣는다.
+    pw.text = prefs.getString("p_password") ?? "";
+
+    // 메모리에 결과값이 남아있는지 테스트
+    // 앱을 종료하고 다시 실행하면 Shared Preference에 남아 있으므로
+    // 앱을 종료시 정리하여야 한다.
+  }
+
+  _saveSharedPreferences(TextEditingController id,TextEditingController pw) async {
+    // ID PW 를 저장함
+    final prefernece = await SharedPreferences.getInstance();
+    prefernece.setString("p_userId", id.text.trim());
+    prefernece.setString("p_password", pw.text.trim());
+  }
+  _ksaveSharedPreferences(String? id) async {
+    // ID PW 를 저장함
+    final prefernece = await SharedPreferences.getInstance();
+    prefernece.setString("p_userId", id!);
+  }
+
+  _disposeSharedPreferences() async {
+    // 저장된 ID PW를 지우기
+    final prefernece = await SharedPreferences.getInstance();
+    prefernece.clear();
   }
