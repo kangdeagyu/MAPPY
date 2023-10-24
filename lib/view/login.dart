@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_main_project/view/register.dart';
 import 'package:final_main_project/view/tabbar_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -128,11 +131,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          //login();
-                          _visibility = !_visibility;
-                          Get.to(const TabBarScreen());
-                          setState(() {});
+                        onPressed: () async{
+                          Future<int> rs = loginCheck(uidController.text.trim(),upasswordController.text.trim());
+                          int rsNum = await rs;
+                          if (rsNum == 1 ){
+                            // 로그인 성공
+                            Get.to(const TabBarScreen());
+                          }else{
+                            // 로그인 실패
+                            _FailAlert();
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFFF4081), // 버튼 배경색
@@ -196,31 +204,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: 5.h,
                       ),
-                      // InkWell(
-                      //   onTap: () {
-                      //     print("버튼 클릭");
-                      //   },
-                      //   child: SizedBox(
-                      //     width: 300,
-                      //     height: 40,
-                      //     child: Image.asset(
-                      //       "assets/images/kakao_login.png",
-                      //       fit: BoxFit.fill,
-                      //     ),
-                      //   ),
-                      // ),
                       ElevatedButton(
                         onPressed: () {
-                          //login();
-                          //_visibility = !_visibility;
-                          setState(() {});
+                          kakao();
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             //  버튼 모양 깎기
                             borderRadius: BorderRadius.circular(30), // 10은 파라미터
                           ),
-                          backgroundColor: const Color.fromARGB(255, 255, 240, 0),
+                          backgroundColor:
+                              const Color.fromARGB(255, 255, 240, 0),
                           minimumSize: const Size(300, 40),
                         ),
                         child: Image.asset(
@@ -244,7 +238,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
 
 // // functions
 // // kakao login
@@ -292,3 +285,97 @@ class _LoginScreenState extends State<LoginScreen> {
 //       print('카카오톡으로 로그인 실패 $error');
 //     }
 //   }
+
+kakao() async {
+  // 카카오 로그인 구현 예제
+
+// 카카오톡 실행 가능 여부 확인
+// 카카오톡 실행이 가능하면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
+  if (await isKakaoTalkInstalled()) {
+    try {
+      await UserApi.instance.loginWithKakaoTalk();
+      print('카카오톡으로 로그인 성공');
+    } catch (error) {
+      print('카카오톡으로 로그인 실패 $error');
+
+      // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
+      // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
+      if (error is PlatformException && error.code == 'CANCELED') {
+        return;
+      }
+      // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
+      try {
+        await UserApi.instance.loginWithKakaoAccount();
+        print('카카오계정으로 로그인 성공');
+      } catch (error) {
+        print('카카오계정으로 로그인 실패 $error');
+      }
+    }
+  } else {
+    try {
+      await UserApi.instance.loginWithKakaoAccount();
+      print('카카오계정으로 로그인 성공');
+      User user = await UserApi.instance.me();
+      print('사용자 정보 요청 성공'
+          '\n회원번호: ${user.id}'
+          '\n이메일: ${user.kakaoAccount?.email}');
+
+      //  이메일이 회원가입이 되어있는지 아닌지 확인하기
+      Future<int> rsNum = kakaoidCheck(user.kakaoAccount?.email);
+      int rs = await rsNum;
+      print("중복은${rs}");
+      if (rs == 1) {
+        //_showDialog();
+        Get.to(const TabBarScreen());
+      } else {
+        //toSignUp(user.kakaoAccount?.email);
+      }
+    } catch (error) {
+      print('카카오계정으로 로그인 실패 $error');
+    }
+  }
+}
+
+// 파이어베이스 DB에서 카카오아이디 중복체크하기
+Future<int> kakaoidCheck(String? id) async {
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      .collection("user")
+      .where("uid", isEqualTo: id)
+      .get();
+  int count = querySnapshot.size; // 문서 개수 세기
+  return count;
+}
+
+
+// 파이어베이스 DB에서 카카오아이디 중복체크하기
+Future<int> loginCheck(String id,String pw) async {
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      .collection("user")
+      .where("uid", isEqualTo: id)
+      .where("upassword", isEqualTo: pw)
+      .get();
+  int count = querySnapshot.size; // 문서 개수 세기
+  return count;
+}
+
+// 아이디 비번이 일치하지 않을때
+  _FailAlert() {
+    Get.defaultDialog(
+      title: "로그인실패",
+      middleText: "계정과 비밀번호를 확인해주세요",
+      barrierDismissible: false,
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: () => Get.back(),
+              child: const Text(
+                "OK",
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
