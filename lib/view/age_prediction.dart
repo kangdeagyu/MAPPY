@@ -43,6 +43,16 @@ class AgePrediction extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Text(
+              '당신의 얼굴 나이를 측정해보세요.',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            SizedBox(
+              height: 70.h,
+            ),
             photoAreaWidget(),
             SizedBox(
               height: 5.h,
@@ -55,14 +65,7 @@ class AgePrediction extends StatelessWidget {
                   label: const Text('카메라'),
                   style: primaryButtonStyle(context),
                   onPressed: () {
-                    Get.defaultDialog(
-                      title: '경고!',
-                      content: const Text('ios 시뮬레이터에서 카메라 사용 불가'),
-                      textConfirm: '확인',
-                      confirmTextColor: Theme.of(context).colorScheme.onPrimary,
-                      buttonColor: Theme.of(context).colorScheme.primary,
-                      onConfirm: () => Get.back(),
-                    );
+                    vm.getCameraImage();
                   },
                 ),
                 SizedBox(
@@ -79,10 +82,10 @@ class AgePrediction extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 50.h,
+              height: 30.h,
             ),
             ElevatedButton(
-              style: onPrimaryButtonStyle(context),
+              style: secondaryButtonStyle(context),
               onPressed: () {
                 Get.to(const AgeResultScreen());
               },
@@ -103,7 +106,7 @@ class AgePrediction extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '30',
+                            '30 ',
                             style: TextStyle(
                                 fontSize: 17, fontWeight: FontWeight.bold),
                           ),

@@ -24,6 +24,25 @@ class AgeVM extends GetxController {
     }
   }
 
+  getCameraImage() async {
+    ImagePicker picker = ImagePicker();
+    XFile? pickedImage = await picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 70,
+    );
+
+    if (pickedImage != null) {
+      // 이미지 크기를 조절하여 maxHeight에 맞춤
+      File resizedImage = await resizeImage(pickedImage.path, 250.h);
+
+      faceImage.value = XFile(resizedImage.path);
+    }
+  }
+
+  getAgeResult() async {
+    
+  }
+
   Future<File> resizeImage(String imagePath, double maxHeight) async {
     File imageFile = File(imagePath);
 
