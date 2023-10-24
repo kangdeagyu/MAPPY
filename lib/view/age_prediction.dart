@@ -1,9 +1,10 @@
-import 'package:final_main_project/view/age_result.dart';
+import 'package:final_main_project/styles/button_style.dart';
 import 'package:final_main_project/viewmodel/age_vm.dart';
+import 'package:final_main_project/widget/age/photo_area_widget.dart';
+import 'package:final_main_project/widget/age/result_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'dart:io';
 
 class AgePrediction extends StatelessWidget {
   AgePrediction({super.key});
@@ -12,20 +13,47 @@ class AgePrediction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    ButtonStyle customButtonStyle = ButtonStyle(
-      backgroundColor:
-          MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
-      foregroundColor:
-          MaterialStateProperty.all(Theme.of(context).colorScheme.onPrimary),
-    );
-
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Row(
+          children: [
+            SizedBox(width: 10,),
+            CircleAvatar(
+              backgroundImage: AssetImage('assets/images/Age_Icon.png'),
+              backgroundColor: Colors.white,
+              radius: 20,
+            ),
+            SizedBox(width: 8),
+            Text('예나'),
+          ],
+        ),
+        actions: const [
+          Icon(
+            Icons.monetization_on,
+            color: Colors.green,
+            size: 25,
+          ),
+          SizedBox(width: 5,),
+          Text('100', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
+          SizedBox(width: 30,)
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildPhotoArea(),
+            const Text(
+              '당신의 얼굴 나이를 측정해보세요.',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            SizedBox(
+              height: 70.h,
+            ),
+            photoAreaWidget(),
             SizedBox(
               height: 5.h,
             ),
@@ -35,23 +63,16 @@ class AgePrediction extends StatelessWidget {
                 ElevatedButton.icon(
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('카메라'),
-                  style: customButtonStyle,
+                  style: primaryButtonStyle(context),
                   onPressed: () {
-                    Get.defaultDialog(
-                      title: '경고!',
-                      content: const Text('ios 시뮬레이터에서 카메라 사용 불가'),
-                      textConfirm: '확인',
-                      confirmTextColor: Theme.of(context).colorScheme.onPrimary,
-                      buttonColor: Theme.of(context).colorScheme.primary,
-                      onConfirm: () => Get.back(),
-                    );
+                    vm.getCameraImage();
                   },
                 ),
                 SizedBox(
                   width: 15.w,
                 ),
                 ElevatedButton.icon(
-                  style: customButtonStyle,
+                  style: primaryButtonStyle(context),
                   icon: const Icon(Icons.photo),
                   label: const Text('갤러리'),
                   onPressed: () {
@@ -61,34 +82,12 @@ class AgePrediction extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 50.h,
+              height: 30.h,
             ),
-            ElevatedButton(
-              style: customButtonStyle,
-              onPressed: () {
-                Get.to(const AgeResultScreen());
-              },
-              child: const Text('결과 확인'),
-            ),
+            resultButtonWidget(context),
           ],
         ),
       ),
-    );
-  }
-  Widget _buildPhotoArea() {
-    return Obx(
-      () => vm.faceImage.value != null
-          ? SizedBox(
-              height: 320.h,
-              width: 250.w,
-              child:
-                  Image.file(File(vm.faceImage.value!.path)), // show image in screen
-            )
-          : Container(
-              height: 320.h,
-              width: 250.w,
-              color: Colors.grey,
-            ),
     );
   }
 }
