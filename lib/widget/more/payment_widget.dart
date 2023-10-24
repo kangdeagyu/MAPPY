@@ -1,4 +1,4 @@
-import 'package:final_main_project/view/payment_page.dart';
+import 'package:final_main_project/components/more/payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

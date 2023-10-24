@@ -8,13 +8,14 @@ class CardVm extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    userCardData();
+    String userId = 'wook';
+    userCardData(userId);
   }
 
-  Future<void> userCardData() async {
+  Future<void> userCardData(String userId) async {
     try {
       var collection = FirebaseFirestore.instance.collection('card');
-      var snapshot = await collection.get();
+      var snapshot = await collection.where('uid', isEqualTo: userId).get();
       if (snapshot.docs.isNotEmpty) {
         for (var doc in snapshot.docs) {
           cardDataList.add(CardModel.fromDocument(doc));
@@ -31,22 +32,41 @@ class CardVm extends GetxController {
   }
 
   Future<void> addCard(CardModel card) async {
-    // 카드 추가 메소드
     try {
       CollectionReference cardsRef =
           FirebaseFirestore.instance.collection('card');
 
-      await cardsRef.add({
+      DocumentReference docRef = await cardsRef.add({
         'uid': card.uid,
         'number': card.number,
         'date': card.date,
         'cvc': card.cvc,
       });
 
-      cardDataList.add(card);
+      // Update the new document's ID in the model and add it to the list.
+      CardModel updatedNewCard = CardModel(
+          id: docRef.id,
+          uid: card.uid,
+          number: card.number,
+          date: card.date,
+          cvc: card.cvc);
+
+      cardDataList.add(updatedNewCard);
     } catch (e) {
       print(e);
-      // 에러 처리...
+    }
+  }
+
+  Future<void> deleteCard(CardModel card) async {
+    try {
+      CollectionReference cardsRef =
+          FirebaseFirestore.instance.collection('card');
+
+      await cardsRef.doc(card.id).delete();
+
+      cardDataList.remove(card);
+    } catch (e) {
+      print(e);
     }
   }
 }

@@ -20,6 +20,7 @@ class PaymentPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
               Obx(
@@ -29,18 +30,28 @@ class PaymentPage extends StatelessWidget {
                   itemCount: cardVm.cardDataList.length,
                   itemBuilder: (context, index) {
                     var data = cardVm.cardDataList[index];
-                    return CreditCardWidget(
-                      obscureCardNumber: true,
-                      obscureCardCvv: true,
-                      isHolderNameVisible: true,
-                      cardNumber: data.number,
-                      expiryDate: data.date,
-                      cardHolderName: 'CARD',
-                      cvvCode: data.cvc,
-                      chipColor: Colors.amber,
-                      cardBgColor: Colors.black,
-                      showBackView: false,
-                      onCreditCardWidgetChange: (CreditCardBrand) {},
+                    return Dismissible(
+                      key: UniqueKey(),
+                      direction: DismissDirection.endToStart,
+                      onDismissed: (direction) async {
+                        // Firebase 삭제
+                        await cardVm.deleteCard(cardVm.cardDataList[index]);
+                      },
+                      background:
+                          Container(color: Colors.red), // Red color on swipe
+                      child: CreditCardWidget(
+                        obscureCardNumber: true,
+                        obscureCardCvv: true,
+                        isHolderNameVisible: true,
+                        cardNumber: data.number,
+                        expiryDate: data.date,
+                        cardHolderName: 'CARD',
+                        cvvCode: data.cvc,
+                        chipColor: Colors.amber,
+                        cardBgColor: Colors.black,
+                        showBackView: false,
+                        onCreditCardWidgetChange: (CreditCardBrand) {},
+                      ),
                     );
                   },
                 ),
@@ -54,7 +65,7 @@ class PaymentPage extends StatelessWidget {
                     // 카드 등록
                     Get.bottomSheet(
                       Container(
-                        height: 400.h,
+                        height: 420.h,
                         color: Colors.white,
                         child: cardwidget(context),
                       ),
@@ -64,7 +75,7 @@ class PaymentPage extends StatelessWidget {
                   },
                   child: Container(
                     width: 310.w,
-                    height: 145.h,
+                    height: 150.h,
                     decoration: BoxDecoration(
                       color: Colors.grey[300],
                       borderRadius: BorderRadius.circular(10),

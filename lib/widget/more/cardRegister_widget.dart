@@ -115,6 +115,7 @@ Widget cardwidget(BuildContext context) {
           onPressed: () async {
             // firebase에 카드 등록
             CardModel newCard = CardModel(
+              id: "",
               uid: "wook",
               number: cardobs.stCardnumber.value,
               date: cardobs.stCarddate.value,
@@ -128,6 +129,16 @@ Widget cardwidget(BuildContext context) {
           },
           style: primaryButtonStyle(context),
           child: const Text("등록하기"),
+        ),
+      ),
+      SizedBox(
+        width: 340.w,
+        child: ElevatedButton(
+          onPressed: () {
+            Get.back();
+          },
+          style: primaryButtonStyle(context),
+          child: const Text("돌아가기"),
         ),
       )
     ],

@@ -1,4 +1,4 @@
-import 'package:final_main_project/components/charge_components.dart';
+import 'package:final_main_project/components/more/charge_components.dart';
 import 'package:final_main_project/widget/more/payment_widget.dart';
 import 'package:final_main_project/widget/more/userpage_widget.dart';
 import 'package:flutter/material.dart';
