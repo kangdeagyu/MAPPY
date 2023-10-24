@@ -1,4 +1,3 @@
-import 'package:final_main_project/model/card_model.dart';
 import 'package:final_main_project/viewmodel/card_obs.dart';
 import 'package:final_main_project/viewmodel/card_vm.dart';
 import 'package:final_main_project/widget/more/cardRegister_widget.dart';
@@ -19,11 +18,35 @@ class PaymentPage extends StatelessWidget {
         title: const Text('카드 등록'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Expanded(
-              child: InkWell(
+            Obx(
+              () => ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: cardVm.cardDataList.length,
+                itemBuilder: (context, index) {
+                  var data = cardVm.cardDataList[index];
+                  return CreditCardWidget(
+                    obscureCardNumber: true,
+                    obscureCardCvv: true,
+                    isHolderNameVisible: true,
+                    cardNumber: data.number,
+                    expiryDate: data.date,
+                    cardHolderName: 'CARD',
+                    cvvCode: data.cvc,
+                    chipColor: Colors.amber,
+                    cardBgColor: Colors.black,
+                    showBackView: false,
+                    onCreditCardWidgetChange: (CreditCardBrand) {},
+                  );
+                },
+              ),
+            ),
+            if (cardVm.cardDataList.length <
+                3) // 카드 데이터가 3개 미만일 때만 Container 표시
+              InkWell(
                 onTap: () {
                   // 카드내역 삭제
                   cardobs.remove();
@@ -38,28 +61,21 @@ class PaymentPage extends StatelessWidget {
                     isDismissible: false,
                   );
                 },
-                child: Obx(
-                  () => ListView.builder(
-                      itemCount: cardVm.cardDataList.length,
-                      itemBuilder: (context, index) {
-                        var data = cardVm.cardDataList[index];
-                        return CreditCardWidget(
-                          obscureCardNumber: true,
-                          obscureCardCvv: true,
-                          isHolderNameVisible: true,
-                          cardNumber: data.number,
-                          expiryDate: data.date,
-                          cardHolderName: 'CARD',
-                          cvvCode: data.cvc,
-                          chipColor: Colors.amber,
-                          cardBgColor: Colors.black,
-                          showBackView: false,
-                          onCreditCardWidgetChange: (CreditCardBrand) {},
-                        );
-                      }),
+                child: Container(
+                  width: 310.w,
+                  height: 145.h,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                    child: Icon(
+                      Icons.add_card,
+                      size: 40,
+                    ),
+                  ),
                 ),
               ),
-            )
           ],
         ),
       ),
