@@ -24,4 +24,14 @@ class CardGet extends GetxController {
   void updateCardSvv(String cardSvv) {
     stCardsvv.value = cardSvv;
   }
+
+  // 초기화
+  void remove() {
+    stCardnumber.value = "";
+    stCarddate.value = "";
+    stCardsvv.value = "";
+    numberController.value.text = "";
+    dateController.value.text = "";
+    svvController.value.text = "";
+  }
 }
