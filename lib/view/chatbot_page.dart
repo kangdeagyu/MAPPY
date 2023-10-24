@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class ChatbotView extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
@@ -133,7 +135,7 @@ class ChatbotView extends StatelessWidget {
             icon: Icon(Icons.send),
             onPressed: () {
               if (_controller.text.isNotEmpty) {
-                addTempData(_controller.text);
+                sendChatText(_controller.text);
                 _controller.clear();
               }
             },
@@ -143,14 +145,39 @@ class ChatbotView extends StatelessWidget {
     );
   }
 
-  void addTempData(String content) async {
+  void addChat(String userid, String content) async {
     CollectionReference rein = FirebaseFirestore.instance.collection('chat');
-    String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
 
     await rein.add({
-      'userid': 'donghyun',
+      'userid': userid,
       'content': content,
-      'insertdate': formattedDate,
+      'insertdate': Timestamp.fromDate(DateTime.now()),
     });
   }
+
+  Future<void> sendChatText(String text) async {
+    final url = 'http://127.0.0.1:5000/ChatModel/chat';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: {
+        'text': text,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // 요청이 성공한 경우
+      addChat("donghyun", text);
+      var responseData = json.decode(response.body);
+      print(responseData);
+      String resultText = responseData['result'];
+      addChat("seah", resultText);
+    } else {
+      // 요청이 실패한 경우
+      print('Failed to send the text. StatusCode: ${response.statusCode}');
+    }
+  }
+
 }
