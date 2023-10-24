@@ -7,6 +7,7 @@ import 'firebase_options.dart';
 import 'package:get/get.dart';
 
 void main() async {
+  //KakaoSdk.init(nativeAppKey: 'faa13ab1a0485a4e5528d40c061caaef');
   runApp(const MyApp());
 
   await Firebase.initializeApp(
@@ -30,7 +31,6 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          fontFamily: 'NotoSansKR',
           colorScheme: ColorScheme.fromSeed(
             seedColor: seedColor, 
             brightness: Brightness.light,
