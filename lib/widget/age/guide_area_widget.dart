@@ -1,14 +1,16 @@
 import 'package:final_main_project/styles/button_style.dart';
+import 'package:final_main_project/styles/text_style.dart';
 import 'package:final_main_project/viewmodel/age_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget questionAreaWidget(BuildContext context) {
+Widget guideAreaWidget(BuildContext context) {
   final vm = Get.find<AgeVM>();
 
-  return Obx(() => vm.displayQuestion.value
+  return Obx(() => vm.displayGuide2.value
       ? Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const CircleAvatar(
               backgroundImage: AssetImage('assets/images/Age_Icon.png'),
@@ -17,7 +19,7 @@ Widget questionAreaWidget(BuildContext context) {
             ),
             SizedBox(width: 8.w),
             Container(
-              width: 215,
+              width: 150.w,
               padding: const EdgeInsets.all(12.0),
               margin: const EdgeInsets.only(right: 80.0, bottom: 5.0),
               decoration: BoxDecoration(
@@ -25,9 +27,11 @@ Widget questionAreaWidget(BuildContext context) {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                      '00님의 얼굴 나이를 예측해보세요. 결과는 10대부터 70대까지 확인하실 수 있어요. 00님의 실제 나이와 비교해 동안 테스트를 해 볼 수 있어요.'),
+                      '정면 사진을 올려주셔야 확인이 가능해요.'),
+                  SizedBox(height: 5.h,),
                   ElevatedButton(
                     style: primaryButtonStyle(context),
                     onPressed: () {
@@ -65,12 +69,9 @@ Widget questionAreaWidget(BuildContext context) {
                         ),
                       );
                     },
-                    child: const Text(
+                    child: Text(
                       '이미지 업로드',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                      ),
+                      style: buttonTextStyle(context)
                     ),
                   ),
                 ],

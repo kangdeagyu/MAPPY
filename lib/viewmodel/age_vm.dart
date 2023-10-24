@@ -8,10 +8,20 @@ class AgeVM extends GetxController {
   // Property
   var faceImage = Rx<XFile?>(null);
   var displayAnswer = false.obs;
-  var displayQuestion = false.obs;
+  var displayGreeting = false.obs;
+  var displayGuide1 = false.obs;
+  var displayGuide2 = false.obs;
 
   // Function
 
+  resetValues() {
+    faceImage.value = null;
+    displayAnswer.value = false;
+    displayGuide1.value = false;
+    displayGuide2.value = false;
+    displayGreeting.value = false;
+    showMessage();
+  }
 
   getGalleryImage() async {
     ImagePicker picker = ImagePicker();
@@ -59,12 +69,20 @@ class AgeVM extends GetxController {
     return resizedFile;
   }
 
-  void updateFaceImage() { 
-    Future.delayed(const Duration(seconds :1), () => displayAnswer.value = true);
+  updateFaceImage() {
+    Future.delayed(
+        const Duration(seconds: 1), () => displayAnswer.value = true);
   }
 
-  void showQuestion() {
-    Future.delayed(const Duration(milliseconds: 700), () => displayQuestion.value = true);
+  showMessage() {
+    Future.delayed(const Duration(milliseconds: 700), () {
+      displayGreeting.value = true;
+      Future.delayed(const Duration(seconds: 1), () {
+        displayGuide1.value = true;
+        Future.delayed(const Duration(milliseconds: 1500), () {
+          displayGuide2.value = true;
+        });
+      });
+    });
   }
-
 }
