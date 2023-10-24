@@ -54,7 +54,7 @@ class _RegisterState extends State<Register> {
           children: [
             RegistrationPage(
               labelText: "계정",
-              hintText: "사용하실 계정을 입력해 주세요",
+              hintText: "ex) seah@gmail.com",
               nextPage: nextPage,
               previousPage: previousPage,
             ),
