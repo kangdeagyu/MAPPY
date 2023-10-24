@@ -147,9 +147,10 @@ class More extends StatelessWidget {
             ),
             // 유저 프로필
             userpage(),
+            // 유저 프로필 끝
             SizedBox(
               height: 10.h,
-            ), // 유저 프로필 끝
+            ),
             // 페이먼트
             paymentWidget(),
             // 페이먼트 끝

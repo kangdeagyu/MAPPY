@@ -30,6 +30,7 @@ class PaymentPage extends StatelessWidget {
                     child: cardwidget(context),
                   ),
                   isScrollControlled: true,
+                  isDismissible: false,
                 );
               },
               child: Container(
