@@ -1,105 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ChargeWidget extends StatelessWidget {
-  const ChargeWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('코인 구매'),
-        shape: Border(
-          bottom: BorderSide(
-            color: Colors.grey,
-            width: 0.5,
-          ),
-        ),
-      ),
-      body: Column(
+Widget coinTile(String labelText, String buttonLabel) {
+  return Container(
+    width: 340.w,
+    height: 55.h,
+    decoration: const BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+    ),
+    child: ListTile(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const SizedBox(
-            height: 20,
-          ),
-          const Text('현재 보유 코인'),
-          const SizedBox(
-            height: 20,
-          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
                 Icons.monetization_on,
                 color: Colors.green,
                 size: 25,
               ),
+              const SizedBox(
+                width: 10,
+              ),
               Text(
-                '0',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onBackground,
-                  fontSize: 30,
-                  fontFamily: 'Lato',
-                  fontWeight: FontWeight.w700,
+                labelText,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
                   height: 0,
                 ),
               ),
             ],
           ),
-          const SizedBox(
-            height: 30,
-          ),
-          Container(
-            width: 360.w,
-            height: 453.2.h,
-            color: Colors.grey,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
+          SizedBox(
+            width: 110.w,
+            height: 40.h,
+            child: ElevatedButton(
+              onPressed: () {
+                // 결제 카드등록 되어 있을시 바로결제
+                // 안되어 있으면 카드등록 페이지로
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.amber[300],
+                foregroundColor: Colors.white,
+                shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(3),
                 ),
-                Container(
-                  width: 340.w,
-                  height: 50.h,
-                  color: Colors.white,
-                  child: ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.monetization_on,
-                              color: Colors.green,
-                              size: 25,
-                            ),
-                            Text(
-                              '코인 32개',
-                              style: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
-                                fontSize: 20,
-                                fontFamily: 'Lato',
-                                fontWeight: FontWeight.w700,
-                                height: 0,
-                              ),
-                            ),
-                          ],
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            //
-                          },
-                          child: const Text("₩ 1,500"),
-                        ),
-                      ],
-                    ),
-                  ),
+              ),
+              child: Text(
+                buttonLabel,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
+              ),
             ),
-          )
+          ),
         ],
       ),
-    );
-  }
+    ),
+  );
 }
