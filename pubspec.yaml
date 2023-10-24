@@ -59,6 +59,8 @@ dependencies:
   path: ^1.8.3
   # 카드등록
   flutter_credit_card: ^4.0.1
+  # 퍼센트 인디케이터
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:
