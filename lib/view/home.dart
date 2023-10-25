@@ -1,5 +1,6 @@
 import 'package:final_main_project/view/age_prediction.dart';
 import 'package:final_main_project/view/chatbot_page.dart';
+import 'package:final_main_project/view/tabbar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -38,7 +39,7 @@ class Home extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(6.0.h),
                 child: ElevatedButton(
-                  onPressed: () => Get.to(ChatbotView()),
+                  onPressed: () => Get.offAll(const TabBarScreen(), arguments: 2),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       //  버튼 모양 깎기
@@ -98,7 +99,7 @@ class Home extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(6.0.h),
                 child: ElevatedButton(
-                  onPressed: () => AgePrediction(),
+                  onPressed: () => Get.offAll(const TabBarScreen(), arguments: 1),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       //  버튼 모양 깎기
