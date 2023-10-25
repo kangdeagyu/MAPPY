@@ -78,8 +78,8 @@ class _ChatbotViewState extends State<ChatbotView>
 
   @override
   Widget build(BuildContext context) {
-
-    final bool isKeyboardVisible = KeyboardVisibilityProvider.isKeyboardVisible(context);
+    final bool isKeyboardVisible =
+        KeyboardVisibilityProvider.isKeyboardVisible(context);
     isKeyboardVisible ? _keyboardOpenScrollToBottom() : print("키보드 닫힘");
 
     return GestureDetector(
@@ -102,57 +102,76 @@ class _ChatbotViewState extends State<ChatbotView>
             ],
           ),
           centerTitle: false,
-        ),
-body: Stack(
-  children: <Widget>[
-    Positioned(
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 60, // 여기에서는 약간의 버퍼를 위해 60을 사용했으나, 실제 레이아웃에 따라 조정이 필요할 수 있습니다.
-      child: SingleChildScrollView(
-        controller: _scrollController,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("chat")
-                  .orderBy('insertdate', descending: false)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  final messages = snapshot.data!.docs;
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    primary: false,
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final message = messages[index];
-                      final content = message['content'] ?? '';
-                      final userId = message['userid'];
-                      return _buildChatItem(userId, content);
-                    },
-                  );
-                }
-              },
+          actions: const [
+            Icon(
+              Icons.monetization_on,
+              color: Colors.green,
+              size: 25,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Text(
+              '100',
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              width: 30,
             ),
           ],
         ),
-      ),
-    ),
-    Positioned(
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: _buildChatInputField(),
-    ),
-  ],
-),
+        body: Stack(
+          children: <Widget>[
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom:
+                  60, // 여기에서는 약간의 버퍼를 위해 60을 사용했으나, 실제 레이아웃에 따라 조정이 필요할 수 있습니다.
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("chat")
+                          .where("participants", arrayContains: 'donghyun')
+                          .orderBy('insertdate', descending: false)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          final messages = snapshot.data!.docs;
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: messages.length,
+                            itemBuilder: (context, index) {
+                              final message = messages[index];
+                              final content = message['content'] ?? '';
+                              final userId = message['userid'];
+                              return _buildChatItem(userId, content);
+                            },
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: _buildChatInputField(),
+            ),
+          ],
+        ),
         // bottomSheet: ,
       ),
     );
@@ -310,6 +329,7 @@ body: Stack(
     return await rein.add({
       'userid': userid,
       'content': content,
+      "participants": [userid, "seah"],
       'insertdate': Timestamp.fromDate(DateTime.now()),
     });
   }
@@ -325,16 +345,16 @@ body: Stack(
   void _keyboardOpenScrollToBottom() {
     Future.delayed(Duration(milliseconds: 100), () {
       if (_scrollController.hasClients) {
-        double offset = _scrollController.position.maxScrollExtent + MediaQuery.of(context).viewInsets.bottom;
-        
+        double offset = _scrollController.position.maxScrollExtent +
+            MediaQuery.of(context).viewInsets.bottom;
+
         // 키보드가 올라왔을 때의 추가 패딩을 고려
         double extraPadding = bottomSheetHeight ?? 0;
-        
+
         _scrollController.jumpTo(offset.h + extraPadding.h);
       }
     });
   }
-
 
   double? getBottomSheetHeight() {
     final RenderBox? renderBox =
@@ -342,6 +362,4 @@ body: Stack(
     print("바텀 시트 높이 = (${renderBox?.size.height})");
     return renderBox?.size.height;
   }
-
-
 }   // End View
