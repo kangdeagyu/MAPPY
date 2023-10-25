@@ -1,8 +1,13 @@
+import 'dart:ffi';
+
+import 'package:final_main_project/viewmodel/purchase_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget purchase(String coin, String pay) {
+final purchaseObs = Get.put(PurchaseVM());
+
+Widget purchase(String coin, String pay, String number) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
@@ -81,16 +86,16 @@ Widget purchase(String coin, String pay) {
               style: TextStyle(fontSize: 10),
             ),
             const Divider(thickness: 0.5, color: Colors.black),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   "결제카드:",
                   style: TextStyle(fontSize: 16),
                 ),
                 Text(
-                  "카드번호넣을자리",
-                  style: TextStyle(fontSize: 16),
+                  number,
+                  style: const TextStyle(fontSize: 16),
                 )
               ],
             ),
@@ -105,18 +110,31 @@ Widget purchase(String coin, String pay) {
       SizedBox(
         height: 10.h,
       ),
-      ElevatedButton(
-          onPressed: () {
-            //
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.indigo[800],
-            foregroundColor: Colors.white,
-            shape: BeveledRectangleBorder(
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          child: const Text("결제하기")),
+      Obx(
+        () => purchaseObs.isProcessing.value
+            ? const CircularProgressIndicator()
+            : ElevatedButton(
+                onPressed: () {
+                  // 결제 창과 데이터베이스에 코인 업데이트
+                  purchaseObs.makePayment(extractNumber(coin));
+                  // 결제 내역 데이터베이스에 저장해줘야됨
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.indigo[800],
+                  foregroundColor: Colors.white,
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                child: const Text("결제하기"),
+              ),
+      ),
     ],
   );
+}
+
+// 숫자가 아닌 모든 문자제거
+int extractNumber(String inputString) {
+  String num = inputString.replaceAll(RegExp(r'[^0-9]'), '');
+  return int.parse(num);
 }

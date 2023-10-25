@@ -1,4 +1,5 @@
 import 'package:final_main_project/widget/more/purchase_widget.dart';
+import 'package:final_main_project/widget/more/select_card_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,7 +44,7 @@ Widget coinTile(String labelText, String buttonLabel, BuildContext context) {
               onPressed: () {
                 Get.bottomSheet(
                   Container(
-                    height: 300.h,
+                    height: 260.h,
                     decoration: BoxDecoration(
                       color: Colors.grey[300],
                       borderRadius: const BorderRadius.only(
@@ -51,7 +52,7 @@ Widget coinTile(String labelText, String buttonLabel, BuildContext context) {
                         topRight: Radius.circular(20),
                       ),
                     ),
-                    child: purchase(labelText, buttonLabel),
+                    child: selectCard(labelText, buttonLabel, context),
                   ),
                   isScrollControlled: true,
                   isDismissible: false,
@@ -79,57 +80,5 @@ Widget coinTile(String labelText, String buttonLabel, BuildContext context) {
         ],
       ),
     ),
-  );
-}
-
-void showPurchaseDialog(BuildContext context, String coin, String amount) {
-  showDialog<void>(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return CupertinoAlertDialog(
-        title: const Text('코인 구매'),
-        content: Column(
-          children: [
-            SizedBox(
-              height: 100,
-              width: 150,
-              child: Image.asset("./assets/images/login.png"),
-            ),
-            Text(
-              '$coin\n$amount',
-              style: const TextStyle(fontSize: 20),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        actions: <Widget>[
-          CupertinoDialogAction(
-            child: const Text('취소하기', style: TextStyle(color: Colors.red)),
-            onPressed: () {
-              Get.back();
-              showCancelSnackbar();
-            },
-          ),
-          CupertinoDialogAction(
-            isDefaultAction: true,
-            child: const Text("구매하기", style: TextStyle(color: Colors.green)),
-            onPressed: () {
-              // Handle purchase logic here
-              Get.back();
-            },
-          )
-        ],
-      );
-    },
-  );
-}
-
-void showCancelSnackbar() {
-  Get.snackbar(
-    '알림',
-    '결제가 취소되었습니다',
-    backgroundColor: Colors.red,
-    colorText: Colors.white,
   );
 }
