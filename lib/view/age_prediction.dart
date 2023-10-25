@@ -14,9 +14,6 @@ class AgePrediction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      vm.resetValues();
-    });
 
     return Scaffold(
       appBar: AppBar(
