@@ -1,5 +1,3 @@
-import 'package:final_main_project/view/age_prediction.dart';
-import 'package:final_main_project/view/chatbot_page.dart';
 import 'package:final_main_project/view/tabbar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,7 +43,7 @@ class Home extends StatelessWidget {
                       //  버튼 모양 깎기
                       borderRadius: BorderRadius.circular(30), // 10은 파라미터
                     ),
-                    backgroundColor: Colors.pinkAccent,
+                    backgroundColor: Color.fromRGBO(255, 255, 255, 100.0),
                     minimumSize: const Size(200, 150),
                   ),
                   child: SingleChildScrollView(
@@ -64,10 +62,10 @@ class Home extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.all(8.0.h),
                               child: const Text(
-                                "안녕하세요! 세나입니다.\n 저는 챗봇서비스를 제공해요",
+                                "안녕하세요! 세아입니다.\n 저는 챗봇서비스를 제공해요",
                                 style: TextStyle(
                                   // 글씨 스타일주기
-                                  color: Colors.white, // 글씨 색상
+                                  color: Colors.black, // 글씨 색상
                                   fontSize: 15, // 글씨 크기
                                   fontWeight: FontWeight.bold, // 폰트 사이즈
                                   letterSpacing: 3, // 글자 간 간격
@@ -105,7 +103,7 @@ class Home extends StatelessWidget {
                       //  버튼 모양 깎기
                       borderRadius: BorderRadius.circular(30), // 10은 파라미터
                     ),
-                    backgroundColor: Colors.lightGreen,
+                    backgroundColor: Color.fromRGBO(255, 255, 255, 100.0),
                     minimumSize: const Size(200, 150),
                   ),
                   child: SingleChildScrollView(
@@ -127,7 +125,7 @@ class Home extends StatelessWidget {
                                 "안녕하세요! 예나입니다.\n저는 연령예측서비스를 제공해요",
                                 style: TextStyle(
                                   // 글씨 스타일주기
-                                  color: Colors.white, // 글씨 색상
+                                  color: Colors.black, // 글씨 색상
                                   fontSize: 15, // 글씨 크기
                                   fontWeight: FontWeight.bold, // 폰트 사이즈
                                   letterSpacing: 3, // 글자 간 간격

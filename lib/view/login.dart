@@ -154,6 +154,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                             onPressed: () {
                               // 버튼 누르기 액션
                               // dart code
+                              Get.to(const Register());
                               _visibility = !_visibility;
                               setState(() {});
                             },
@@ -236,7 +237,6 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                       ElevatedButton(
                         onPressed: () {
                           Get.to(const Register());
-                          setState(() {});
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
