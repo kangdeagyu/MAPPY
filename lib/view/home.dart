@@ -20,6 +20,21 @@ class Home extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
+              SizedBox(
+                height: 300,
+              ),
+              Text(
+                "챗봇서비스",
+              ),
+              SizedBox(
+                width: 320.w,
+                child: Divider(
+                  // 줄 긋기
+                  height: 15.h, // 줄이 차지하는 크기
+                  color: const Color.fromARGB(255, 38, 29, 29), // 색상
+                  thickness: 2, // 줄 두께
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.all(6.0.h),
                 child: ElevatedButton(
@@ -30,36 +45,54 @@ class Home extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30), // 10은 파라미터
                     ),
                     backgroundColor: Colors.pinkAccent,
-                    maximumSize: const Size(320, 320),
+                    minimumSize: const Size(200, 150),
                   ),
-                  child: Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "안녕하세요! 저는 세나입니다.\n챗봇서비스를 제공해요",
-                              style: TextStyle(
-                                // 글씨 스타일주기
-                                color: Colors.white, // 글씨 색상
-                                fontSize: 15, // 글씨 크기
-                                fontWeight: FontWeight.bold, // 폰트 사이즈
-                                letterSpacing: 3, // 글자 간 간격
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              "assets/images/Chatbot_Icon.png",
+                              width: 120.w,
+                              height: 120.h,
+                              fit: BoxFit.fill,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0.h),
+                              child: const Text(
+                                "안녕하세요! 세나입니다.\n 저는 챗봇서비스를 제공해요",
+                                style: TextStyle(
+                                  // 글씨 스타일주기
+                                  color: Colors.white, // 글씨 색상
+                                  fontSize: 15, // 글씨 크기
+                                  fontWeight: FontWeight.bold, // 폰트 사이즈
+                                  letterSpacing: 3, // 글자 간 간격
+                                ),
                               ),
                             ),
-                          ),
-                          Image.asset(
-                            "assets/images/Chatbot_Icon.png",
-                            width: 200.w,
-                            height: 200.h,
-                            fit: BoxFit.fill,
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+                ),
+              ),
+              SizedBox(
+                height: 40.h,
+              ),
+              Text(
+                "연령예측 서비스",
+              ),
+              SizedBox(
+                width: 320.w,
+                child: Divider(
+                  // 줄 긋기
+                  height: 15.h, // 줄이 차지하는 크기
+                  color: const Color.fromARGB(255, 38, 29, 29), // 색상
+                  thickness: 2, // 줄 두께
                 ),
               ),
               Padding(
@@ -72,35 +105,38 @@ class Home extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30), // 10은 파라미터
                     ),
                     backgroundColor: Colors.lightGreen,
-                    maximumSize: const Size(320, 320),
+                    minimumSize: const Size(200, 150),
                   ),
-                  child: Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "안녕하세요! 저는 예나입니다.\n연령예측서비스를 제공해요",
-                              style: TextStyle(
-                                // 글씨 스타일주기
-                                color: Colors.white, // 글씨 색상
-                                fontSize: 15, // 글씨 크기
-                                fontWeight: FontWeight.bold, // 폰트 사이즈
-                                letterSpacing: 3, // 글자 간 간격
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              "assets/images/Age_Icon.png",
+                              width: 120.w,
+                              height: 120.h,
+                              fit: BoxFit.fill,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0.h),
+                              child: const Text(
+                                "안녕하세요! 예나입니다.\n저는 연령예측서비스를 제공해요",
+                                style: TextStyle(
+                                  // 글씨 스타일주기
+                                  color: Colors.white, // 글씨 색상
+                                  fontSize: 15, // 글씨 크기
+                                  fontWeight: FontWeight.bold, // 폰트 사이즈
+                                  letterSpacing: 3, // 글자 간 간격
+                                ),
                               ),
                             ),
-                          ),
-                          Image.asset(
-                            "assets/images/Age_Icon.png",
-                            width: 170.w,
-                            height: 180.h,
-                            fit: BoxFit.fill,
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
