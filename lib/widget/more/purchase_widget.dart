@@ -81,6 +81,20 @@ Widget purchase(String coin, String pay) {
               style: TextStyle(fontSize: 10),
             ),
             const Divider(thickness: 0.5, color: Colors.black),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "결제카드:",
+                  style: TextStyle(fontSize: 16),
+                ),
+                Text(
+                  "카드번호넣을자리",
+                  style: TextStyle(fontSize: 16),
+                )
+              ],
+            ),
+            const Divider(thickness: 0.5, color: Colors.black),
             const Text(
               "계정:",
               style: TextStyle(fontSize: 16),
