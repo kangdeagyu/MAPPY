@@ -26,30 +26,64 @@ class AgeVM extends GetxController {
     loadUserID();
   }
 
-  //보유 코인 개수 가져오기
+  // 코인 차감.
+  Future<void> useCoin(int price) async {
+  try {
+    String userId = await loadUserID();
 
-  Future<void> checkCoin() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("user")
+        .where("uid", isEqualTo: userId)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      int currentCoin = querySnapshot.docs[0]['coin'];
+      int newCoin = currentCoin - price;
+      // 업데이트
+      querySnapshot.docs.first.reference.update({
+        'coin' : newCoin,
+      });
+    }
+  } catch (error) {
+    print("코인 수정 오류: $error");
+  }
+}
+
+  //보유 코인 개수 가져오기
+Future<void> checkCoin() async {
+  try {
     String userId = await loadUserID();
     FirebaseFirestore.instance
         .collection("user")
         .where("uid", isEqualTo: userId)
         .snapshots()
         .listen((querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        myCoin.value = querySnapshot.docs[0]['coin'];
-      }
-    });
+          if (querySnapshot.docs.isNotEmpty) {
+            myCoin.value = querySnapshot.docs[0]['coin'];
+          }
+        });
+  } catch (error) {
+    print("코인 가져오기 오류: $error");
   }
+}
+
 
   // 유저 이름 가져오기
-  Future<void> getUserName() async {
+Future<void> getUserName() async {
+  try {
     String userId = await loadUserID();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("user")
         .where("uid", isEqualTo: userId)
         .get();
-    userName = querySnapshot.docs[0]['uname'];
+    if (querySnapshot.docs.isNotEmpty) {
+      userName = querySnapshot.docs[0]['uname'];
+    }
+  } catch (error) {
+    print("유저이름 가져오기 오류: $error");
   }
+}
+
 
   // 유저 아이디 들고오기
   Future<String> loadUserID() async {
@@ -58,8 +92,8 @@ class AgeVM extends GetxController {
     return userId;
   }
 
+  // 화면 초기화를 위한 변수 리셋
   resetValues() {
-    // 화면 초기화를 위한 변수 리셋
     faceImage.value = null;
     displayAnswer.value = false;
     displayGuide1.value = false;
@@ -119,14 +153,14 @@ class AgeVM extends GetxController {
   updateFaceImage() {
     // 이미지가 등록되면 1초 후 답변글이 올라오게.
     Future.delayed(
-        const Duration(seconds: 1), () => displayAnswer.value = true);
+        const Duration(milliseconds: 800), () => displayAnswer.value = true);
   }
 
   showMessage() {
     // 화면 시작 시 메시지를 단계적으로 보여주기 위해.
     Future.delayed(const Duration(milliseconds: 700), () {
       displayGreeting.value = true;
-      Future.delayed(const Duration(seconds: 1), () {
+      Future.delayed(const Duration(milliseconds: 900), () {
         displayGuide1.value = true;
         Future.delayed(const Duration(milliseconds: 1500), () {
           displayGuide2.value = true;
