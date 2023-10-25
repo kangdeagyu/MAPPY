@@ -1,37 +1,72 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_main_project/model/card_model.dart';
 import 'package:get/get.dart';
 
-class CardGet extends GetxController {
-  // 카드 번호 상태관리
-  RxString stCardnumber = ''.obs;
-  RxString stCarddate = ''.obs;
-  RxString stCardsvv = ''.obs;
-  Rx<TextEditingController> numberController = TextEditingController().obs;
-  Rx<TextEditingController> dateController = TextEditingController().obs;
-  Rx<TextEditingController> svvController = TextEditingController().obs;
+class CardVm extends GetxController {
+  var cardDataList = <CardModel>[].obs; // Observable List
 
-  // 카드 번호를 업데이트하는 메서드
-  void updateCardNumber(String cardNumber) {
-    stCardnumber.value = cardNumber;
+  @override
+  void onInit() {
+    super.onInit();
+    String userId = 'wook';
+    userCardData(userId);
   }
 
-  // 날짜를 업데이트하는 메서드
-  void updateCardDate(String cardDate) {
-    stCarddate.value = cardDate;
+  Future<void> userCardData(String userId) async {
+    try {
+      var collection = FirebaseFirestore.instance.collection('card');
+      var snapshot = await collection.where('uid', isEqualTo: userId).get();
+      if (snapshot.docs.isNotEmpty) {
+        for (var doc in snapshot.docs) {
+          cardDataList.add(CardModel.fromDocument(doc));
+        }
+      }
+    } catch (e) {
+      // 에러 처리...
+      print(e);
+    }
   }
 
-  // svv를 업데이트하는 메서드
-  void updateCardSvv(String cardSvv) {
-    stCardsvv.value = cardSvv;
+  void clearMyData() {
+    cardDataList.clear();
   }
 
-  // 초기화
-  void remove() {
-    stCardnumber.value = "";
-    stCarddate.value = "";
-    stCardsvv.value = "";
-    numberController.value.text = "";
-    dateController.value.text = "";
-    svvController.value.text = "";
+  Future<void> addCard(CardModel card) async {
+    try {
+      CollectionReference cardsRef =
+          FirebaseFirestore.instance.collection('card');
+
+      DocumentReference docRef = await cardsRef.add({
+        'uid': card.uid,
+        'number': card.number,
+        'date': card.date,
+        'cvc': card.cvc,
+      });
+
+      // Update the new document's ID in the model and add it to the list.
+      CardModel updatedNewCard = CardModel(
+          id: docRef.id,
+          uid: card.uid,
+          number: card.number,
+          date: card.date,
+          cvc: card.cvc);
+
+      cardDataList.add(updatedNewCard);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> deleteCard(CardModel card) async {
+    try {
+      CollectionReference cardsRef =
+          FirebaseFirestore.instance.collection('card');
+
+      await cardsRef.doc(card.id).delete();
+
+      cardDataList.remove(card);
+    } catch (e) {
+      print(e);
+    }
   }
 }

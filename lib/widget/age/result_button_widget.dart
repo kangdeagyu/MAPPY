@@ -1,10 +1,11 @@
 import 'package:final_main_project/styles/button_style.dart';
-import 'package:final_main_project/view/age_result.dart';
+import 'package:final_main_project/styles/text_style.dart';
+import 'package:final_main_project/components/age/age_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget resultButtonWidget(BuildContext context) {
+Widget resultButtonWidget(context) {
   return ElevatedButton(
     style: secondaryButtonStyle(context),
     onPressed: () {
@@ -17,9 +18,9 @@ Widget resultButtonWidget(BuildContext context) {
                   height: 70.h,
                 ),
                 SizedBox(width: 10.w,),
-                const Text(
+                Text(
                   '30코인을 사용해서\n결과를 확인하시겠어요?',
-                  style: TextStyle(fontSize: 18),
+                  style: onBackgroundTextStyle(context, 18),
                 ),
               ],
             ),
@@ -41,36 +42,9 @@ Widget resultButtonWidget(BuildContext context) {
         ),
       );
     },
-    child: Padding(
-      padding: EdgeInsets.fromLTRB(5.w, 10.h, 5.w, 10.h),
-      child: Column(
-        children: [
-          const Text(
-            '결과 확인하기',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 17,
-            ),
-          ),
-          SizedBox(
-            width: 100.w,
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.monetization_on,
-                  color: Colors.green,
-                  size: 25,
-                ),
-                Text(
-                  ' 30',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+    child: Text(
+      '확인하기',
+      style: buttonTextStyle(context),
     ),
   );
 }

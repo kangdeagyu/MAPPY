@@ -7,8 +7,22 @@ import 'package:image/image.dart' as img; // image 패키지 추가
 class AgeVM extends GetxController {
   // Property
   var faceImage = Rx<XFile?>(null);
+  var displayAnswer = false.obs;
+  var displayGreeting = false.obs;
+  var displayGuide1 = false.obs;
+  var displayGuide2 = false.obs;
 
   // Function
+
+  resetValues() {
+    faceImage.value = null;
+    displayAnswer.value = false;
+    displayGuide1.value = false;
+    displayGuide2.value = false;
+    displayGreeting.value = false;
+    showMessage();
+  }
+
   getGalleryImage() async {
     ImagePicker picker = ImagePicker();
     XFile? pickedImage = await picker.pickImage(
@@ -22,6 +36,7 @@ class AgeVM extends GetxController {
 
       faceImage.value = XFile(resizedImage.path);
     }
+    updateFaceImage();
   }
 
   getCameraImage() async {
@@ -37,10 +52,7 @@ class AgeVM extends GetxController {
 
       faceImage.value = XFile(resizedImage.path);
     }
-  }
-
-  getAgeResult() async {
-    
+    updateFaceImage();
   }
 
   Future<File> resizeImage(String imagePath, double maxHeight) async {
@@ -55,5 +67,22 @@ class AgeVM extends GetxController {
     resizedFile.writeAsBytesSync(img.encodeJpg(resizedImage));
 
     return resizedFile;
+  }
+
+  updateFaceImage() {
+    Future.delayed(
+        const Duration(seconds: 1), () => displayAnswer.value = true);
+  }
+
+  showMessage() {
+    Future.delayed(const Duration(milliseconds: 700), () {
+      displayGreeting.value = true;
+      Future.delayed(const Duration(seconds: 1), () {
+        displayGuide1.value = true;
+        Future.delayed(const Duration(milliseconds: 1500), () {
+          displayGuide2.value = true;
+        });
+      });
+    });
   }
 }
