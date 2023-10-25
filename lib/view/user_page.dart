@@ -82,8 +82,12 @@ class UserPage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         print("Elevated Button");
-                        Get.find<MyPageVM>().deleteFirebase();
-                        deletesnackBarsFunction();
+                        bool rs = Get.find<MyPageVM>().deleteFirebase();
+                        if (rs){
+                          deletesnackBarsFunction();
+                        }else{
+                          Get.find<MyPageVM>().showD();
+                        }
 
                       },
                       style: ElevatedButton.styleFrom(
@@ -181,6 +185,7 @@ class UserPage extends StatelessWidget {
 // 회원탈퇴시 
   deletesnackBarsFunction() {
     Get.defaultDialog(
+      title: "",
       middleText: "탈퇴되었습니다.",
       barrierDismissible: false,
       actions: [

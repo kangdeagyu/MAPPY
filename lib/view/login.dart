@@ -29,7 +29,9 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     uidController = TextEditingController(text: "");
+    uidController.text = "";
     upasswordController = TextEditingController(text: "");
+    upasswordController.text = "";
 
     WidgetsBinding.instance.addObserver(this);
     _initSharedPreferences(
@@ -170,6 +172,8 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                       ),
                       ElevatedButton(
                         onPressed: () async {
+                          await selectFirebase();
+                          print("del?${deleted}");
                           Future<int> rs = loginCheck(uidController.text.trim(),
                               upasswordController.text.trim());
                           int rsNum = await rs;
@@ -249,8 +253,15 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                         height: 5.h,
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          kakao();
+                        onPressed: () async {
+                          await selectFirebase();
+                          if (deleted == 0) {
+                            //udeleted 가 0이면 회원
+                            kakao();
+                          } else {
+                            //udeleted 가 1이면 탈퇴회원
+                            _FailAlert2();
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -281,7 +292,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
     );
   }
 
-// // functions
+// ==================================== functions ====================================
 
   kakao() async {
     // 카카오 로그인 구현 예제
@@ -326,7 +337,8 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
           _ksaveSharedPreferences(user.kakaoAccount?.email);
           Get.to(const TabBarScreen());
         } else {
-          //toSignUp(user.kakaoAccount?.email);
+          // 회원가입페이지로 이동
+          kakaoRegisterCheck();
         }
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
@@ -342,7 +354,6 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
         .where("udeleted", isEqualTo: 0)
         .get();
     int count = querySnapshot.size; // 문서 개수 세기
-    deleted = querySnapshot.docs[0]["udelelted"];
     return count;
   }
 
@@ -355,10 +366,25 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
         .where("udeleted", isEqualTo: 0)
         .get();
     int count = querySnapshot.size; // 문서 개수 세기
-    // deleted = querySnapshot.docs[0]["udelelted"];
     return count;
   }
 
+// Firebase select
+  Future<void> selectFirebase() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("user")
+        .where("uid", isEqualTo: uidController.text.trim())
+        .get();
+    if(querySnapshot.size>0){
+      deleted = querySnapshot.docs[0]["udeleted"] ?? 0;
+    }else{
+      print("아이디없음");
+    }
+
+    setState(() {});
+  }
+
+// ===============================================================Alert =====================================================
 // 아이디 비번이 일치하지 않을때
   _FailAlert() {
     Get.defaultDialog(
@@ -403,7 +429,43 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
     );
   }
 
-  // Shared Preferneces
+  // 카카오 계정이 회원가입되어있지 않을때
+  kakaoRegisterCheck() {
+    Get.defaultDialog(
+      title: "",
+      middleText: "회원가입을 진행하시겠습니까?.",
+      barrierDismissible: false,
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Row(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: const Text(
+                    "아니오",
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Get.to(const Register())?.then((_) => Get.back());
+                  },
+                  child: const Text(
+                    "예",
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  // ====================================Shared Preferneces=============================================
 
   _initSharedPreferences(
       TextEditingController id, TextEditingController pw) async {
@@ -439,4 +501,4 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
     final prefernece = await SharedPreferences.getInstance();
     prefernece.clear();
   }
-}//end
+} //end
