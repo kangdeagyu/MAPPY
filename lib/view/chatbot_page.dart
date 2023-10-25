@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatbotView extends StatefulWidget {
   ChatbotView({Key? key}) : super(key: key);
@@ -28,6 +28,7 @@ class _ChatbotViewState extends State<ChatbotView>
   final GlobalKey bottomSheetKey = GlobalKey();
   double? bottomSheetHeight;
   bool isKeyboardOpen = false;
+  String? userId;
 
   @override
   void dispose() {
@@ -74,7 +75,15 @@ class _ChatbotViewState extends State<ChatbotView>
         _scrollToBottom();
       });
     });
+
+    _loadUserId();
+  } // init State
+
+    _loadUserId() async {
+    userId = await getUserId();
+    setState(() {});  // UI 업데이트
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -126,8 +135,7 @@ class _ChatbotViewState extends State<ChatbotView>
               top: 0,
               left: 0,
               right: 0,
-              bottom:
-                  60, // 여기에서는 약간의 버퍼를 위해 60을 사용했으나, 실제 레이아웃에 따라 조정이 필요할 수 있습니다.
+              bottom: 60,
               child: SingleChildScrollView(
                 controller: _scrollController,
                 child: Column(
@@ -136,7 +144,8 @@ class _ChatbotViewState extends State<ChatbotView>
                     StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection("chat")
-                          .where("participants", arrayContains: 'donghyun')
+                          .doc(userId)
+                          .collection('messages')
                           .orderBy('insertdate', descending: false)
                           .snapshots(),
                       builder: (context, snapshot) {
@@ -152,9 +161,10 @@ class _ChatbotViewState extends State<ChatbotView>
                             itemCount: messages.length,
                             itemBuilder: (context, index) {
                               final message = messages[index];
+                              final speaker = message['speaker'] ?? '';
                               final content = message['content'] ?? '';
-                              final userId = message['userid'];
-                              return _buildChatItem(userId, content);
+                              // final userId = message['userid'];
+                              return _buildChatItem(speaker, content);
                             },
                           );
                         }
@@ -177,7 +187,7 @@ class _ChatbotViewState extends State<ChatbotView>
     );
   }
 
-  Widget _buildChatItem(String userId, String content) {
+  Widget _buildChatItem(String speaker, String content) {
     if (_animationController.status != AnimationStatus.completed ||
         _scaleController.status != AnimationStatus.completed ||
         _fadeController.status != AnimationStatus.completed) {
@@ -186,7 +196,7 @@ class _ChatbotViewState extends State<ChatbotView>
       _fadeController.forward(from: 0.0);
     }
 
-    if (userId == 'seah') {
+    if (speaker == 'seah') {
       return SlideTransition(
         position: _slideAnimation,
         child: Padding(
@@ -290,11 +300,11 @@ class _ChatbotViewState extends State<ChatbotView>
 
   Future<void> sendChatText(String text) async {
     // 1. 사용자 메시지 화면에 즉시 표시
-    addChat("donghyun", text);
+    input(userId!, text);
     _scrollToBottom();
 
     // 2. "대화를 분석 중..." 메시지 화면에 즉시 표시
-    DocumentReference tempRef = await addChat("seah", "대화를 분석 중...");
+    DocumentReference tempRef = await output(userId!, "대화를 분석 중...");
     _scrollToBottom();
 
     final url = 'http://127.0.0.1:5000/ChatModel/chat';
@@ -324,15 +334,42 @@ class _ChatbotViewState extends State<ChatbotView>
   }
 
   // addChat 함수를 업데이트해서 DocumentReference를 반환하도록 변경
-  Future<DocumentReference> addChat(String userid, String content) async {
-    CollectionReference rein = FirebaseFirestore.instance.collection('chat');
-    return await rein.add({
-      'userid': userid,
+  Future<DocumentReference> input(String userid, String content) async {
+    // 'chat' 컬렉션 참조
+    CollectionReference chat = FirebaseFirestore.instance.collection('chat');
+    
+    // 'userid'를 문서로 사용
+    DocumentReference userDoc = chat.doc(userid);
+    
+    // 해당 'userid' 문서 아래의 'messages' 컬렉션 참조
+    CollectionReference messages = userDoc.collection('messages');
+    
+    // 'messages' 컬렉션에 채팅 내용 추가
+    return await messages.add({
+      'speaker' : userid,
       'content': content,
-      "participants": [userid, "seah"],
       'insertdate': Timestamp.fromDate(DateTime.now()),
     });
   }
+
+
+  Future<DocumentReference> output(String userid, String content) async {
+        // 'chat' 컬렉션 참조
+    CollectionReference chat = FirebaseFirestore.instance.collection('chat');
+    
+    // 'userid'를 문서로 사용
+    DocumentReference userDoc = chat.doc(userid);
+    
+    // 해당 'userid' 문서 아래의 'messages' 컬렉션 참조
+    CollectionReference messages = userDoc.collection('messages');
+    return await messages.add({
+      'speaker': "seah",
+      'content': content,
+      'insertdate': Timestamp.fromDate(DateTime.now()),
+    });
+  }
+
+  
 
   void _scrollToBottom() {
     Future.delayed(Duration(milliseconds: 100), () {
@@ -351,7 +388,7 @@ class _ChatbotViewState extends State<ChatbotView>
         // 키보드가 올라왔을 때의 추가 패딩을 고려
         double extraPadding = bottomSheetHeight ?? 0;
 
-        _scrollController.jumpTo(offset.h + extraPadding.h);
+        _scrollController.jumpTo(offset.h + extraPadding.h * 2);
       }
     });
   }
@@ -362,4 +399,12 @@ class _ChatbotViewState extends State<ChatbotView>
     print("바텀 시트 높이 = (${renderBox?.size.height})");
     return renderBox?.size.height;
   }
+
+  // 로그인 한 유저 아이디 가져오기
+  Future<String?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('p_userId');
+  }
+  
+
 }   // End View
