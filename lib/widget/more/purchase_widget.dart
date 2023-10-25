@@ -1,11 +1,13 @@
 import 'dart:ffi';
 
+import 'package:final_main_project/viewmodel/card_vm.dart';
 import 'package:final_main_project/viewmodel/purchase_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 final purchaseObs = Get.put(PurchaseVM());
+final cardvm = Get.put(CardVm());
 
 Widget purchase(String coin, String pay, String number) {
   return Column(
@@ -100,9 +102,15 @@ Widget purchase(String coin, String pay, String number) {
               ],
             ),
             const Divider(thickness: 0.5, color: Colors.black),
-            const Text(
-              "계정:",
-              style: TextStyle(fontSize: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "계정:",
+                  style: TextStyle(fontSize: 16),
+                ),
+                Obx(() => Text(cardvm.uId.value)),
+              ],
             ),
           ],
         ),

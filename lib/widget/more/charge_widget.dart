@@ -1,6 +1,4 @@
-import 'package:final_main_project/widget/more/purchase_widget.dart';
 import 'package:final_main_project/widget/more/select_card_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -57,9 +55,6 @@ Widget coinTile(String labelText, String buttonLabel, BuildContext context) {
                   isScrollControlled: true,
                   isDismissible: false,
                 );
-
-                // 결제 카드등록 되어 있을시 바로결제
-                // 안되어 있으면 카드등록 페이지로
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.amber[300],

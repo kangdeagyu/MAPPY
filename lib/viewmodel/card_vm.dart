@@ -1,17 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_main_project/model/card_model.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CardVm extends GetxController {
   var cardDataList = <CardModel>[].obs; // Observable List
+  var uId = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
-    String userId = 'wook';
-    userCardData(userId);
+    loadUserID().then((userId) {
+      // loadUserID가 완료된 후에 userCardData를 호출합니다.
+      userCardData(userId);
+    });
   }
 
+  // 유저 아이디 들고오기
+  Future<String> loadUserID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uId.value = prefs.getString("p_userId") ?? '';
+    return uId.value;
+  }
+
+  // 저장된 유저 아이디 지우기
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("p_userId"); // 사용자 ID를 삭제합니다.
+  }
+
+  // 카드 있으면 가져오기
   Future<void> userCardData(String userId) async {
     try {
       var collection = FirebaseFirestore.instance.collection('card');
@@ -31,6 +49,7 @@ class CardVm extends GetxController {
     cardDataList.clear();
   }
 
+  // 카드 등록
   Future<void> addCard(CardModel card) async {
     try {
       CollectionReference cardsRef =
@@ -42,8 +61,6 @@ class CardVm extends GetxController {
         'date': card.date,
         'cvc': card.cvc,
       });
-
-      // Update the new document's ID in the model and add it to the list.
       CardModel updatedNewCard = CardModel(
           id: docRef.id,
           uid: card.uid,
@@ -57,6 +74,7 @@ class CardVm extends GetxController {
     }
   }
 
+  // 등록 카드 삭제
   Future<void> deleteCard(CardModel card) async {
     try {
       CollectionReference cardsRef =

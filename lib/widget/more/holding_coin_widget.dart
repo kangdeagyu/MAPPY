@@ -1,7 +1,10 @@
+import 'package:final_main_project/viewmodel/age_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 Widget holdingCoin(BuildContext context) {
+  final vm = Get.put(AgeVM());
   return Column(
     children: [
       SizedBox(
@@ -25,15 +28,20 @@ Widget holdingCoin(BuildContext context) {
               color: Colors.green,
             ),
           ),
-          Text(
-            '0',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.background,
-              fontSize: 20,
-              fontFamily: 'Lato',
-              fontWeight: FontWeight.w700,
-              height: 0,
-            ),
+          Obx(
+            () {
+              // 코인 변화 rx로 실시간관리
+              return Text(
+                vm.myCoin.value.toString(),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.background,
+                  fontSize: 20,
+                  fontFamily: 'Lato',
+                  fontWeight: FontWeight.w700,
+                  height: 0,
+                ),
+              );
+            },
           ),
         ],
       ),

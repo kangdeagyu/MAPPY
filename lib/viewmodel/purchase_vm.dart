@@ -1,17 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PurchaseVM extends GetxController {
   var isProcessing = false.obs;
+  var uId = ''.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadUserID();
+  }
+
+  // 유저 아이디 들고오기
+  Future<void> loadUserID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uId.value = prefs.getString("p_userId") ?? '';
+  }
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<void> updateCoin(int coin) async {
-    String uid = 'wook'; // 유저 아이디로 바꿔야됨
+    String userid = uId.value; // 유저 아이디로 바꿔야됨
 
     try {
-      QuerySnapshot querySnapshot =
-          await firestore.collection('user').where('uid', isEqualTo: uid).get();
+      QuerySnapshot querySnapshot = await firestore
+          .collection('user')
+          .where('uid', isEqualTo: userid)
+          .get();
 
       if (querySnapshot.docs.isNotEmpty) {
         String docId = querySnapshot.docs.first.id;

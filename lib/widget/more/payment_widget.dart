@@ -11,7 +11,7 @@ Widget paymentWidget(BuildContext context) {
     },
     child: SizedBox(
       width: 320.w,
-      height: 40.h,
+      height: 30.h,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

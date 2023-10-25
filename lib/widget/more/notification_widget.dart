@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget notification() {
   return Column(
     children: [
       SizedBox(
-        width: 350,
-        height: 30,
+        width: 320.w,
+        height: 30.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
