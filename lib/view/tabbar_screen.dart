@@ -32,7 +32,7 @@ class _TabBarScreenState extends State<TabBarScreen>
 
   @override
   Widget build(BuildContext context) {
-    int initialTabIndex = Get.arguments ?? 3;
+    int initialTabIndex = Get.arguments ?? 0;
     _tabController.index = initialTabIndex;
 
     return Scaffold(

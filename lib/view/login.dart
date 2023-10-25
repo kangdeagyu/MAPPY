@@ -172,6 +172,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver{
                           int rsNum = await rs;
                           if (rsNum == 1 ){
                             // 로그인 성공
+                            _saveSharedPreferences(uidController,upasswordController);
                             Get.to(const TabBarScreen());
                           }else{
                             // 로그인 실패
@@ -201,7 +202,6 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver{
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          //login();
                           _visibility = !_visibility;
                           setState(() {});
                         },
@@ -221,8 +221,6 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver{
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          //login();
-                          //_visibility = !_visibility;
                           Get.to(const Register());
                           setState(() {});
                         },
@@ -256,7 +254,6 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver{
                         ),
                         child: Image.asset(
                           "assets/images/kakao_login.png",
-                          //fit: BoxFit.fill,
                           width: 250,
                           height: 40,
                         ),
