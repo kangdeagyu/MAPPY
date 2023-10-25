@@ -22,7 +22,10 @@ class ChargeWidget extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          const Text('현재 보유 코인'),
+          Text(
+            '현재 보유 코인',
+            style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+          ),
           const SizedBox(
             height: 20,
           ),

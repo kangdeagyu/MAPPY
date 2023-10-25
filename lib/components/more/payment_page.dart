@@ -11,7 +11,9 @@ class PaymentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 카드 번호 관리
     final cardobs = Get.put(CardGet());
+    // 카드 firebase
     final cardVm = Get.put(CardVm());
     return Scaffold(
       appBar: AppBar(
@@ -30,6 +32,13 @@ class PaymentPage extends StatelessWidget {
                   itemCount: cardVm.cardDataList.length,
                   itemBuilder: (context, index) {
                     var data = cardVm.cardDataList[index];
+                    // 카드 색상
+                    List<Color> colors = [
+                      Colors.grey,
+                      Colors.blue,
+                      Colors.green
+                    ];
+                    Color cardColor = colors[index % colors.length];
                     return Dismissible(
                       key: UniqueKey(),
                       direction: DismissDirection.endToStart,
@@ -37,8 +46,7 @@ class PaymentPage extends StatelessWidget {
                         // Firebase 삭제
                         await cardVm.deleteCard(cardVm.cardDataList[index]);
                       },
-                      background:
-                          Container(color: Colors.red), // Red color on swipe
+                      background: Container(color: Colors.red),
                       child: CreditCardWidget(
                         obscureCardNumber: true,
                         obscureCardCvv: true,
@@ -48,7 +56,7 @@ class PaymentPage extends StatelessWidget {
                         cardHolderName: 'CARD',
                         cvvCode: data.cvc,
                         chipColor: Colors.amber,
-                        cardBgColor: Colors.black,
+                        cardBgColor: cardColor,
                         showBackView: false,
                         onCreditCardWidgetChange: (CreditCardBrand) {},
                       ),
@@ -66,8 +74,8 @@ class PaymentPage extends StatelessWidget {
                     Get.bottomSheet(
                       Container(
                         height: 420.h,
-                        color: Colors.white,
-                        child: cardwidget(context),
+                        color: Theme.of(context).colorScheme.background,
+                        child: cardwidget(context, cardVm.cardDataList.length),
                       ),
                       isScrollControlled: true,
                       isDismissible: false,

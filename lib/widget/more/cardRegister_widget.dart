@@ -7,9 +7,13 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget cardwidget(BuildContext context) {
+Widget cardwidget(BuildContext context, cardCount) {
   final cardobs = Get.put(CardGet());
   final cardVm = Get.put(CardVm());
+
+  // 카드 색상
+  List<Color> colors = [Colors.grey, Colors.blue, Colors.green];
+  Color cardColor = colors[cardCount];
   return Column(
     children: [
       Obx(
@@ -23,7 +27,7 @@ Widget cardwidget(BuildContext context) {
           cardHolderName: 'CARD', // 카드 이름
           cvvCode: cardobs.stCardcvc.value, // cvc
           chipColor: Colors.amber,
-          cardBgColor: Colors.black,
+          cardBgColor: cardColor,
           showBackView: false,
           onCreditCardWidgetChange: (CreditCardBrand) {},
         ),
@@ -128,7 +132,10 @@ Widget cardwidget(BuildContext context) {
             Get.back();
           },
           style: primaryButtonStyle(context),
-          child: const Text("등록하기"),
+          child: Text(
+            "등록하기",
+            style: TextStyle(color: Theme.of(context).colorScheme.background),
+          ),
         ),
       ),
       SizedBox(
@@ -138,7 +145,10 @@ Widget cardwidget(BuildContext context) {
             Get.back();
           },
           style: primaryButtonStyle(context),
-          child: const Text("돌아가기"),
+          child: Text(
+            "돌아가기",
+            style: TextStyle(color: Theme.of(context).colorScheme.background),
+          ),
         ),
       )
     ],
