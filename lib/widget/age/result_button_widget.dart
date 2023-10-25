@@ -1,3 +1,4 @@
+import 'package:final_main_project/components/more/charge_components.dart';
 import 'package:final_main_project/styles/button_style.dart';
 import 'package:final_main_project/styles/text_style.dart';
 import 'package:final_main_project/components/age/age_result.dart';
@@ -6,8 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget resultButtonWidget(context, coin) {
-
-
   return ElevatedButton(
     style: secondaryButtonStyle(context),
     onPressed: () {
@@ -74,6 +73,14 @@ Widget resultButtonWidget(context, coin) {
               TextButton(
                 onPressed: () {
                   Get.back();
+                  Get.bottomSheet(
+                    Container(
+                      height: 600.h,
+                      color: Colors.white,
+                      child: const ChargeWidget(),
+                    ),
+                    isScrollControlled: true,
+                  );
                 },
                 child: const Text('확인'),
               ),
