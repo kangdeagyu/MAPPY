@@ -23,7 +23,7 @@ class UserPage extends StatelessWidget {
                     readOnly: true,
                     controller: Get.find<MyPageVM>().uidController,
                     decoration: const InputDecoration(
-                      labelText: "아이디",
+                      labelText: "계정",
                     ),
                   ),
                 ),
@@ -63,13 +63,15 @@ class UserPage extends StatelessWidget {
                   child: TextField(
                     controller: Get.find<MyPageVM>().uinsertdateController,
                     decoration: const InputDecoration(
-                      labelText: "가입날짜",
+                      labelText: "회원가입 일자",
                     ),
                     readOnly: true,
                   ),
                 ),
                 Text(
-                  "비밀번호 ${Get.find<MyPageVM>().passCheck}",
+                  Get.find<MyPageVM>().passCheck.isNotEmpty
+                      ? "비밀번호 ${Get.find<MyPageVM>().passCheck}"
+                      : "",
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -80,9 +82,13 @@ class UserPage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         print("Elevated Button");
+                        Get.find<MyPageVM>().deleteFirebase();
+                        deletesnackBarsFunction();
+
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(128, 255, 64, 128), // 버튼 배경색
+                        backgroundColor:
+                            Color.fromARGB(128, 255, 64, 128), // 버튼 배경색
                         foregroundColor: Colors.white, // 버튼 글씨색
                         shape: RoundedRectangleBorder(
                           //  버튼 모양 깎기
@@ -95,7 +101,12 @@ class UserPage extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        print("Elevated Button");
+                        var rs = Get.find<MyPageVM>().updateFirebase();
+                        if (rs) {
+                          _SuccessAlert();
+                        } else {
+                          _FailAlert();
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFFF4081), // 버튼 배경색
@@ -120,4 +131,77 @@ class UserPage extends StatelessWidget {
   }
 
 // functions
-}
+//  비번이 일치하지 않을때
+  _FailAlert() {
+    Get.defaultDialog(
+      title: "Fail",
+      middleText: "회원정보를 확인해주세요",
+      barrierDismissible: false,
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: () => Get.back(),
+              child: const Text(
+                "OK",
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  //  비번이 일치하지 않을때
+  _SuccessAlert() {
+    Get.defaultDialog(
+      title: "Success",
+      middleText: "수정이 완료되었습니다.\n다시 로그인 해주세요.",
+      barrierDismissible: false,
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: () {
+                Get.back();
+                Get.back();
+                Get.back();
+              },
+              child: const Text(
+                "OK",
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+// 회원탈퇴시 
+  deletesnackBarsFunction() {
+    Get.defaultDialog(
+      middleText: "탈퇴되었습니다.",
+      barrierDismissible: false,
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: () {
+                Get.back();
+                Get.back();
+                Get.back();
+              },
+              child: const Text(
+                "OK",
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+
+}//end

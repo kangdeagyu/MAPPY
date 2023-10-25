@@ -15,12 +15,13 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver{
+class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
   // property
   bool _passwordVisible = false;
   late TextEditingController uidController;
   late TextEditingController upasswordController;
   bool _visibility = true;
+  int deleted = 0;
 
   late AppLifecycleState _lastLifeCycleState;
 
@@ -31,7 +32,8 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver{
     upasswordController = TextEditingController(text: "");
 
     WidgetsBinding.instance.addObserver(this);
-    _initSharedPreferences(uidController,upasswordController); // Shared Preference 초기화
+    _initSharedPreferences(
+        uidController, upasswordController); // Shared Preference 초기화
   }
 
   //  ID PW 지우기    앱상태로 프린트찍기  => Observer
@@ -52,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver{
         print("paused");
         break;
       case AppLifecycleState.hidden:
-        // TODO: Handle this case.
+      // TODO: Handle this case.
     }
     _lastLifeCycleState = state;
     super.didChangeAppLifecycleState(state);
@@ -167,16 +169,24 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver{
                         ],
                       ),
                       ElevatedButton(
-                        onPressed: () async{
-                          Future<int> rs = loginCheck(uidController.text.trim(),upasswordController.text.trim());
+                        onPressed: () async {
+                          Future<int> rs = loginCheck(uidController.text.trim(),
+                              upasswordController.text.trim());
                           int rsNum = await rs;
-                          if (rsNum == 1 ){
+                          if (rsNum == 1) {
                             // 로그인 성공
-                            _saveSharedPreferences(uidController,upasswordController);
+                            _saveSharedPreferences(
+                                uidController, upasswordController);
                             Get.to(const TabBarScreen());
-                          }else{
+                          } else {
                             // 로그인 실패
-                            _FailAlert();
+                            if (deleted == 0) {
+                              // 로그인 실패사유: 아이디비번 불일치
+                              _FailAlert();
+                            } else {
+                              // 로그인 실패사유 : 탈퇴회원
+                              _FailAlert2();
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -241,7 +251,6 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver{
                       ElevatedButton(
                         onPressed: () {
                           kakao();
-                          
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -271,82 +280,84 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver{
       ),
     );
   }
-}
 
 // // functions
 
-kakao() async {
-  // 카카오 로그인 구현 예제
+  kakao() async {
+    // 카카오 로그인 구현 예제
 
 // 카카오톡 실행 가능 여부 확인
 // 카카오톡 실행이 가능하면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
-  if (await isKakaoTalkInstalled()) {
-    try {
-      await UserApi.instance.loginWithKakaoTalk();
-      print('카카오톡으로 로그인 성공');
-    } catch (error) {
-      print('카카오톡으로 로그인 실패 $error');
+    if (await isKakaoTalkInstalled()) {
+      try {
+        await UserApi.instance.loginWithKakaoTalk();
+        print('카카오톡으로 로그인 성공');
+      } catch (error) {
+        print('카카오톡으로 로그인 실패 $error');
 
-      // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
-      // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
-      if (error is PlatformException && error.code == 'CANCELED') {
-        return;
+        // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
+        // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
+        if (error is PlatformException && error.code == 'CANCELED') {
+          return;
+        }
+        // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
+        try {
+          await UserApi.instance.loginWithKakaoAccount();
+          print('카카오계정으로 로그인 성공');
+        } catch (error) {
+          print('카카오계정으로 로그인 실패 $error');
+        }
       }
-      // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
+    } else {
       try {
         await UserApi.instance.loginWithKakaoAccount();
         print('카카오계정으로 로그인 성공');
+        User user = await UserApi.instance.me();
+        print('사용자 정보 요청 성공'
+            '\n회원번호: ${user.id}'
+            '\n이메일: ${user.kakaoAccount?.email}');
+
+        //  이메일이 회원가입이 되어있는지 아닌지 확인하기
+        Future<int> rsNum = kakaoidCheck(user.kakaoAccount?.email);
+        int rs = await rsNum;
+        print("중복은${rs}");
+        if (rs == 1) {
+          //_showDialog();
+          _ksaveSharedPreferences(user.kakaoAccount?.email);
+          Get.to(const TabBarScreen());
+        } else {
+          //toSignUp(user.kakaoAccount?.email);
+        }
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
       }
     }
-  } else {
-    try {
-      await UserApi.instance.loginWithKakaoAccount();
-      print('카카오계정으로 로그인 성공');
-      User user = await UserApi.instance.me();
-      print('사용자 정보 요청 성공'
-          '\n회원번호: ${user.id}'
-          '\n이메일: ${user.kakaoAccount?.email}');
-
-      //  이메일이 회원가입이 되어있는지 아닌지 확인하기
-      Future<int> rsNum = kakaoidCheck(user.kakaoAccount?.email);
-      int rs = await rsNum;
-      print("중복은${rs}");
-      if (rs == 1) {
-        //_showDialog();
-        _ksaveSharedPreferences(user.kakaoAccount?.email);
-        Get.to(const TabBarScreen());
-      } else {
-        //toSignUp(user.kakaoAccount?.email);
-      }
-    } catch (error) {
-      print('카카오계정으로 로그인 실패 $error');
-    }
   }
-}
 
 // 파이어베이스 DB에서 카카오아이디 중복체크하기
-Future<int> kakaoidCheck(String? id) async {
-  QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-      .collection("user")
-      .where("uid", isEqualTo: id)
-      .get();
-  int count = querySnapshot.size; // 문서 개수 세기
-  return count;
-}
+  Future<int> kakaoidCheck(String? id) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("user")
+        .where("uid", isEqualTo: id)
+        .where("udeleted", isEqualTo: 0)
+        .get();
+    int count = querySnapshot.size; // 문서 개수 세기
+    deleted = querySnapshot.docs[0]["udelelted"];
+    return count;
+  }
 
-
-// 파이어베이스 DB에서 카카오아이디 중복체크하기
-Future<int> loginCheck(String id,String pw) async {
-  QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-      .collection("user")
-      .where("uid", isEqualTo: id)
-      .where("upassword", isEqualTo: pw)
-      .get();
-  int count = querySnapshot.size; // 문서 개수 세기
-  return count;
-}
+// 파이어베이스 DB에서 아이디 중복체크하기
+  Future<int> loginCheck(String id, String pw) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("user")
+        .where("uid", isEqualTo: id)
+        .where("upassword", isEqualTo: pw)
+        .where("udeleted", isEqualTo: 0)
+        .get();
+    int count = querySnapshot.size; // 문서 개수 세기
+    // deleted = querySnapshot.docs[0]["udelelted"];
+    return count;
+  }
 
 // 아이디 비번이 일치하지 않을때
   _FailAlert() {
@@ -370,15 +381,37 @@ Future<int> loginCheck(String id,String pw) async {
     );
   }
 
+// 탈퇴된회원
+  _FailAlert2() {
+    Get.defaultDialog(
+      title: "로그인실패",
+      middleText: "탈퇴된 계정입니다.",
+      barrierDismissible: false,
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: () => Get.back(),
+              child: const Text(
+                "OK",
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 
   // Shared Preferneces
 
-  _initSharedPreferences(TextEditingController id,TextEditingController pw) async {
+  _initSharedPreferences(
+      TextEditingController id, TextEditingController pw) async {
     // shared preference 인스턴스 생성
-    final Future<SharedPreferences> preference = SharedPreferences.getInstance();
+    final Future<SharedPreferences> preference =
+        SharedPreferences.getInstance();
     final SharedPreferences prefs = await preference;
 
-    
     id.text = prefs.getString("p_userId") ?? ""; // null 이면 빈문자를 넣는다.
     pw.text = prefs.getString("p_password") ?? "";
 
@@ -387,12 +420,14 @@ Future<int> loginCheck(String id,String pw) async {
     // 앱을 종료시 정리하여야 한다.
   }
 
-  _saveSharedPreferences(TextEditingController id,TextEditingController pw) async {
+  _saveSharedPreferences(
+      TextEditingController id, TextEditingController pw) async {
     // ID PW 를 저장함
     final prefernece = await SharedPreferences.getInstance();
     prefernece.setString("p_userId", id.text.trim());
     prefernece.setString("p_password", pw.text.trim());
   }
+
   _ksaveSharedPreferences(String? id) async {
     // ID PW 를 저장함
     final prefernece = await SharedPreferences.getInstance();
@@ -404,3 +439,4 @@ Future<int> loginCheck(String id,String pw) async {
     final prefernece = await SharedPreferences.getInstance();
     prefernece.clear();
   }
+}//end

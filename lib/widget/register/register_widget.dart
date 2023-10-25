@@ -217,6 +217,7 @@ insertActionFirebase(VisibleController controller) {
       "uname": controller.infoList[2],
       "ubirth": controller.infoList[3],
       "uinsertdate": now,
+      "udeleted": 0,
       "coin": 100,
     });
     _showDialog(controller);
