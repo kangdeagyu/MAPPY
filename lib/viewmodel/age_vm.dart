@@ -19,7 +19,8 @@ class AgeVM extends GetxController {
   var displayGuide1 = false.obs; // 두 번째 대화창 상태
   var displayGuide2 = false.obs; // 세 번째 대화창 상태
 
-  AgeResult result = AgeResult( // 결과모델 초기화
+  Rx<AgeResult> result = AgeResult(
+    // 결과모델 초기화
     age: '',
     percent10: 0,
     percent20: 0,
@@ -28,10 +29,10 @@ class AgeVM extends GetxController {
     percent50: 0,
     percent60: 0,
     percent70: 0,
-  );
+  ).obs;
 
   RxInt myCoin = 0.obs; // 실시간 관리 위해 obs 사용
-  String userName = ''; // 유저이름 저장
+  RxString userName = ''.obs; // 유저이름 저장
 
   // Function
   @override
@@ -62,58 +63,61 @@ class AgeVM extends GetxController {
         final response = await http.Response.fromStream(streamedResponse);
         final data = response.body;
         final parsedData = json.decode(data);
-        result = AgeResult.fromJson(parsedData);
+        result.value = AgeResult.fromJson(parsedData);
 
-        print('성공!!$result');
+        // 일반 변수이기 때문에
+        update();
+
+        //print('성공!!$result');
       } else {
         // 서버 응답이 실패인 경우
-        print('업로드 실패: ${streamedResponse.reasonPhrase}');
+        // print('업로드 실패: ${streamedResponse.reasonPhrase}');
       }
     } catch (e) {
       // 오류 처리
-      print('업로드 중 오류 발생: $e');
+      // print('업로드 중 오류 발생: $e');
     }
   }
 
   // 이미지 보내 잘린 얼굴 이미지 받기
   Future<void> getCroppedImage() async {
-  final url = Uri.parse('http://127.0.0.1:5000/FaceModel/faceCrop');
-  var request = http.MultipartRequest('POST', url);
+    final url = Uri.parse('http://127.0.0.1:5000/FaceModel/faceCrop');
+    var request = http.MultipartRequest('POST', url);
 
-  request.files.add(
-    await http.MultipartFile.fromPath(
-      'file', // 서버에서 사용할 필드 이름
-      faceImage.value!.path, // 이미지 파일 경로
-    ),
-  );
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'file', // 서버에서 사용할 필드 이름
+        faceImage.value!.path, // 이미지 파일 경로
+      ),
+    );
 
-  try {
-    var streamedResponse = await request.send();
-    if (streamedResponse.statusCode == 200) {
-      // 서버 응답이 성공인 경우
-      final response = await http.Response.fromStream(streamedResponse);
-      final data = response.bodyBytes;  // 이미지 데이터를 byte로 받아옵니다.
+    try {
+      var streamedResponse = await request.send();
+      if (streamedResponse.statusCode == 200) {
+        // 서버 응답이 성공인 경우
+        final response = await http.Response.fromStream(streamedResponse);
+        final data = response.bodyBytes; // 이미지 데이터를 byte로 받아옵니다.
 
-      // 받아온 이미지 데이터를 임시 파일로 저장합니다.
-      final file = await File('${faceImage.value!.path}_cropped.jpg').writeAsBytes(data);
+        // 받아온 이미지 데이터를 임시 파일로 저장합니다.
+        final file = await File('${faceImage.value!.path}_cropped.jpg')
+            .writeAsBytes(data);
 
-      // 임시 파일을 XFile로 변환하고, Rx<XFile?> 변수에 저장합니다.
-      File resizedImage = await resizeImage(file.path, 250.h);
-      croppedFaceImage.value = XFile(resizedImage.path);
+        // 임시 파일을 XFile로 변환하고, Rx<XFile?> 변수에 저장합니다.
+        File resizedImage = await resizeImage(file.path, 250.h);
+        croppedFaceImage.value = XFile(resizedImage.path);
 
-      print('성공!!.');
-    } else {
-      // 서버 응답이 실패인 경우
-      print('업로드 실패: ${streamedResponse.reasonPhrase}');
-      // 이전 이미지가 저장되어있을 경우 비워주기. 답변 메시지가 이 값의 null 유무로 판단하기 때문!
-      croppedFaceImage.value = null;
+        // print('성공!!.');
+      } else {
+        // 서버 응답이 실패인 경우
+        // print('업로드 실패: ${streamedResponse.reasonPhrase}');
+        // 이전 이미지가 저장되어있을 경우 비워주기. 답변 메시지가 이 값의 null 유무로 판단하기 때문!
+        croppedFaceImage.value = null;
+      }
+    } catch (e) {
+      // 오류 처리
+      // print('업로드 중 오류 발생: $e');
     }
-  } catch (e) {
-    // 오류 처리
-    print('업로드 중 오류 발생: $e');
   }
-}
-
 
   // 코인 차감.
   Future<void> useCoin(int price) async {
@@ -134,7 +138,7 @@ class AgeVM extends GetxController {
         });
       }
     } catch (error) {
-      print("코인 수정 오류: $error");
+      // print("코인 수정 오류: $error");
     }
   }
 
@@ -152,7 +156,7 @@ class AgeVM extends GetxController {
         }
       });
     } catch (error) {
-      print("코인 가져오기 오류: $error");
+      // print("코인 가져오기 오류: $error");
     }
   }
 
@@ -160,15 +164,17 @@ class AgeVM extends GetxController {
   Future<void> getUserName() async {
     try {
       String userId = await loadUserID();
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      FirebaseFirestore.instance
           .collection("user")
           .where("uid", isEqualTo: userId)
-          .get();
-      if (querySnapshot.docs.isNotEmpty) {
-        userName = querySnapshot.docs[0]['uname'];
-      }
+          .snapshots()
+          .listen((querySnapshot) {
+        if (querySnapshot.docs.isNotEmpty) {
+          userName.value = querySnapshot.docs[0]['uname'];
+        }
+      });
     } catch (error) {
-      print("유저이름 가져오기 오류: $error");
+      // print("유저이름 가져오기 오류: $error");
     }
   }
 
@@ -189,8 +195,8 @@ class AgeVM extends GetxController {
     showMessage();
   }
 
+  // 갤러리 열기
   getGalleryImage() async {
-    // 갤러리 열기
     ImagePicker picker = ImagePicker();
     XFile? pickedImage = await picker.pickImage(
       source: ImageSource.gallery,
@@ -208,8 +214,8 @@ class AgeVM extends GetxController {
     await getCroppedImage();
   }
 
+  // 카메라 열기
   getCameraImage() async {
-    // 카메라 열기
     ImagePicker picker = ImagePicker();
     XFile? pickedImage = await picker.pickImage(
       source: ImageSource.camera,
@@ -222,10 +228,11 @@ class AgeVM extends GetxController {
 
       faceImage.value = XFile(resizedImage.path);
     }
-    updateFaceImage();
-    getCroppedImage();
+    await updateFaceImage();
+    await getCroppedImage();
   }
 
+  // 이미지 리사이즈
   Future<File> resizeImage(String imagePath, double maxHeight) async {
     File imageFile = File(imagePath);
 
@@ -240,14 +247,14 @@ class AgeVM extends GetxController {
     return resizedFile;
   }
 
+  // 이미지가 등록되면 잠시 후 답변글이 올라오게.
   updateFaceImage() {
-    // 이미지가 등록되면 1초 후 답변글이 올라오게.
     Future.delayed(
-        const Duration(milliseconds: 800), () => displayAnswer.value = true);
+        const Duration(milliseconds: 1200), () => displayAnswer.value = true);
   }
 
+  // 화면 시작 시 메시지를 단계적으로 보여주기 위해.
   showMessage() {
-    // 화면 시작 시 메시지를 단계적으로 보여주기 위해.
     Future.delayed(const Duration(milliseconds: 700), () {
       displayGreeting.value = true;
       Future.delayed(const Duration(milliseconds: 900), () {
