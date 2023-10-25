@@ -13,12 +13,12 @@ class AgeVM extends GetxController {
   var displayGreeting = false.obs;
   var displayGuide1 = false.obs;
   var displayGuide2 = false.obs;
-  
+
   RxInt myCoin = 0.obs; // 실시간 관리 위해 obs 사용
   String userName = '';
-  
+
   // Function
-@override
+  @override
   void onInit() {
     super.onInit();
     checkCoin();
@@ -26,14 +26,19 @@ class AgeVM extends GetxController {
     loadUserID();
   }
 
-  // 보유 코인 개수 가져오기
+  //보유 코인 개수 가져오기
+
   Future<void> checkCoin() async {
     String userId = await loadUserID();
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection("user")
         .where("uid", isEqualTo: userId)
-        .get();
+        .snapshots()
+        .listen((querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
         myCoin.value = querySnapshot.docs[0]['coin'];
+      }
+    });
   }
 
   // 유저 이름 가져오기
@@ -43,18 +48,18 @@ class AgeVM extends GetxController {
         .collection("user")
         .where("uid", isEqualTo: userId)
         .get();
-        userName = querySnapshot.docs[0]['uname'];
+    userName = querySnapshot.docs[0]['uname'];
   }
 
   // 유저 아이디 들고오기
   Future<String> loadUserID() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String userId = prefs.getString("p_userId")!;
-      return userId;
-    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = prefs.getString("p_userId")!;
+    return userId;
+  }
 
-
-  resetValues() { // 화면 초기화를 위한 변수 리셋
+  resetValues() {
+    // 화면 초기화를 위한 변수 리셋
     faceImage.value = null;
     displayAnswer.value = false;
     displayGuide1.value = false;
@@ -63,7 +68,8 @@ class AgeVM extends GetxController {
     showMessage();
   }
 
-  getGalleryImage() async { // 갤러리 열기
+  getGalleryImage() async {
+    // 갤러리 열기
     ImagePicker picker = ImagePicker();
     XFile? pickedImage = await picker.pickImage(
       source: ImageSource.gallery,
@@ -79,7 +85,8 @@ class AgeVM extends GetxController {
     updateFaceImage();
   }
 
-  getCameraImage() async { // 카메라 열기
+  getCameraImage() async {
+    // 카메라 열기
     ImagePicker picker = ImagePicker();
     XFile? pickedImage = await picker.pickImage(
       source: ImageSource.camera,
@@ -109,13 +116,14 @@ class AgeVM extends GetxController {
     return resizedFile;
   }
 
-
-  updateFaceImage() { // 이미지가 등록되면 1초 후 답변글이 올라오게.
+  updateFaceImage() {
+    // 이미지가 등록되면 1초 후 답변글이 올라오게.
     Future.delayed(
         const Duration(seconds: 1), () => displayAnswer.value = true);
   }
 
-  showMessage() { // 화면 시작 시 메시지를 단계적으로 보여주기 위해.
+  showMessage() {
+    // 화면 시작 시 메시지를 단계적으로 보여주기 위해.
     Future.delayed(const Duration(milliseconds: 700), () {
       displayGreeting.value = true;
       Future.delayed(const Duration(seconds: 1), () {

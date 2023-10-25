@@ -44,8 +44,7 @@ class AgePrediction extends StatelessWidget {
           const SizedBox(
             width: 5,
           ),
-          Obx(() {
-            // 코인 변화 rx로 실시간관리
+          Obx(() { // 코인 변화 rx로 실시간관리
             return Text(
               vm.myCoin.value.toString(),
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),

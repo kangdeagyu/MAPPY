@@ -33,7 +33,7 @@ Widget answerAreaWidget(context) {
                     SizedBox(
                       height: 10.h,
                     ),
-                    resultButtonWidget(context),
+                    resultButtonWidget(context, vm.myCoin.toInt()),
                   ],
                 ),
               ),
