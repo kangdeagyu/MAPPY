@@ -2,7 +2,7 @@ import 'package:final_main_project/viewmodel/theme_obs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-Widget etcWidget() {
+Widget etcWidget(BuildContext context) {
   final ThemeController themeController = Get.put(ThemeController());
 
   return Column(
@@ -23,10 +23,10 @@ Widget etcWidget() {
                 ),
               ),
             ),
-            const Text(
+            Text(
               '기타',
               style: TextStyle(
-                color: Color(0xFF2F9BFF),
+                color: Theme.of(context).colorScheme.primary,
                 fontSize: 20,
                 fontFamily: 'Lato',
                 fontWeight: FontWeight.w700,
