@@ -5,7 +5,7 @@ class User{
   final String uid;
   final String upassword;
   final String uname;
-  final String birth;
+  final String ubirth;
   final Timestamp dateTime;
 
 
@@ -13,7 +13,7 @@ class User{
     required this.uid,
     required this.upassword,
     required this.uname,
-    required this.birth,
+    required this.ubirth,
     required this.dateTime,
   });
 
