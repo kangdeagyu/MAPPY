@@ -61,23 +61,23 @@ class ChargeWidget extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                coinTile("코인 32개", "₩ 1,500"),
+                coinTile("코인 32개", "₩ 1,500", context),
                 const SizedBox(
                   height: 20,
                 ),
-                coinTile("코인 64개", "₩ 3,000"),
+                coinTile("코인 64개", "₩ 3,000", context),
                 const SizedBox(
                   height: 20,
                 ),
-                coinTile("코인 96개", "₩ 4,400"),
+                coinTile("코인 96개", "₩ 4,400", context),
                 const SizedBox(
                   height: 20,
                 ),
-                coinTile("코인 165개", "₩ 7,500"),
+                coinTile("코인 165개", "₩ 7,500", context),
                 const SizedBox(
                   height: 20,
                 ),
-                coinTile("코인 340개", "₩ 15,000"),
+                coinTile("코인 340개", "₩ 15,000", context),
               ],
             ),
           )
