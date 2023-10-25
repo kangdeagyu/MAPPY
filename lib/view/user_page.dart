@@ -38,8 +38,8 @@ class UserPage extends StatelessWidget {
                     // ),
                     child: Image.asset(
                       "assets/images/flower.gif",
-                      width: 400.w,
-                      height: 450.h,
+                      width: 370.w,
+                      height: 420.h,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -49,6 +49,9 @@ class UserPage extends StatelessWidget {
                     child: Container(
                       child: Column(
                         children: [
+                          SizedBox(
+                            height: 70.h,
+                          ),
                           SizedBox(
                             width: 250,
                             child: TextField(
