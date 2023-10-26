@@ -220,6 +220,21 @@ insertActionFirebase(VisibleController controller) {
       "udeleted": 0,
       "coin": 100,
     });
+
+    // 'chat' 컬렉션 참조
+    CollectionReference chat = FirebaseFirestore.instance.collection('chat');
+    
+    // 'userid'를 문서로 사용
+    DocumentReference userDoc = chat.doc(controller.infoList[0]);
+
+    // 해당 'userid' 문서 아래의 'messages' 컬렉션 참조
+    CollectionReference messages = userDoc.collection('messages');
+    messages.add({
+      'speaker': "seah",
+      'content': '안녕하세요. 저는 심리케어 서비스를 제공하는 AI 세아 입니다. 자유롭게 대화해주세요! ☺️',
+      'insertdate': Timestamp.fromDate(DateTime.now()),
+    });
+
     _showDialog(controller);
   } else {
     errorSnackBar();
