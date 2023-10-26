@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PurchaseVM extends GetxController {
   var isProcessing = false.obs;
+  var isComplete = false.obs;
   var uId = ''.obs;
 
   @override
@@ -52,13 +53,14 @@ class PurchaseVM extends GetxController {
     isProcessing.value = true;
 
     await Future.delayed(const Duration(seconds: 2));
+    isProcessing.value = false;
+
+    isComplete.value = true;
+    await Future.delayed(const Duration(milliseconds: 500));
     await updateCoin(coin);
 
     Get.back();
     Get.back();
-
-    Get.snackbar("결제 완료", "결제가 완료되었습니다.", snackPosition: SnackPosition.BOTTOM);
-
-    isProcessing.value = false;
+    isComplete.value = false;
   }
 }
