@@ -90,7 +90,7 @@ Widget answerAreaWidget(BuildContext context) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('아쉽지만 얼굴을 인식하지 못했어요. 사진을 다시 올려주세요.'),
+                  const Text('아쉽지만 얼굴을 인식하지 못했어요.\n사진을 다시 올려주세요.'),
                   SizedBox(height: 10.h),
                   Center(
                     child: uploadImageButton(

@@ -14,10 +14,11 @@ class AgeVM extends GetxController {
   // Property
   var faceImage = Rx<XFile?>(null); // 선택된 사진 파일 저장
   var croppedFaceImage = Rx<XFile?>(null); // 인식된 얼굴 사진 파일로 저장
-  var displayAnswer = false.obs; // 답변 대화창 상태
-  var displayGreeting = false.obs; // 첫 대화창 상태
-  var displayGuide1 = false.obs; // 두 번째 대화창 상태
-  var displayGuide2 = false.obs; // 세 번째 대화창 상태
+  
+  RxBool displayAnswer = false.obs; // 답변 대화창 상태
+  RxBool displayGreeting = false.obs; // 첫 대화창 상태
+  RxBool displayGuide1 = false.obs; // 두 번째 대화창 상태
+  RxBool displayGuide2 = false.obs; // 세 번째 대화창 상태
 
   Rx<AgeResult> result = AgeResult(
     // 결과모델 초기화
