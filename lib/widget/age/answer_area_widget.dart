@@ -132,7 +132,7 @@ Widget answerAreaWidget(BuildContext context) {
         ),
       );
     } else { 
-      // 기본 상태일 때
+      // 초기 상태일 때
       return Container();
     }
   });

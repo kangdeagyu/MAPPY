@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:final_main_project/styles/button_style.dart';
 import 'package:final_main_project/styles/text_style.dart';
 import 'package:final_main_project/viewmodel/age_vm.dart';
@@ -28,12 +30,20 @@ class _AgeResultScreenState extends State<AgeResultScreen> {
           () => Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(
+                width: 230.w,
+                height: 230.h,
+                child: Image.file(File(vm.croppedFaceImage.value!.path))
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
               Text(
                 '당신의 나이는 ${result.value.age}입니다.',
                 style: onBackgroundTextStyle(context, 25),
               ),
               SizedBox(
-                height: 30.h,
+                height: 20.h,
               ),
               agePercentWidget(
                   context, 10, result.value.percent10 * 100, Colors.red),

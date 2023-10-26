@@ -39,6 +39,7 @@ class AgeVM extends GetxController {
 
   // Function
   @override
+  // 앱 실행 후 바로 firebase에서 정보 가져오기
   void onInit() {
     super.onInit();
     checkCoin();
