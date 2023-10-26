@@ -1,5 +1,6 @@
 import 'package:final_main_project/viewmodel/theme_obs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget etcWidget(BuildContext context) {
@@ -8,8 +9,8 @@ Widget etcWidget(BuildContext context) {
   return Column(
     children: [
       SizedBox(
-        width: 350,
-        height: 30,
+        width: 320.w,
+        height: 30.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -22,6 +23,9 @@ Widget etcWidget(BuildContext context) {
                   image: AssetImage('assets/images/setting.png'),
                 ),
               ),
+            ),
+            SizedBox(
+              width: 5.w,
             ),
             Text(
               '기타',

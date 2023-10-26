@@ -1,12 +1,15 @@
+import 'package:final_main_project/viewmodel/age_vm.dart';
 import 'package:final_main_project/widget/more/charge_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class ChargeWidget extends StatelessWidget {
   const ChargeWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final vm = Get.put(AgeVM());
     return Scaffold(
       appBar: AppBar(
         title: const Text('코인 구매'),
@@ -37,15 +40,20 @@ class ChargeWidget extends StatelessWidget {
                 color: Colors.green,
                 size: 25,
               ),
-              Text(
-                '0',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onBackground,
-                  fontSize: 30,
-                  fontFamily: 'Lato',
-                  fontWeight: FontWeight.w700,
-                  height: 0,
-                ),
+              Obx(
+                () {
+                  // 코인 변화 rx로 실시간관리
+                  return Text(
+                    vm.myCoin.value.toString(),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 20,
+                      fontFamily: 'Lato',
+                      fontWeight: FontWeight.w700,
+                      height: 0,
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -61,23 +69,23 @@ class ChargeWidget extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                coinTile("코인 32개", "₩ 1,500"),
+                coinTile("코인 32개", "₩ 1,500", context),
                 const SizedBox(
                   height: 20,
                 ),
-                coinTile("코인 64개", "₩ 3,000"),
+                coinTile("코인 64개", "₩ 3,000", context),
                 const SizedBox(
                   height: 20,
                 ),
-                coinTile("코인 96개", "₩ 4,400"),
+                coinTile("코인 96개", "₩ 4,400", context),
                 const SizedBox(
                   height: 20,
                 ),
-                coinTile("코인 165개", "₩ 7,500"),
+                coinTile("코인 165개", "₩ 7,500", context),
                 const SizedBox(
                   height: 20,
                 ),
-                coinTile("코인 340개", "₩ 15,000"),
+                coinTile("코인 340개", "₩ 15,000", context),
               ],
             ),
           )

@@ -15,10 +15,6 @@ class AgePrediction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      vm.resetValues();
-    });
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -36,32 +32,50 @@ class AgePrediction extends StatelessWidget {
             Text('예나'),
           ],
         ),
-        actions: const [
-          Icon(
+        actions: [
+          const Icon(
             Icons.monetization_on,
             color: Colors.green,
             size: 25,
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
-          Text(
-            '100',
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
+          Obx(() { // 코인 변화 rx로 실시간관리
+            return Text(
+              '${vm.myCoin.value}',
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            );
+          }),
+          const SizedBox(
             width: 30,
           ),
         ],
       ),
       body: SingleChildScrollView(
+        reverse: true,
         child: Column(
           children: [
-            SizedBox(height: 10.h,),
-            messageAreaWidget(context, '안녕하세요 성민님!', 130.w, vm.displayGreeting),
-            SizedBox(height: 5.h,),
-            messageAreaWidget(context, '성민님의 얼굴 나이를 예측해보세요!\n10대에서 70대까지 확인 가능!!!', 210.w, vm.displayGuide1),
-            SizedBox(height: 5.h,),
+            SizedBox(
+              height: 10.h,
+            ),
+            Obx(() => 
+              messageAreaWidget(
+                context, '안녕하세요 ${vm.userName}님!', 130.w, vm.displayGreeting)
+            ),
+            SizedBox(
+              height: 5.h,
+            ),
+            Obx(() => 
+              messageAreaWidget(
+                context,
+                '${vm.userName}님의 얼굴 나이를 예측해보세요!\n10대에서 70대까지 확인 가능!!!',
+                210.w,
+                vm.displayGuide1),
+            ),
+            SizedBox(
+              height: 5.h,
+            ),
             guideAreaWidget(context),
             Padding(
               padding: EdgeInsets.all(5.0.h),

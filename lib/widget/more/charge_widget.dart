@@ -1,7 +1,9 @@
+import 'package:final_main_project/widget/more/select_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-Widget coinTile(String labelText, String buttonLabel) {
+Widget coinTile(String labelText, String buttonLabel, BuildContext context) {
   return Container(
     width: 340.w,
     height: 55.h,
@@ -38,8 +40,21 @@ Widget coinTile(String labelText, String buttonLabel) {
             height: 40.h,
             child: ElevatedButton(
               onPressed: () {
-                // 결제 카드등록 되어 있을시 바로결제
-                // 안되어 있으면 카드등록 페이지로
+                Get.bottomSheet(
+                  Container(
+                    height: 260.h,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                    child: selectCard(labelText, buttonLabel, context),
+                  ),
+                  isScrollControlled: true,
+                  isDismissible: false,
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.amber[300],

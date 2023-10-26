@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 
 Widget coinCharging(BuildContext context) {
   return Container(
-    width: 180,
-    height: 78,
+    width: 165.w,
+    height: 78.h,
     decoration: ShapeDecoration(
       color: Theme.of(context).colorScheme.onPrimary,
       shape: RoundedRectangleBorder(
@@ -20,7 +20,7 @@ Widget coinCharging(BuildContext context) {
       onPressed: () {
         Get.bottomSheet(
           Container(
-            height: 600.h,
+            height: 591.h,
             color: Colors.white,
             child: const ChargeWidget(),
           ),

@@ -12,6 +12,7 @@ class MyPageVM extends GetxController {
   late TextEditingController unameController;
   late TextEditingController uinsertdateController;
 
+
   // firebase에서 가져온 데이터 담아놓을 변수
   String ids = ""; // shared pref
   String docID = ""; // docID
@@ -33,6 +34,11 @@ class MyPageVM extends GetxController {
         initValueTF();
       });
     });
+
+    @override
+    void onClose() {
+      super.onClose();
+    }
 
     // onInit에서 초기화 작업을 수행할 수도 있습니다.
     uidController = TextEditingController(text: ids);
@@ -76,9 +82,9 @@ class MyPageVM extends GetxController {
   Future<void> selectFirebase() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("user")
-        .where("uid", isEqualTo: "wook")
+        .where("uid", isEqualTo: ids)
         .get();
-    docID = querySnapshot.docs[0].reference.id;
+    // docID = querySnapshot.docs[0].reference.id;
     User user = User(
         uid: querySnapshot.docs[0]["uid"],
         upassword: querySnapshot.docs[0]["upassword"],
@@ -106,8 +112,8 @@ class MyPageVM extends GetxController {
 // 회원정보수정
   bool updateFirebase() {
     if (upasswordController.text.trim() == upasswordController2.text.trim() &&
-        unameController.text.trim().isNotEmpty&&
-        upasswordController.text.trim().isNotEmpty&&
+        unameController.text.trim().isNotEmpty &&
+        upasswordController.text.trim().isNotEmpty &&
         upasswordController2.text.trim().isNotEmpty) {
       FirebaseFirestore.instance
           .collection("user")
@@ -129,19 +135,54 @@ class MyPageVM extends GetxController {
   }
 
   // firebase delete
-  deleteFirebase() {
-    FirebaseFirestore.instance
-        .collection("user")
-        .where("uid", isEqualTo: ids) // userId가 특정 값과 일치하는 문서 선택
-        .get()
-        .then((querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        var docId = querySnapshot.docs[0].id; // 선택한 문서의 ID 가져오기
-        FirebaseFirestore.instance
-            .collection("user")
-            .doc(docId)
-            .update({"udeleted": 1, "udeletedate": DateTime.now()});
-      }
-    });
+  bool deleteFirebase() {
+    if (upasswordController.text.trim() == upasswordController2.text.trim() &&
+        unameController.text.trim().isNotEmpty &&
+        upasswordController.text.trim().isNotEmpty &&
+        upasswordController2.text.trim().isNotEmpty) {
+      FirebaseFirestore.instance
+          .collection("user")
+          .where("uid", isEqualTo: ids) // userId가 특정 값과 일치하는 문서 선택
+          .get()
+          .then((querySnapshot) {
+        if (querySnapshot.docs.isNotEmpty) {
+          var docId = querySnapshot.docs[0].id; // 선택한 문서의 ID 가져오기
+          FirebaseFirestore.instance
+              .collection("user")
+              .doc(docId)
+              .update({"udeleted": 1, "udeletedate": DateTime.now()});
+        }
+      });
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  showD() {
+    Get.defaultDialog(
+      title: "ERROR",
+      middleText: "탈퇴를 진행하시려면 \n비밀번호를 입력해주세요",
+      barrierDismissible: false,
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Row(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: const Text(
+                    "확인",
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }//end

@@ -120,7 +120,7 @@ Widget cardwidget(BuildContext context, cardCount) {
             // firebase에 카드 등록
             CardModel newCard = CardModel(
               id: "",
-              uid: "wook",
+              uid: cardVm.uId.value,
               number: cardobs.stCardnumber.value,
               date: cardobs.stCarddate.value,
               cvc: cardobs.stCardcvc.value,
