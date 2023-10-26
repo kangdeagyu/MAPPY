@@ -11,30 +11,50 @@ Widget uploadImageButton(context, title, buttonStyle, vm) {
       Get.dialog(
         AlertDialog(
           content: SizedBox(
-            height: 100.h,
+            height: 120.h,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.camera_alt),
-                  label: const Text('카메라'),
-                  style: primaryButtonStyle(context),
-                  onPressed: () {
-                    Get.back();
-                    vm.getCameraImage();
-                  },
+                            children: [
+                const Text(
+                  '어떤 이미지를 사용하시겠어요?',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
                 ),
-                SizedBox(
-                  width: 15.w,
-                ),
-                ElevatedButton.icon(
-                  style: primaryButtonStyle(context),
-                  icon: const Icon(Icons.photo),
-                  label: const Text('갤러리'),
-                  onPressed: () {
-                    Get.back();
-                    vm.getGalleryImage();
-                  },
+                const SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Image.asset(
+                      'assets/images/yena_crop.png',
+                      height: 70.h,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                          icon: const Icon(Icons.camera_alt),
+                          label: const Text('카메라'),
+                          style: primaryButtonStyle(context),
+                          onPressed: () {
+                            Get.back();
+                            vm.getCameraImage();
+                          },
+                        ),
+                        SizedBox(
+                          width: 15.w,
+                        ),
+                        ElevatedButton.icon(
+                          style: primaryButtonStyle(context),
+                          icon: const Icon(Icons.photo),
+                          label: const Text('갤러리'),
+                          onPressed: () {
+                            Get.back();
+                            vm.getGalleryImage();
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
