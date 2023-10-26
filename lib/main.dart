@@ -13,12 +13,11 @@ import 'package:get/get.dart';
 
 void main() async {
   KakaoSdk.init(nativeAppKey: 'faa13ab1a0485a4e5528d40c061caaef');
-  runApp(MyApp());
-
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  runApp(MyApp());
 }
 
 const seedColor = Color(0xff309cff);
@@ -31,8 +30,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context){
-   
+  Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -52,11 +50,11 @@ class MyApp extends StatelessWidget {
                 ),
                 useMaterial3: true,
               ),
-              home: userid.uId.value.isNotEmpty? const TabBarScreen() : const LoginScreen(),
+              home: userid.uId.value.isNotEmpty
+                  ? const TabBarScreen()
+                  : const LoginScreen(),
             ));
       },
     );
   }
-
-
 }
