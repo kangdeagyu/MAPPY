@@ -327,6 +327,7 @@ class _ChatbotViewState extends State<ChatbotView>
                           },
                           child: const Text('취소'),
                         ),
+
                         TextButton(
                           onPressed: () async {
                             Get.back();
@@ -363,7 +364,7 @@ class _ChatbotViewState extends State<ChatbotView>
     DocumentReference tempRef = await output(userId!, "대화를 분석 중...");
     _scrollToBottom();
 
-    final url = 'http://127.0.0.1:5000/ChatModel/chat';
+    final url = 'http://18.218.101.241:5000/ChatModel/chat';
     final response = await http.post(
       Uri.parse(url),
       headers: {
@@ -410,7 +411,7 @@ class _ChatbotViewState extends State<ChatbotView>
 
 
   Future<DocumentReference> output(String userid, String content) async {
-        // 'chat' 컬렉션 참조
+    // 'chat' 컬렉션 참조
     CollectionReference chat = FirebaseFirestore.instance.collection('chat');
     
     // 'userid'를 문서로 사용
