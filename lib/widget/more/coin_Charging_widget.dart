@@ -4,18 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget coinCharging(BuildContext context) {
-  return Container(
-    width: 165.w,
+  return SizedBox(
+    width: 155.w,
     height: 78.h,
-    decoration: ShapeDecoration(
-      color: Theme.of(context).colorScheme.onPrimary,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          width: 1,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-      ),
-    ),
     child: TextButton.icon(
       onPressed: () {
         Get.bottomSheet(

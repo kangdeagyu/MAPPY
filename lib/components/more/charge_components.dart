@@ -63,11 +63,11 @@ class ChargeWidget extends StatelessWidget {
           Container(
             width: 360.w,
             height: 453.2.h,
-            color: Colors.grey,
+            color: Theme.of(context).colorScheme.onInverseSurface,
             child: Column(
               children: [
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 50.h,
                 ),
                 coinTile("코인 32개", "₩ 1,500", context),
                 const SizedBox(

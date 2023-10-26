@@ -29,7 +29,7 @@ class UseCoin extends StatelessWidget {
               width: 330.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.grey[200],
+                color: Theme.of(context).colorScheme.primaryContainer,
               ),
               child: Theme(
                 data: Theme.of(context)
@@ -38,7 +38,13 @@ class UseCoin extends StatelessWidget {
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("현재 보유 코인"),
+                      Text(
+                        "현재 보유 코인",
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer),
+                      ),
                       Row(
                         children: [
                           SizedBox(
