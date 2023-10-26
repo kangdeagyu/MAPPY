@@ -18,7 +18,6 @@ class AgeResultScreen extends StatefulWidget {
 class _AgeResultScreenState extends State<AgeResultScreen> {
   @override
   Widget build(BuildContext context) {
-
     final vm = Get.find<AgeVM>();
 
     var result = vm.result;
@@ -28,20 +27,24 @@ class _AgeResultScreenState extends State<AgeResultScreen> {
       body: Center(
         child: Obx(
           () => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                width: 230.w,
-                height: 230.h,
-                child: Image.file(File(vm.croppedFaceImage.value!.path))
-              ),
+                  width: 230.w,
+                  height: 230.h,
+                  child: Image.file(File(vm.croppedFaceImage.value!.path))),
               SizedBox(
                 height: 20.h,
               ),
-              Text(
-                '당신의 나이는 ${result.value.age}입니다.',
-                style: onBackgroundTextStyle(context, 25),
-              ),
+              (vm.result.value.age == '')
+                  ? Text(
+                      '',
+                      style: onBackgroundTextStyle(context, 25),
+                    )
+                  : Text(
+                      '당신의 나이는 ${result.value.age}입니다.',
+                      style: onBackgroundTextStyle(context, 25),
+                    ),
               SizedBox(
                 height: 20.h,
               ),

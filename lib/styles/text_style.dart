@@ -32,6 +32,6 @@ TextStyle buttonTextStyle(context) {
   return TextStyle(
     color: Theme.of(context).colorScheme.onTertiary,
     fontWeight: FontWeight.bold,
-    fontSize: 15,
+    fontSize: 14,
   );
 }

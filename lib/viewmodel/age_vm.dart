@@ -14,7 +14,7 @@ class AgeVM extends GetxController {
   // Property
   var faceImage = Rx<XFile?>(null); // 선택된 사진 파일 저장
   var croppedFaceImage = Rx<XFile?>(null); // 인식된 얼굴 사진 파일로 저장
-  
+
   RxBool displayAnswer = false.obs; // 답변 대화창 상태
   RxBool displayGreeting = false.obs; // 첫 대화창 상태
   RxBool displayGuide1 = false.obs; // 두 번째 대화창 상태
@@ -224,7 +224,7 @@ class AgeVM extends GetxController {
     ImagePicker picker = ImagePicker();
     XFile? pickedImage = await picker.pickImage(
       source: ImageSource.gallery,
-      imageQuality: 70,
+      imageQuality: 100,
     );
 
     if (pickedImage != null) {
@@ -243,7 +243,7 @@ class AgeVM extends GetxController {
     ImagePicker picker = ImagePicker();
     XFile? pickedImage = await picker.pickImage(
       source: ImageSource.camera,
-      imageQuality: 70,
+      imageQuality: 100,
     );
 
     if (pickedImage != null) {
@@ -279,6 +279,12 @@ class AgeVM extends GetxController {
 
   // 이전 예측 결과를 삭제.
   resetResults() {
+    faceImage.value = null;
+    displayAnswer.value = false;
+    displayGuide1.value = false;
+    displayGuide2.value = false;
+    displayGreeting.value = false;
+    showMessage();
     result.value = AgeResult(
       // 결과모델 초기화
       age: '',
@@ -293,15 +299,14 @@ class AgeVM extends GetxController {
   }
 
   // 화면 시작 시 메시지를 단계적으로 보여주기 위해.
-  showMessage() {
-    Future.delayed(const Duration(milliseconds: 700), () {
-      displayGreeting.value = true;
-      Future.delayed(const Duration(milliseconds: 900), () {
-        displayGuide1.value = true;
-        Future.delayed(const Duration(milliseconds: 1500), () {
-          displayGuide2.value = true;
-        });
-      });
-    });
+  Future showMessage() async {
+    await Future.delayed(const Duration(milliseconds: 700));
+    displayGreeting.value = true;
+
+    await Future.delayed(const Duration(milliseconds: 1100));
+    displayGuide1.value = true;
+
+    await Future.delayed(const Duration(milliseconds: 1100));
+    displayGuide2.value = true;
   }
 }

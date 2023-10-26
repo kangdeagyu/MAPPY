@@ -14,6 +14,10 @@ class AgePrediction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    vm.resetResults();
+    });
+
 
     return Scaffold(
       appBar: AppBar(
@@ -70,7 +74,7 @@ class AgePrediction extends StatelessWidget {
               messageAreaWidget(
                 context,
                 '${vm.userName}님의 얼굴 나이를 예측해보세요!\n10대에서 70대까지 확인 가능!!!',
-                210.w,
+                220.w,
                 vm.displayGuide1),
             ),
             SizedBox(
