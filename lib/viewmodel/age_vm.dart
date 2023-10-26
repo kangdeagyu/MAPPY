@@ -46,7 +46,7 @@ class AgeVM extends GetxController {
 
   // 이미지 보내 예측값 받기
   Future<void> sendFaceImage() async {
-    final url = Uri.parse('http://127.0.0.1:5000/FaceModel/faceAge');
+    final url = Uri.parse('http://18.218.101.241:5000/FaceModel/faceAge');
     var request = http.MultipartRequest('POST', url);
 
     request.files.add(
@@ -81,7 +81,7 @@ class AgeVM extends GetxController {
 
   // 이미지 보내 잘린 얼굴 이미지 받기
   Future<void> getCroppedImage() async {
-    final url = Uri.parse('http://127.0.0.1:5000/FaceModel/faceCrop');
+    final url = Uri.parse('http://18.218.101.241:5000/FaceModel/faceCrop');
     var request = http.MultipartRequest('POST', url);
 
     request.files.add(
