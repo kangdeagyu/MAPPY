@@ -1,16 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_main_project/model/payment_model.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PurchaseVM extends GetxController {
   var isProcessing = false.obs;
   var isComplete = false.obs;
+  RxInt myCoin = 0.obs;
+  var payments = RxList<HistoryModel>();
   var uId = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
-    loadUserID();
+    loadUserID().then((value) {
+      checkCoin();
+      paymentCoin();
+    });
   }
 
   // 유저 아이디 들고오기
@@ -21,6 +27,7 @@ class PurchaseVM extends GetxController {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  // 코인 업데이트
   Future<void> updateCoin(int coin) async {
     String userid = uId.value;
 
@@ -49,6 +56,7 @@ class PurchaseVM extends GetxController {
     }
   }
 
+  // 결제
   Future<void> makePayment(int coin) async {
     isProcessing.value = true;
 
@@ -61,11 +69,12 @@ class PurchaseVM extends GetxController {
 
     Get.back();
     Get.back();
+    Get.back();
     isComplete.value = false;
   }
 
   // 결재 내역 등록
-  Future<void> insertHistory(int coin, String cardNum, int price) async {
+  Future<void> insertPayment(int coin, String cardNum, int price) async {
     String userId = uId.value;
 
     // 'chat' 컬렉션 참조
@@ -78,11 +87,79 @@ class PurchaseVM extends GetxController {
     CollectionReference payments = userDoc.collection('payment');
 
     // 'messages' 컬렉션에 채팅 내용 추가
-    await payments.add({
-      'cardNumber': cardNum, // 카드번호
-      'coin': coin,
-      'price': price, // 충전이든 사용이든 여기에 넣어주기.
-      'usedate': Timestamp.fromDate(DateTime.now())
-    });
+    await payments.add(
+      {
+        'cardNumber': cardNum, // 카드번호
+        'coin': coin,
+        'price': price, // 충전이든 사용이든 여기에 넣어주기.
+        'usedate': Timestamp.fromDate(DateTime.now())
+      },
+    );
+  }
+
+  // 결재 내역 등록
+  Future<void> insertHistory(int coin) async {
+    String userId = uId.value;
+
+    // 'chat' 컬렉션 참조
+    CollectionReference chat = FirebaseFirestore.instance.collection('chat');
+
+    // 'userid'를 문서로 사용
+    DocumentReference userDoc = chat.doc(userId);
+
+    // 해당 'userid' 문서 아래의 'payments' 컬렉션 참조
+    CollectionReference historys = userDoc.collection('history');
+
+    // 'messages' 컬렉션에 채팅 내용 추가
+    await historys.add(
+      {
+        'category': "charge", // 카드번호
+        'price': coin, // 충전이든 사용이든 여기에 넣어주기.
+        'usedate': Timestamp.fromDate(DateTime.now())
+      },
+    );
+  }
+
+  //보유 코인 개수 가져오기
+  Future<void> checkCoin() async {
+    try {
+      String userId = uId.value;
+      FirebaseFirestore.instance
+          .collection("user")
+          .where("uid", isEqualTo: userId)
+          .snapshots()
+          .listen((querySnapshot) {
+        if (querySnapshot.docs.isNotEmpty) {
+          myCoin.value = querySnapshot.docs[0]['coin'];
+        }
+      });
+    } catch (error) {
+      // print("코인 가져오기 오류: $error");
+    }
+  }
+
+  // 구매한 코인 내역
+  Future<void> paymentCoin() async {
+    try {
+      String userId = uId.value;
+      FirebaseFirestore.instance
+          .collection("chat")
+          .doc(userId)
+          .collection("history")
+          .orderBy('usedate', descending: true)
+          .snapshots()
+          .listen(
+        (querySnapshot) {
+          if (querySnapshot.docs.isNotEmpty) {
+            payments.clear(); // 기존 리스트를 비웁니다.
+            querySnapshot.docs.forEach((doc) {
+              payments.add(HistoryModel.fromDocument(doc)); // 새로운 데이터를 추가합니다.
+            });
+          }
+        },
+      );
+    } catch (error) {
+      // 에러 처리
+    }
   }
 }

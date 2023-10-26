@@ -1,9 +1,12 @@
+import 'package:final_main_project/components/more/use_coin_components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 Widget useCoin(BuildContext context) {
   return Container(
-    width: 180,
-    height: 78,
+    width: 165.w,
+    height: 78.h,
     decoration: ShapeDecoration(
       color: Theme.of(context).colorScheme.onPrimary,
       shape: RoundedRectangleBorder(
@@ -13,7 +16,14 @@ Widget useCoin(BuildContext context) {
     ),
     child: TextButton.icon(
       onPressed: () {
-        //
+        Get.bottomSheet(
+          Container(
+            height: 591.h,
+            color: Colors.white,
+            child: const UseCoin(),
+          ),
+          isScrollControlled: true,
+        );
       },
       icon: Icon(
         Icons.list_alt,
