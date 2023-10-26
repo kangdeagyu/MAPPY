@@ -39,6 +39,8 @@ Widget predictButton(context, buttonStyle, vm) {
                   Get.back();
                   vm.useCoin(30);
                   vm.sendFaceImage();
+                  vm.insertHistory();
+                  vm.resetResults();
                   Get.to(const AgeResultScreen());
                 },
                 child: const Text('확인'),

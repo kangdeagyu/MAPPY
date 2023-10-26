@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class AgeVM extends GetxController {
-
   // Property
   var faceImage = Rx<XFile?>(null); // 선택된 사진 파일 저장
   var croppedFaceImage = Rx<XFile?>(null); // 인식된 얼굴 사진 파일로 저장
@@ -35,7 +34,7 @@ class AgeVM extends GetxController {
   RxInt myCoin = 0.obs; // 실시간 관리 위해 obs 사용
   RxString userName = ''.obs; // 유저이름 저장
   Rx<int?> cropResponeCode = Rx<int?>(null);
- // 크롭 결과 저장
+  // 크롭 결과 저장
 
   // Function
   @override
@@ -53,7 +52,6 @@ class AgeVM extends GetxController {
     super.onReady();
     showMessage();
   }
-
 
   // 이미지 보내 예측값 받기
   Future<void> sendFaceImage() async {
@@ -193,6 +191,26 @@ class AgeVM extends GetxController {
     }
   }
 
+  Future<void> insertHistory() async {
+    String userId = await loadUserID();
+
+    // 'chat' 컬렉션 참조
+    CollectionReference chat = FirebaseFirestore.instance.collection('chat');
+
+    // 'userid'를 문서로 사용
+    DocumentReference userDoc = chat.doc(userId);
+
+    // 해당 'userid' 문서 아래의 'history' 컬렉션 참조
+    CollectionReference historys = userDoc.collection('history');
+
+    // 'messages' 컬렉션에 채팅 내용 추가
+    await historys.add({
+      'category': 'yena', // 'yena' or 'seah' or 'charge'
+      'price': 30, // 충전이든 사용이든 여기에 넣어주기.
+      'usedate': Timestamp.fromDate(DateTime.now())
+    });
+  }
+
   // 유저 아이디 들고오기
   Future<String> loadUserID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -256,6 +274,21 @@ class AgeVM extends GetxController {
   updateFaceImage() {
     Future.delayed(
         const Duration(milliseconds: 1200), () => displayAnswer.value = true);
+  }
+
+  // 이전 예측 결과를 삭제.
+  resetResults() {
+    result.value = AgeResult(
+      // 결과모델 초기화
+      age: '',
+      percent10: 0,
+      percent20: 0,
+      percent30: 0,
+      percent40: 0,
+      percent50: 0,
+      percent60: 0,
+      percent70: 0,
+    );
   }
 
   // 화면 시작 시 메시지를 단계적으로 보여주기 위해.
