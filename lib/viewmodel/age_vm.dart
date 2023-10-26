@@ -33,6 +33,8 @@ class AgeVM extends GetxController {
 
   RxInt myCoin = 0.obs; // 실시간 관리 위해 obs 사용
   RxString userName = ''.obs; // 유저이름 저장
+  Rx<int?> cropResponeCode = Rx<int?>(null);
+ // 크롭 결과 저장
 
   // Function
   @override
@@ -68,10 +70,11 @@ class AgeVM extends GetxController {
         // 일반 변수이기 때문에
         update();
 
-        //print('성공!!$result');
+        // print('성공!!$result');
       } else {
         // 서버 응답이 실패인 경우
         // print('업로드 실패: ${streamedResponse.reasonPhrase}');
+        // print('업로드 실패: ${streamedResponse.statusCode}');
       }
     } catch (e) {
       // 오류 처리
@@ -81,6 +84,7 @@ class AgeVM extends GetxController {
 
   // 이미지 보내 잘린 얼굴 이미지 받기
   Future<void> getCroppedImage() async {
+    cropResponeCode.value = -1;
     final url = Uri.parse('http://18.218.101.241:5000/FaceModel/faceCrop');
     var request = http.MultipartRequest('POST', url);
 
@@ -93,6 +97,7 @@ class AgeVM extends GetxController {
 
     try {
       var streamedResponse = await request.send();
+      cropResponeCode.value = streamedResponse.statusCode;
       if (streamedResponse.statusCode == 200) {
         // 서버 응답이 성공인 경우
         final response = await http.Response.fromStream(streamedResponse);
@@ -110,12 +115,13 @@ class AgeVM extends GetxController {
       } else {
         // 서버 응답이 실패인 경우
         // print('업로드 실패: ${streamedResponse.reasonPhrase}');
+        // print('업로드 실패: ${streamedResponse.statusCode}');
         // 이전 이미지가 저장되어있을 경우 비워주기. 답변 메시지가 이 값의 null 유무로 판단하기 때문!
         croppedFaceImage.value = null;
       }
     } catch (e) {
       // 오류 처리
-      // print('업로드 중 오류 발생: $e');
+      //print('업로드 중 오류 발생: $e');
     }
   }
 
