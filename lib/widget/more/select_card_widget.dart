@@ -76,7 +76,7 @@ Widget selectCard(String coin, String pay, BuildContext context) {
                         topRight: Radius.circular(20),
                       ),
                     ),
-                    child: purchase(coin, pay, replaceWithStar(data.number)),
+                    child: purchase(coin, pay, data.number),
                   ),
                   isScrollControlled: true,
                   isDismissible: false,
