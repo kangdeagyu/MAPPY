@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class AgeVM extends GetxController {
+
   // Property
   var faceImage = Rx<XFile?>(null); // 선택된 사진 파일 저장
   var croppedFaceImage = Rx<XFile?>(null); // 인식된 얼굴 사진 파일로 저장
@@ -40,11 +41,18 @@ class AgeVM extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    resetValues();
     checkCoin();
     getUserName();
     loadUserID();
   }
+
+  // 탭 이동시 delay 시작되게.
+  @override
+  void onReady() {
+    super.onReady();
+    showMessage();
+  }
+
 
   // 이미지 보내 예측값 받기
   Future<void> sendFaceImage() async {
@@ -189,16 +197,6 @@ class AgeVM extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userId = prefs.getString("p_userId")!;
     return userId;
-  }
-
-  // 화면 초기화를 위한 변수 리셋
-  resetValues() {
-    faceImage.value = null;
-    displayAnswer.value = false;
-    displayGuide1.value = false;
-    displayGuide2.value = false;
-    displayGreeting.value = false;
-    showMessage();
   }
 
   // 갤러리 열기
