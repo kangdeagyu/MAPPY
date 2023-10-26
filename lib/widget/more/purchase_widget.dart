@@ -92,7 +92,7 @@ Widget purchase(String coin, String pay, String number) {
                   style: TextStyle(fontSize: 16),
                 ),
                 Text(
-                  number,
+                  replaceWithStar(number),
                   style: const TextStyle(fontSize: 16),
                 )
               ],
@@ -128,6 +128,8 @@ Widget purchase(String coin, String pay, String number) {
                       // 결제 창과 데이터베이스에 코인 업데이트
                       await purchaseObs.makePayment(extractNumber(coin));
                       // 결제 내역 데이터베이스에 저장해줘야됨
+                      await purchaseObs.insertHistory(
+                          extractNumber(coin), number, extractNumber(pay));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.indigo[800],
@@ -147,4 +149,16 @@ Widget purchase(String coin, String pay, String number) {
 int extractNumber(String inputString) {
   String num = inputString.replaceAll(RegExp(r'[^0-9]'), '');
   return int.parse(num);
+}
+
+String replaceWithStar(String cardNumber) {
+  String result = '';
+  for (int i = 0; i < cardNumber.length; i++) {
+    if (i >= 4 && i < 12) {
+      result += '*';
+    } else {
+      result += cardNumber[i];
+    }
+  }
+  return result;
 }
