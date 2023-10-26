@@ -145,7 +145,7 @@ class UserPage extends StatelessWidget {
                                     ),
                                   ),
                                   child: const Text(
-                                    "삭제",
+                                    "탈퇴",
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,

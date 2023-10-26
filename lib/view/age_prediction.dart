@@ -14,9 +14,6 @@ class AgePrediction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      vm.resetValues();
-    });
 
     return Scaffold(
       appBar: AppBar(
@@ -46,7 +43,7 @@ class AgePrediction extends StatelessWidget {
           ),
           Obx(() { // 코인 변화 rx로 실시간관리
             return Text(
-              vm.myCoin.value.toString(),
+              '${vm.myCoin.value}',
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             );
           }),
@@ -62,16 +59,20 @@ class AgePrediction extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            messageAreaWidget(
-                context, '안녕하세요 ${vm.userName}님!', 130.w, vm.displayGreeting),
+            Obx(() => 
+              messageAreaWidget(
+                context, '안녕하세요 ${vm.userName}님!', 130.w, vm.displayGreeting)
+            ),
             SizedBox(
               height: 5.h,
             ),
-            messageAreaWidget(
+            Obx(() => 
+              messageAreaWidget(
                 context,
                 '${vm.userName}님의 얼굴 나이를 예측해보세요!\n10대에서 70대까지 확인 가능!!!',
                 210.w,
                 vm.displayGuide1),
+            ),
             SizedBox(
               height: 5.h,
             ),
