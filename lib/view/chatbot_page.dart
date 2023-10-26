@@ -1,8 +1,12 @@
 import 'dart:async';
 
+import 'package:final_main_project/components/more/charge_components.dart';
+import 'package:final_main_project/styles/text_style.dart';
+import 'package:final_main_project/viewmodel/chatbot.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -29,6 +33,10 @@ class _ChatbotViewState extends State<ChatbotView>
   double? bottomSheetHeight;
   bool isKeyboardOpen = false;
   String? userId;
+
+  final vm = Get.put(Chatbot());
+  
+
 
   @override
   void dispose() {
@@ -84,6 +92,7 @@ class _ChatbotViewState extends State<ChatbotView>
     setState(() {});  // UI 업데이트
   }
 
+  
 
   @override
   Widget build(BuildContext context) {
@@ -111,8 +120,8 @@ class _ChatbotViewState extends State<ChatbotView>
             ],
           ),
           centerTitle: false,
-          actions: const [
-            Icon(
+          actions: [
+            const Icon(
               Icons.monetization_on,
               color: Colors.green,
               size: 25,
@@ -120,10 +129,12 @@ class _ChatbotViewState extends State<ChatbotView>
             SizedBox(
               width: 5,
             ),
-            Text(
-              '100',
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-            ),
+            Obx(() {
+              return Text(
+                '${vm.myCoin.value}',
+                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              );
+            }),
             SizedBox(
               width: 30,
             ),
@@ -288,8 +299,52 @@ class _ChatbotViewState extends State<ChatbotView>
             icon: Icon(Icons.send),
             onPressed: () {
               if (_controller.text.isNotEmpty) {
-                sendChatText(_controller.text);
-                _controller.clear();
+                if (vm.myCoin.value.toInt() >= 10) {
+                  sendChatText(_controller.text);
+                  _controller.clear();
+                } else {
+                  Get.dialog(
+                    AlertDialog(
+                      title: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/Chatbot_Icon.png',
+                            height: 70.h,
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          Text(
+                            '보유 코인이 부족해요!!\n충전하시겠어요?',
+                            style: onBackgroundTextStyle(context, 18),
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('취소'),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            Get.back();
+                            Get.bottomSheet(
+                              Container(
+                                height: 600.h,
+                                color: Colors.white,
+                                child: const ChargeWidget(),
+                              ),
+                              isScrollControlled: true,
+                            );
+                          },
+                          child: const Text('확인'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
               }
             },
           ),
@@ -299,6 +354,7 @@ class _ChatbotViewState extends State<ChatbotView>
   }
 
   Future<void> sendChatText(String text) async {
+    vm.useCoin(10);
     // 1. 사용자 메시지 화면에 즉시 표시
     input(userId!, text);
     _scrollToBottom();
@@ -405,6 +461,26 @@ class _ChatbotViewState extends State<ChatbotView>
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('p_userId');
   }
-  
+
+  // //보유 코인 개수 가져오기
+  // Future<void> checkCoin() async {
+  //   try {
+  //     String userId = await getUserId();
+  //     FirebaseFirestore.instance
+  //         .collection("user")
+  //         .where("uid", isEqualTo: userId)
+  //         .snapshots()
+  //         .listen((querySnapshot) {
+  //       if (querySnapshot.docs.isNotEmpty) {
+  //         myCoin.value = querySnapshot.docs[0]['coin'];
+  //       }
+  //     });
+  //   } catch (error) {
+  //     // print("코인 가져오기 오류: $error");
+  //   }
+  // }
+
+
+
 
 }   // End View
