@@ -21,7 +21,7 @@ class PurchaseVM extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<void> updateCoin(int coin) async {
-    String userid = uId.value; // 유저 아이디로 바꿔야됨
+    String userid = uId.value;
 
     try {
       QuerySnapshot querySnapshot = await firestore

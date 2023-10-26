@@ -10,17 +10,13 @@ class CardVm extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadUserID().then((userId) {
-      // loadUserID가 완료된 후에 userCardData를 호출합니다.
-      userCardData(userId);
-    });
+    loadUserID().then((value) => userCardData());
   }
 
   // 유저 아이디 들고오기
-  Future<String> loadUserID() async {
+  Future<void> loadUserID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uId.value = prefs.getString("p_userId") ?? '';
-    return uId.value;
   }
 
   // 저장된 유저 아이디 지우기
@@ -29,19 +25,23 @@ class CardVm extends GetxController {
     prefs.remove("p_userId"); // 사용자 ID를 삭제합니다.
   }
 
-  // 카드 있으면 가져오기
-  Future<void> userCardData(String userId) async {
+  // 카드 정보 불러오기
+  Future<void> userCardData() async {
+    String userid = uId.value;
     try {
-      var collection = FirebaseFirestore.instance.collection('card');
-      var snapshot = await collection.where('uid', isEqualTo: userId).get();
-      if (snapshot.docs.isNotEmpty) {
-        for (var doc in snapshot.docs) {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('card')
+          .where('uid', isEqualTo: userid)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        for (var doc in querySnapshot.docs) {
           cardDataList.add(CardModel.fromDocument(doc));
         }
       }
     } catch (e) {
-      // 에러 처리...
-      print(e);
+      print(e.toString());
+      // 에러 처리를 추가합니다.
     }
   }
 
