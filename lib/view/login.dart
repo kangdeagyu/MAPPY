@@ -28,14 +28,11 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    uidController = TextEditingController(text: "");
-    uidController.text = "";
-    upasswordController = TextEditingController(text: "");
-    upasswordController.text = "";
+    uidController = TextEditingController();
+    upasswordController = TextEditingController();
 
     WidgetsBinding.instance.addObserver(this);
-    _initSharedPreferences(
-        uidController, upasswordController); // Shared Preference 초기화
+    _initSharedPreferences(); // Shared Preference 초기화
   }
 
   //  ID PW 지우기    앱상태로 프린트찍기  => Observer
@@ -180,8 +177,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                           int rsNum = await rs;
                           if (rsNum == 1) {
                             // 로그인 성공
-                            _saveSharedPreferences(
-                                uidController, upasswordController);
+                            _saveSharedPreferences();
                             Get.to(const TabBarScreen());
                           } else {
                             // 로그인 실패
@@ -467,27 +463,25 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
 
   // ====================================Shared Preferneces=============================================
 
-  _initSharedPreferences(
-      TextEditingController id, TextEditingController pw) async {
+  _initSharedPreferences() async {
     // shared preference 인스턴스 생성
     final Future<SharedPreferences> preference =
         SharedPreferences.getInstance();
     final SharedPreferences prefs = await preference;
 
-    id.text = prefs.getString("p_userId") ?? ""; // null 이면 빈문자를 넣는다.
-    pw.text = prefs.getString("p_password") ?? "";
+    uidController.text = prefs.getString("p_userId") ?? ""; // null 이면 빈문자를 넣는다.
+    //pw.text = prefs.getString("p_password") ?? "";
 
     // 메모리에 결과값이 남아있는지 테스트
     // 앱을 종료하고 다시 실행하면 Shared Preference에 남아 있으므로
     // 앱을 종료시 정리하여야 한다.
   }
 
-  _saveSharedPreferences(
-      TextEditingController id, TextEditingController pw) async {
+  _saveSharedPreferences() async {
     // ID PW 를 저장함
     final prefernece = await SharedPreferences.getInstance();
-    prefernece.setString("p_userId", id.text.trim());
-    prefernece.setString("p_password", pw.text.trim());
+    prefernece.setString("p_userId", uidController.text.trim());
+    //prefernece.setString("p_password", pw.text.trim());
   }
 
   _ksaveSharedPreferences(String? id) async {
