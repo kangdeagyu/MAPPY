@@ -1,15 +1,11 @@
-import 'dart:ffi';
-
-import 'package:final_main_project/viewmodel/card_vm.dart';
 import 'package:final_main_project/viewmodel/purchase_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-final purchaseObs = Get.put(PurchaseVM());
-final cardvm = Get.put(CardVm());
-
 Widget purchase(String coin, String pay, String number) {
+  final purchaseObs = Get.put(PurchaseVM());
+
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
@@ -109,7 +105,7 @@ Widget purchase(String coin, String pay, String number) {
                   "계정:",
                   style: TextStyle(fontSize: 16),
                 ),
-                Obx(() => Text(cardvm.uId.value)),
+                Obx(() => Text(purchaseObs.uId.value)),
               ],
             ),
           ],
@@ -121,21 +117,27 @@ Widget purchase(String coin, String pay, String number) {
       Obx(
         () => purchaseObs.isProcessing.value
             ? const CircularProgressIndicator()
-            : ElevatedButton(
-                onPressed: () {
-                  // 결제 창과 데이터베이스에 코인 업데이트
-                  purchaseObs.makePayment(extractNumber(coin));
-                  // 결제 내역 데이터베이스에 저장해줘야됨
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.indigo[800],
-                  foregroundColor: Colors.white,
-                  shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(2),
+            : purchaseObs.isComplete.value
+                ? const Icon(
+                    Icons.check,
+                    color: Colors.green,
+                    size: 40,
+                  ) // 체크 아이콘의 색상을 변경했습니다.
+                : ElevatedButton(
+                    onPressed: () async {
+                      // 결제 창과 데이터베이스에 코인 업데이트
+                      await purchaseObs.makePayment(extractNumber(coin));
+                      // 결제 내역 데이터베이스에 저장해줘야됨
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.indigo[800],
+                      foregroundColor: Colors.white,
+                      shape: BeveledRectangleBorder(
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                    child: const Text("결제하기"),
                   ),
-                ),
-                child: const Text("결제하기"),
-              ),
       ),
     ],
   );
