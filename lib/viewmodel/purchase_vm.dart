@@ -120,6 +120,29 @@ class PurchaseVM extends GetxController {
     );
   }
 
+  // 결재 내역 등록
+  Future<void> insertHistoryAds(int coin) async {
+    String userId = uId.value;
+
+    // 'chat' 컬렉션 참조
+    CollectionReference chat = FirebaseFirestore.instance.collection('chat');
+
+    // 'userid'를 문서로 사용
+    DocumentReference userDoc = chat.doc(userId);
+
+    // 해당 'userid' 문서 아래의 'payments' 컬렉션 참조
+    CollectionReference historys = userDoc.collection('history');
+
+    // 'messages' 컬렉션에 채팅 내용 추가
+    await historys.add(
+      {
+        'category': "ads", // 카드번호
+        'price': coin, // 충전이든 사용이든 여기에 넣어주기.
+        'usedate': Timestamp.fromDate(DateTime.now())
+      },
+    );
+  }
+
   //보유 코인 개수 가져오기
   Future<void> checkCoin() async {
     try {

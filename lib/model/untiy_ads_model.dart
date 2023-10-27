@@ -21,14 +21,4 @@ class AdManager {
     }
     return '';
   }
-
-  static String get rewardedVideoAdPlacementId {
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      return dotenv.env['REWARDED_ANDROID_ID'] ?? '';
-    }
-    if (defaultTargetPlatform == TargetPlatform.iOS) {
-      return dotenv.env['REWARDED_IOS_ID'] ?? '';
-    }
-    return '';
-  }
 }
