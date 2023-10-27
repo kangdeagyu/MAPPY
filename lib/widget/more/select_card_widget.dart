@@ -1,4 +1,3 @@
-import 'package:final_main_project/viewmodel/card_obs.dart';
 import 'package:final_main_project/viewmodel/card_vm.dart';
 import 'package:final_main_project/widget/more/cardRegister_widget.dart';
 import 'package:final_main_project/widget/more/purchase_widget.dart';
@@ -7,8 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget selectCard(String coin, String pay, BuildContext context) {
-  final cardobs = Get.put(CardGet());
-  final cardVm = Get.put(CardVm());
+  final vm = Get.put(CardVm());
   return Column(
     children: [
       Container(
@@ -58,9 +56,9 @@ Widget selectCard(String coin, String pay, BuildContext context) {
         () => ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: cardVm.cardDataList.length,
+          itemCount: vm.cardDataList.length,
           itemBuilder: (context, index) {
-            var data = cardVm.cardDataList[index];
+            var data = vm.cardDataList[index];
             // 카드 색상
             List<Color> colors = [Colors.grey, Colors.blue, Colors.green];
             Color cardColor = colors[index % colors.length];
@@ -118,17 +116,17 @@ Widget selectCard(String coin, String pay, BuildContext context) {
         ),
       ),
       // 등록된 카드가 없으면 추가
-      if (cardVm.cardDataList.length < 3) // 카드 데이터가 3개 미만일 때만 Container 표시
+      if (vm.cardDataList.length < 3) // 카드 데이터가 3개 미만일 때만 Container 표시
         InkWell(
           onTap: () {
             // 카드내역 삭제
-            cardobs.remove();
+            vm.remove();
             // 카드 등록
             Get.bottomSheet(
               Container(
                 height: 420.h,
                 color: Theme.of(context).colorScheme.background,
-                child: cardwidget(context, cardVm.cardDataList.length),
+                child: cardwidget(context, vm.cardDataList.length),
               ),
               isScrollControlled: true,
               isDismissible: false,

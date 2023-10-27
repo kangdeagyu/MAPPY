@@ -16,7 +16,6 @@ class UntiyAd extends GetxController {
       gameId: AdManager.gameId,
       testMode: true,
       onComplete: () {
-        print('Initialization Complete');
         loadAds();
       },
       onFailed: (error, message) =>
@@ -34,7 +33,6 @@ class UntiyAd extends GetxController {
     UnityAds.load(
       placementId: placementId,
       onComplete: (placementId) {
-        print('Load Complete $placementId');
         placements[placementId]?.value = true;
       },
       onFailed: (placementId, error, message) =>
@@ -47,24 +45,21 @@ class UntiyAd extends GetxController {
     UnityAds.showVideoAd(
       placementId: placementId,
       onComplete: (placementId) {
-        print('Video Ad $placementId completed');
         // 광고 시청이 완료되었을 때 동작
         try {
           purchaseObs.updateCoin(10);
           purchaseObs.insertHistoryAds(10);
         } catch (e) {
-          print('Error: $e');
+          // 오류 처리
         }
         loadAd(placementId);
       },
       onFailed: (placementId, error, message) {
-        print('Video Ad $placementId failed: $error $message');
         loadAd(placementId);
       },
       onStart: (placementId) => print('Video Ad $placementId started'),
       onClick: (placementId) => print('Video Ad $placementId click'),
       onSkipped: (placementId) {
-        print('Video Ad $placementId skipped');
         loadAd(placementId);
       },
     );

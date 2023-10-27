@@ -111,7 +111,9 @@ class UseCoin extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text("유료 충전 코인"),
-                              Text("${vm.getTotalPaidCoins()} 코인"),
+                              Obx(
+                                () => Text("${vm.getTotalPaidCoins()}코인"),
+                              ),
                             ],
                           ),
                           SizedBox(
@@ -121,7 +123,9 @@ class UseCoin extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text("무료 충전 코인"),
-                              Text("${vm.getTotalFreeCoins()} 코인"),
+                              Obx(
+                                () => Text("${vm.getTotalFreeCoins()}코인"),
+                              ),
                             ],
                           ),
                           SizedBox(
