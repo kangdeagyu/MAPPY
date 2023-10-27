@@ -36,7 +36,7 @@ Widget coinTile(String labelText, String buttonLabel, BuildContext context) {
             ],
           ),
           SizedBox(
-            width: 110.w,
+            width: 105.w,
             height: 40.h,
             child: ElevatedButton(
               onPressed: () {
@@ -66,7 +66,7 @@ Widget coinTile(String labelText, String buttonLabel, BuildContext context) {
               child: Text(
                 buttonLabel,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 13,
                   fontWeight: FontWeight.bold,
                 ),
               ),
