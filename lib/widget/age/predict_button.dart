@@ -23,7 +23,7 @@ Widget predictButton(context, buttonStyle, vm) {
                 ),
                 Text(
                   '30코인을 사용해서\n결과를 확인하시겠어요?',
-                  style: onBackgroundTextStyle(context, 18),
+                  style: onBackgroundTextStyle(context, 16),
                 ),
               ],
             ),
