@@ -11,7 +11,9 @@ Widget answerAreaWidget(BuildContext context) {
   final vm = Get.find<AgeVM>();
 
   return Obx(() {
-    if (vm.faceImage.value != null && vm.cropResponeCode.value != -1 &&  vm.croppedFaceImage.value != null) {
+    if (vm.faceImage.value != null &&
+        vm.cropResponeCode.value != -1 &&
+        vm.croppedFaceImage.value != null) {
       // 얼굴 인식 결과가 있을 때
       return Padding(
         padding: const EdgeInsets.all(8.0),
@@ -22,48 +24,55 @@ Widget answerAreaWidget(BuildContext context) {
               backgroundColor: Colors.white,
               radius: 20,
             ),
-            const SizedBox(width: 8),
-            Container(
-              width: 210.w,
-              padding: const EdgeInsets.all(12.0),
-              margin: const EdgeInsets.only(right: 80.0, bottom: 5.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('얼굴 인식 결과에요!'),
-                  SizedBox(height: 10.h),
-                  SizedBox(
-                    height: 100.h,
-                    width: 250.w,
-                    child: Image.file(File(vm.croppedFaceImage.value!.path)),
-                  ),
-                  SizedBox(height: 10.h),
-                  Center(
-                    child: Row(
+            SizedBox(width: 5.h),
+            Align(
+                child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 280.h),
+              child: Container(
+                padding: const EdgeInsets.all(12.0),
+                margin: const EdgeInsets.only(bottom: 5.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('얼굴 인식 결과에요! 맞으신가요??'),
+                    SizedBox(height: 10.h),
+                    Row(
                       children: [
-                        uploadImageButton(
-                          context,
-                          '재업로드',
-                          secondaryButtonStyle(context),
-                          vm,
+                        SizedBox(
+                          height: 80.h,
+                          // width: 240.w,
+                          child:
+                              Image.file(File(vm.croppedFaceImage.value!.path)),
                         ),
-                        SizedBox(width: 3.w),
-                        predictButton(
-                          context,
-                          primaryButtonStyle(context),
-                          vm,
+                        SizedBox(width: 10.w,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            uploadImageButton(
+                              context,
+                              '재업로드',
+                              secondaryButtonStyle(context),
+                              vm,
+                            ),
+                            SizedBox(width: 3.h),
+                            predictButton(
+                              context,
+                              primaryButtonStyle(context),
+                              vm,
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(width: 5.w),
-                ],
+                    SizedBox(height: 10.h),
+                  ],
+                ),
               ),
-            ),
+            )),
           ],
         ),
       );
@@ -79,30 +88,31 @@ Widget answerAreaWidget(BuildContext context) {
               radius: 20,
             ),
             const SizedBox(width: 8),
-            Container(
-              width: 220.w,
-              padding: const EdgeInsets.all(12.0),
-              margin: const EdgeInsets.only(right: 80.0, bottom: 5.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('아쉽지만 얼굴을 인식하지 못했어요.\n사진을 다시 올려주세요.'),
-                  SizedBox(height: 10.h),
-                  Center(
-                    child: uploadImageButton(
+            Align(
+                child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 200.h),
+              child: Container(
+                padding: const EdgeInsets.all(12.0),
+                margin: const EdgeInsets.only(bottom: 5.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text('아쉽지만 얼굴을 인식하지 못했어요.\n사진을 다시 올려주세요.'),
+                    SizedBox(height: 10.h),
+                    uploadImageButton(
                       context,
                       '재업로드',
                       secondaryButtonStyle(context),
                       vm,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            )),
           ],
         ),
       );
@@ -131,7 +141,7 @@ Widget answerAreaWidget(BuildContext context) {
           ],
         ),
       );
-    } else { 
+    } else {
       // 초기 상태일 때
       return Container();
     }

@@ -56,40 +56,42 @@ class AgePrediction extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        reverse: true,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 10.h,
-            ),
-            Obx(() => 
-              messageAreaWidget(
-                context, '안녕하세요 ${vm.userName}님!', 130.w, vm.displayGreeting)
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            Obx(() => 
-              messageAreaWidget(
-                context,
-                '${vm.userName}님의 얼굴 나이를 예측해보세요!\n10대에서 70대까지 확인 가능!!!',
-                220.w,
-                vm.displayGuide1),
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            guideAreaWidget(context),
-            Padding(
-              padding: EdgeInsets.all(5.0.h),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: photoAreaWidget(),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 8),
+        child: SingleChildScrollView(
+          reverse: true,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10.h,
               ),
-            ),
-            answerAreaWidget(context),
-          ],
+              Obx(() => 
+                messageAreaWidget(
+                  context, '안녕하세요 ${vm.userName}님!', vm.displayGreeting)
+              ),
+              SizedBox(
+                height: 5.h,
+              ),
+              Obx(() => 
+                messageAreaWidget(
+                  context,
+                  '${vm.userName}님의 얼굴 나이를 예측해보세요!\n10대에서 70대까지 확인이 가능해요!',
+                  vm.displayGuide1),
+              ),
+              SizedBox(
+                height: 5.h,
+              ),
+              guideAreaWidget(context),
+              Padding(
+                padding: EdgeInsets.all(5.0.h),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: photoAreaWidget(),
+                ),
+              ),
+              answerAreaWidget(context),
+            ],
+          ),
         ),
       ),
     );
