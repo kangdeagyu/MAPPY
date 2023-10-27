@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget selectCard(String coin, String pay, BuildContext context) {
-  final vm = Get.put(CardVm());
+  final vm = Get.find<CardVm>();
   return Column(
     children: [
       Container(

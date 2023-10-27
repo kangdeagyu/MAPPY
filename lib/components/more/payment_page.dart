@@ -11,7 +11,7 @@ class PaymentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 카드 firebase
-    final vm = Get.put(CardVm());
+    final vm = Get.find<CardVm>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('카드 등록'),

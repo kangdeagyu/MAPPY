@@ -5,11 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget logOut(context) {
-  final cardVm = Get.put(CardVm());
+  final vm = Get.find<CardVm>();
+
   return InkWell(
     onTap: () {
       Get.offAll(const LoginScreen());
-      cardVm.logout();
+      vm.logout();
     },
     child: SizedBox(
       width: 320.w,

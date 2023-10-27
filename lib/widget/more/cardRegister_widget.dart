@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget cardwidget(BuildContext context, cardCount) {
-  final vm = Get.put(CardVm());
+  final vm = Get.find<CardVm>();
 
   // 카드 색상
   List<Color> colors = [Colors.grey, Colors.blue, Colors.green];

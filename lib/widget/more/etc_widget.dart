@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget etcWidget(BuildContext context) {
-  final ThemeController themeController = Get.put(ThemeController());
+  final themeController = Get.put(ThemeController());
 
   return Column(
     children: [
