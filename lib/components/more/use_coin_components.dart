@@ -9,6 +9,25 @@ class UseCoin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = Get.put(PurchaseVM());
+
+    Text _getCategoryText(String payment) {
+      switch (payment) {
+        case 'charge':
+          return const Text("코인 충전");
+        case 'yena':
+          return const Text("얼굴나이 예측");
+        case 'ads':
+          return const Text("광고보상");
+        default:
+          return const Text("챗봇");
+      }
+    }
+
+    Text _getPriceText(String payment, int coin) {
+      final coinPrefix = payment == 'charge' || payment == 'ads' ? '+' : '-';
+      return Text("$coinPrefix$coin 코인");
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('사용 내역'),
@@ -128,14 +147,8 @@ class UseCoin extends StatelessWidget {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          payment.category == 'charge'
-                              ? const Text("코인 충전")
-                              : payment.category == 'yena'
-                                  ? const Text("얼굴나이 예측")
-                                  : const Text("챗봇"),
-                          payment.category == 'charge'
-                              ? Text("+${payment.price}코인")
-                              : Text("-${payment.price}코인"),
+                          _getCategoryText(payment.category),
+                          _getPriceText(payment.category, payment.price),
                         ],
                       ),
                       subtitle: Row(

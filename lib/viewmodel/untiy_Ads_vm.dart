@@ -1,11 +1,12 @@
 import 'package:final_main_project/model/untiy_ads_model.dart';
+import 'package:final_main_project/viewmodel/purchase_vm.dart';
 import 'package:get/get.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
 class UntiyAd extends GetxController {
+  final purchaseObs = Get.put(PurchaseVM());
   final placements = {
     AdManager.interstitialVideoAdPlacementId: true.obs,
-    AdManager.rewardedVideoAdPlacementId: true.obs
   }.obs;
 
   @override
@@ -47,6 +48,13 @@ class UntiyAd extends GetxController {
       placementId: placementId,
       onComplete: (placementId) {
         print('Video Ad $placementId completed');
+        // 광고 시청이 완료되었을 때 동작
+        try {
+          purchaseObs.updateCoin(10);
+          purchaseObs.insertHistoryAds(10);
+        } catch (e) {
+          print('Error: $e');
+        }
         loadAd(placementId);
       },
       onFailed: (placementId, error, message) {
