@@ -107,21 +107,21 @@ class UseCoin extends StatelessWidget {
                           SizedBox(
                             height: 10.h,
                           ),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("유료 충전 코인"),
-                              Text("0코인"),
+                              const Text("유료 충전 코인"),
+                              Text("${vm.getTotalPaidCoins()} 코인"),
                             ],
                           ),
                           SizedBox(
                             height: 10.h,
                           ),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("무료 충전 코인"),
-                              Text("0코인"),
+                              const Text("무료 충전 코인"),
+                              Text("${vm.getTotalFreeCoins()} 코인"),
                             ],
                           ),
                           SizedBox(

@@ -185,4 +185,16 @@ class PurchaseVM extends GetxController {
       // 에러 처리
     }
   }
+
+  int getTotalPaidCoins() {
+    return payments
+        .where((payment) => payment.category == 'charge')
+        .fold(0, (sum, item) => sum + item.price);
+  }
+
+  int getTotalFreeCoins() {
+    return payments
+        .where((payment) => payment.category == 'ads')
+        .fold(0, (sum, item) => sum + item.price);
+  }
 }
