@@ -228,10 +228,6 @@ class AgeVM extends GetxController {
     );
 
     if (pickedImage != null) {
-      // 이미지 크기를 조절하여 maxHeight에 맞춤
-      //File resizedImage = await resizeImage(pickedImage.path, 250.h);
-
-      //faceImage.value = XFile(resizedImage.path);
       faceImage.value = XFile(pickedImage.path);
     }
     updateFaceImage();
@@ -248,10 +244,6 @@ class AgeVM extends GetxController {
     );
 
     if (pickedImage != null) {
-      // 이미지 크기를 조절하여 maxHeight에 맞춤
-      //File resizedImage = await resizeImage(pickedImage.path, 250.h);
-
-      //faceImage.value = XFile(resizedImage.path);
       faceImage.value = XFile(pickedImage.path);
     }
     await updateFaceImage();
