@@ -18,11 +18,9 @@ Widget uploadImageButton(context, title, buttonStyle) {
             height: 120.h,
             child: Column(
                             children: [
-                const Text(
+                Text(
                   '어떤 이미지를 사용하시겠어요?',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
+                  style: primaryTextStyle(context, 18),
                 ),
                 const SizedBox(height: 20,),
                 Row(

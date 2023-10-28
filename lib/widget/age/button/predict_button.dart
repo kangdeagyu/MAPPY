@@ -27,18 +27,18 @@ Widget predictButton(context, buttonStyle) {
                 ),
                 Text(
                   '30코인을 사용해서\n결과를 확인하시겠어요?',
-                  style: onBackgroundTextStyle(context, 16),
+                  style: primaryTextStyle(context, 16),
                 ),
               ],
             ),
             actions: [
-              TextButton(
+              ElevatedButton(
                 onPressed: () {
                   Get.back();
                 },
                 child: const Text('취소'),
               ),
-              TextButton(
+              ElevatedButton(
                 onPressed: () {
                   Get.back();
                   vm.useCoin(30);
@@ -66,7 +66,7 @@ Widget predictButton(context, buttonStyle) {
                 ),
                 Text(
                   '보유 코인이 부족해요!!\n충전하시겠어요?',
-                  style: onBackgroundTextStyle(context, 18),
+                  style: primaryTextStyle(context, 16),
                 ),
               ],
             ),

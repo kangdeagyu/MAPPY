@@ -7,6 +7,13 @@ TextStyle onBackgroundTextStyle(context, double fSize) {
   );
 }
 
+TextStyle primaryTextStyle(context, double fSize) {
+  return TextStyle(
+    color: Theme.of(context).colorScheme.primary,
+    fontSize: fSize,
+  );
+}
+
 TextStyle onPrimaryTextStyle(context, double fSize) {
   return TextStyle(
     color: Theme.of(context).colorScheme.onPrimary,

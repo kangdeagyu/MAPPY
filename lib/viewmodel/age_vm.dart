@@ -217,10 +217,21 @@ class AgeVM extends GetxController {
 
   // 유저 아이디 들고오기
   Future<String> loadUserID() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userId = prefs.getString("p_userId")!;
-    return userId;
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  try {
+    String? userId = prefs.getString("p_userId");
+    if (userId != null) {
+      return userId;
+    } else {
+      // 유저 아이디가 없는 경우에 대한 처리
+      return ""; // 또는 다른 기본값 설정
+    }
+  } catch (e) {
+    // 예외 처리
+    print('로드 유저 아이디 함수 오류: $e');
+    return ""; // 오류가 발생한 경우에 대한 처리
   }
+}
 
   // 갤러리 열기
   getGalleryImage() async {
