@@ -16,9 +16,12 @@ class AgeVM extends GetxController {
   var croppedFaceImage = Rx<XFile?>(null); // 인식된 얼굴 사진 파일로 저장
 
   RxBool displayAnswer = false.obs; // 답변 대화창 상태
-  RxBool displayGreeting = false.obs; // 첫 대화창 상태
-  RxBool displayGuide1 = false.obs; // 두 번째 대화창 상태
-  RxBool displayGuide2 = false.obs; // 세 번째 대화창 상태
+  List<RxBool> displayStates = [
+    false.obs,  // 첫 대화창 상태
+    false.obs,  // 두 번째 대화창 상태
+    false.obs,  // 세 번째 대화창 상태
+  ];
+
 
   Rx<AgeResult> result = AgeResult(
     // 결과모델 초기화
@@ -119,17 +122,17 @@ class AgeVM extends GetxController {
         File resizedImage = await resizeImage(file.path, 250.h);
         croppedFaceImage.value = XFile(resizedImage.path);
 
-        // print('성공!!.');
+        print('성공!!.');
       } else {
         // 서버 응답이 실패인 경우
-        // print('업로드 실패: ${streamedResponse.reasonPhrase}');
-        // print('업로드 실패: ${streamedResponse.statusCode}');
+        print('업로드 실패: ${streamedResponse.reasonPhrase}');
+        print('업로드 실패: ${streamedResponse.statusCode}');
         // 이전 이미지가 저장되어있을 경우 비워주기. 답변 메시지가 이 값의 null 유무로 판단하기 때문!
         croppedFaceImage.value = null;
       }
     } catch (e) {
       // 오류 처리
-      //print('업로드 중 오류 발생: $e');
+      print('업로드 중 오류 발생: $e');
     }
   }
 
@@ -275,9 +278,10 @@ class AgeVM extends GetxController {
   resetResults() {
     faceImage.value = null;
     displayAnswer.value = false;
-    displayGuide1.value = false;
-    displayGuide2.value = false;
-    displayGreeting.value = false;
+
+    for (RxBool display in displayStates) {
+      display.value = false;
+    }
     showMessage();
     result.value = AgeResult(
       // 결과모델 초기화
@@ -295,12 +299,12 @@ class AgeVM extends GetxController {
   // 화면 시작 시 메시지를 단계적으로 보여주기 위해.
   Future showMessage() async {
     await Future.delayed(const Duration(milliseconds: 700));
-    displayGreeting.value = true;
+    displayStates[0].value = true;
 
     await Future.delayed(const Duration(milliseconds: 1100));
-    displayGuide1.value = true;
+    displayStates[1].value = true;
 
     await Future.delayed(const Duration(milliseconds: 1100));
-    displayGuide2.value = true;
+    displayStates[2].value = true;
   }
 }

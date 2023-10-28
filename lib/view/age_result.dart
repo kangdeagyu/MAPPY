@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:final_main_project/styles/button_style.dart';
 import 'package:final_main_project/styles/text_style.dart';
 import 'package:final_main_project/viewmodel/age_vm.dart';
-import 'package:final_main_project/widget/age/my_percent_indicator.dart';
+import 'package:final_main_project/widget/age/age_percent_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,7 +23,9 @@ class _AgeResultScreenState extends State<AgeResultScreen> {
     var result = vm.result;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: Center(
         child: Obx(
           () => Column(
@@ -45,19 +47,19 @@ class _AgeResultScreenState extends State<AgeResultScreen> {
               SizedBox(
                 height: 20.h,
               ),
-              myPercentIndicator(
+              agePercentIndicator(
                   context, 10, result.value.percent10 * 100, Colors.red),
-              myPercentIndicator(
+              agePercentIndicator(
                   context, 20, result.value.percent20 * 100, Colors.orange),
-              myPercentIndicator(
+              agePercentIndicator(
                   context, 30, result.value.percent30 * 100, Colors.amber),
-              myPercentIndicator(
+              agePercentIndicator(
                   context, 40, result.value.percent40 * 100, Colors.green),
-              myPercentIndicator(
+              agePercentIndicator(
                   context, 50, result.value.percent50 * 100, Colors.blue),
-              myPercentIndicator(
+              agePercentIndicator(
                   context, 60, result.value.percent60 * 100, Colors.blue[900]!),
-              myPercentIndicator(
+              agePercentIndicator(
                   context, 70, result.value.percent70 * 100, Colors.purple),
               SizedBox(
                 height: 50.h,
@@ -65,6 +67,7 @@ class _AgeResultScreenState extends State<AgeResultScreen> {
               ElevatedButton(
                 style: primaryButtonStyle(context),
                 onPressed: () {
+                  vm.resetResults();
                   Get.back();
                 },
                 child: Text(

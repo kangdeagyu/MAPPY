@@ -1,10 +1,13 @@
+import 'package:final_main_project/viewmodel/age_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget defaultMessageBox(context, String content, RxBool index) {
+Widget sequentialMessageBox({required int index, Widget? child}) {
 
-  return Obx(() => index.value
+  final vm = Get.find<AgeVM>();
+
+  return Obx(() => vm.displayStates[index].value
       ? Row(
         crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -24,7 +27,7 @@ Widget defaultMessageBox(context, String content, RxBool index) {
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Text(content),
+                  child: child,
                 ),
               )),
           ],
