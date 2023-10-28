@@ -17,11 +17,10 @@ class AgeVM extends GetxController {
 
   RxBool displayAnswer = false.obs; // 답변 대화창 상태
   List<RxBool> displayStates = [
-    false.obs,  // 첫 대화창 상태
-    false.obs,  // 두 번째 대화창 상태
-    false.obs,  // 세 번째 대화창 상태
+    false.obs, // 첫 대화창 상태
+    false.obs, // 두 번째 대화창 상태
+    false.obs, // 세 번째 대화창 상태
   ];
-
 
   Rx<AgeResult> result = AgeResult(
     // 결과모델 초기화
@@ -99,13 +98,14 @@ class AgeVM extends GetxController {
     final url = Uri.parse('http://18.218.101.241:5000/FaceModel/faceCrop');
     var request = http.MultipartRequest('POST', url);
 
-    request.files.add(
-      await http.MultipartFile.fromPath(
-        'file', // 서버에서 사용할 필드 이름
-        faceImage.value!.path, // 이미지 파일 경로
-      ),
-    );
-
+    if (faceImage.value != null) {
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'file', // 서버에서 사용할 필드 이름
+          faceImage.value!.path, // 이미지 파일 경로
+        ),
+      );
+    }
     try {
       var streamedResponse = await request.send();
       cropResponeCode.value = streamedResponse.statusCode;

@@ -4,7 +4,6 @@ import 'package:final_main_project/view/home.dart';
 import 'package:final_main_project/view/more.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 class TabBarScreen extends StatefulWidget {
   const TabBarScreen({super.key});
@@ -20,7 +19,7 @@ class _TabBarScreenState extends State<TabBarScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -31,8 +30,8 @@ class _TabBarScreenState extends State<TabBarScreen>
 
   @override
   Widget build(BuildContext context) {
-    int initialTabIndex = Get.arguments ?? 1;
-    _tabController.index = initialTabIndex;
+    // int initialTabIndex = Get.arguments ?? 1;
+    // _tabController.index = initialTabIndex;
 
     return Scaffold(
       body: TabBarView(

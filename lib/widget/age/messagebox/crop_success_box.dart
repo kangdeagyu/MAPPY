@@ -20,7 +20,7 @@ Widget cropSuccessBox(context) {
         const Text('얼굴 인식 결과에요!! 맞으신가요?'),
         SizedBox(height: 10.h),
         ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 180.h),
+          constraints: BoxConstraints(maxWidth: 170.h),
           child: Row(
             children: [
               SizedBox(
