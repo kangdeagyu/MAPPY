@@ -67,6 +67,11 @@ dependencies:
   flutter_keyboard_visibility: ^5.4.1
   # 애니메이션 lottie
   lottie: ^2.7.0
+  # Unity_Ads 광고
+  unity_ads_plugin: ^0.3.10
+  # 개인정보 저장
+  flutter_dotenv: ^5.1.0
+
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +98,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

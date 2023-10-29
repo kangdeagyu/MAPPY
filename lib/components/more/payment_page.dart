@@ -1,4 +1,3 @@
-import 'package:final_main_project/viewmodel/card_obs.dart';
 import 'package:final_main_project/viewmodel/card_vm.dart';
 import 'package:final_main_project/widget/more/cardRegister_widget.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +10,8 @@ class PaymentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 카드 번호 관리
-    final cardobs = Get.put(CardGet());
     // 카드 firebase
-    final cardVm = Get.put(CardVm());
+    final vm = Get.find<CardVm>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('카드 등록'),
@@ -29,9 +26,9 @@ class PaymentPage extends StatelessWidget {
                 () => ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: cardVm.cardDataList.length,
+                  itemCount: vm.cardDataList.length,
                   itemBuilder: (context, index) {
-                    var data = cardVm.cardDataList[index];
+                    var data = vm.cardDataList[index];
                     // 카드 색상
                     List<Color> colors = [
                       Colors.grey,
@@ -44,7 +41,7 @@ class PaymentPage extends StatelessWidget {
                       direction: DismissDirection.endToStart,
                       onDismissed: (direction) async {
                         // Firebase 삭제
-                        await cardVm.deleteCard(cardVm.cardDataList[index]);
+                        await vm.deleteCard(vm.cardDataList[index]);
                       },
                       background: Container(color: Colors.red),
                       child: CreditCardWidget(
@@ -64,18 +61,17 @@ class PaymentPage extends StatelessWidget {
                   },
                 ),
               ),
-              if (cardVm.cardDataList.length <
-                  3) // 카드 데이터가 3개 미만일 때만 Container 표시
+              if (vm.cardDataList.length < 3) // 카드 데이터가 3개 미만일 때만 Container 표시
                 InkWell(
                   onTap: () {
                     // 카드내역 삭제
-                    cardobs.remove();
+                    vm.remove();
                     // 카드 등록
                     Get.bottomSheet(
                       Container(
                         height: 420.h,
                         color: Theme.of(context).colorScheme.background,
-                        child: cardwidget(context, cardVm.cardDataList.length),
+                        child: cardwidget(context, vm.cardDataList.length),
                       ),
                       isScrollControlled: true,
                       isDismissible: false,

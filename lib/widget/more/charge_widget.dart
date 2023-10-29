@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 Widget coinTile(String labelText, String buttonLabel, BuildContext context) {
   return Container(
-    width: 340.w,
+    width: 330.w,
     height: 55.h,
     decoration: const BoxDecoration(
       color: Colors.white,
@@ -36,7 +36,7 @@ Widget coinTile(String labelText, String buttonLabel, BuildContext context) {
             ],
           ),
           SizedBox(
-            width: 110.w,
+            width: 105.w,
             height: 40.h,
             child: ElevatedButton(
               onPressed: () {
@@ -57,7 +57,7 @@ Widget coinTile(String labelText, String buttonLabel, BuildContext context) {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.amber[300],
+                backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
                 shape: BeveledRectangleBorder(
                   borderRadius: BorderRadius.circular(3),
@@ -66,7 +66,7 @@ Widget coinTile(String labelText, String buttonLabel, BuildContext context) {
               child: Text(
                 buttonLabel,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 13,
                   fontWeight: FontWeight.bold,
                 ),
               ),

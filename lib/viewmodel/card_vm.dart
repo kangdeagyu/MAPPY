@@ -1,9 +1,44 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_main_project/model/card_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CardVm extends GetxController {
+  // 카드 번호 상태관리
+  RxString stCardnumber = ''.obs;
+  RxString stCarddate = ''.obs;
+  RxString stCardcvc = ''.obs;
+  Rx<TextEditingController> numberController = TextEditingController().obs;
+  Rx<TextEditingController> dateController = TextEditingController().obs;
+  Rx<TextEditingController> cvcController = TextEditingController().obs;
+
+  // 카드 번호를 업데이트하는 메서드
+  void updateCardNumber(String cardNumber) {
+    stCardnumber.value = cardNumber;
+  }
+
+  // 날짜를 업데이트하는 메서드
+  void updateCardDate(String cardDate) {
+    stCarddate.value = cardDate;
+  }
+
+  // svv를 업데이트하는 메서드
+  void updateCardSvv(String cardSvv) {
+    stCardcvc.value = cardSvv;
+  }
+
+  // 초기화
+  void remove() {
+    stCardnumber.value = "";
+    stCarddate.value = "";
+    stCardcvc.value = "";
+    numberController.value.text = "";
+    dateController.value.text = "";
+    cvcController.value.text = "";
+  }
+
+  // 카드 데이터베이스 상태관리
   var cardDataList = <CardModel>[].obs; // Observable List
   var uId = ''.obs;
 

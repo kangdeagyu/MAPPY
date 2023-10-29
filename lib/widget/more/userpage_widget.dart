@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget userpage() {
+Widget userpage(context) {
   return InkWell(
     onTap: () {
       Get.to(const UserPage());
@@ -12,28 +12,19 @@ Widget userpage() {
       width: 320.w,
       height: 40.h,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 36,
-            height: 36,
-            clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/user.png'),
-              ),
-            ),
-          ),
-          const Text(
+          Text(
             '나의 프로필',
             style: TextStyle(
-              color: Color(0xFF2F9BFF),
+              color: Theme.of(context).colorScheme.primary,
               fontSize: 20,
               fontFamily: 'Lato',
               fontWeight: FontWeight.w700,
               height: 0,
             ),
           ),
+          const Icon(Icons.arrow_forward_ios)
         ],
       ),
     ),

@@ -128,8 +128,10 @@ Widget purchase(String coin, String pay, String number) {
                       // 결제 창과 데이터베이스에 코인 업데이트
                       await purchaseObs.makePayment(extractNumber(coin));
                       // 결제 내역 데이터베이스에 저장해줘야됨
-                      await purchaseObs.insertHistory(
+                      await purchaseObs.insertPayment(
                           extractNumber(coin), number, extractNumber(pay));
+                      // 사용 내역 히스토리
+                      await purchaseObs.insertHistory(extractNumber(coin));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.indigo[800],

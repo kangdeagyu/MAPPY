@@ -4,39 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget logOut() {
-  final cardVm = Get.put(CardVm());
+Widget logOut(context) {
+  final vm = Get.find<CardVm>();
+
   return InkWell(
     onTap: () {
       Get.offAll(const LoginScreen());
-      cardVm.logout();
+      vm.logout();
     },
     child: SizedBox(
       width: 320.w,
       height: 30.h,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 36.w,
-            height: 36.h,
-            clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/logout.png'),
-              ),
-            ),
-          ),
-          const Text(
-            'Logout',
+          Text(
+            '로그아웃',
             style: TextStyle(
-              color: Color(0xFF2F9BFF),
+              color: Theme.of(context).colorScheme.primary,
               fontSize: 20,
               fontFamily: 'Lato',
               fontWeight: FontWeight.w700,
               height: 0,
             ),
           ),
+          const Icon(Icons.arrow_forward_ios)
         ],
       ),
     ),

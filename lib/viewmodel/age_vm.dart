@@ -14,11 +14,13 @@ class AgeVM extends GetxController {
   // Property
   var faceImage = Rx<XFile?>(null); // 선택된 사진 파일 저장
   var croppedFaceImage = Rx<XFile?>(null); // 인식된 얼굴 사진 파일로 저장
-  
+
   RxBool displayAnswer = false.obs; // 답변 대화창 상태
-  RxBool displayGreeting = false.obs; // 첫 대화창 상태
-  RxBool displayGuide1 = false.obs; // 두 번째 대화창 상태
-  RxBool displayGuide2 = false.obs; // 세 번째 대화창 상태
+  List<RxBool> displayStates = [
+    false.obs, // 첫 대화창 상태
+    false.obs, // 두 번째 대화창 상태
+    false.obs, // 세 번째 대화창 상태
+  ];
 
   Rx<AgeResult> result = AgeResult(
     // 결과모델 초기화
@@ -96,13 +98,14 @@ class AgeVM extends GetxController {
     final url = Uri.parse('http://18.218.101.241:5000/FaceModel/faceCrop');
     var request = http.MultipartRequest('POST', url);
 
-    request.files.add(
-      await http.MultipartFile.fromPath(
-        'file', // 서버에서 사용할 필드 이름
-        faceImage.value!.path, // 이미지 파일 경로
-      ),
-    );
-
+    if (faceImage.value != null) {
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'file', // 서버에서 사용할 필드 이름
+          faceImage.value!.path, // 이미지 파일 경로
+        ),
+      );
+    }
     try {
       var streamedResponse = await request.send();
       cropResponeCode.value = streamedResponse.statusCode;
@@ -119,17 +122,17 @@ class AgeVM extends GetxController {
         File resizedImage = await resizeImage(file.path, 250.h);
         croppedFaceImage.value = XFile(resizedImage.path);
 
-        // print('성공!!.');
+        print('성공!!.');
       } else {
         // 서버 응답이 실패인 경우
-        // print('업로드 실패: ${streamedResponse.reasonPhrase}');
-        // print('업로드 실패: ${streamedResponse.statusCode}');
+        print('업로드 실패: ${streamedResponse.reasonPhrase}');
+        print('업로드 실패: ${streamedResponse.statusCode}');
         // 이전 이미지가 저장되어있을 경우 비워주기. 답변 메시지가 이 값의 null 유무로 판단하기 때문!
         croppedFaceImage.value = null;
       }
     } catch (e) {
       // 오류 처리
-      //print('업로드 중 오류 발생: $e');
+      print('업로드 중 오류 발생: $e');
     }
   }
 
@@ -214,24 +217,32 @@ class AgeVM extends GetxController {
 
   // 유저 아이디 들고오기
   Future<String> loadUserID() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userId = prefs.getString("p_userId")!;
-    return userId;
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  try {
+    String? userId = prefs.getString("p_userId");
+    if (userId != null) {
+      return userId;
+    } else {
+      // 유저 아이디가 없는 경우에 대한 처리
+      return ""; // 또는 다른 기본값 설정
+    }
+  } catch (e) {
+    // 예외 처리
+    print('로드 유저 아이디 함수 오류: $e');
+    return ""; // 오류가 발생한 경우에 대한 처리
   }
+}
 
   // 갤러리 열기
   getGalleryImage() async {
     ImagePicker picker = ImagePicker();
     XFile? pickedImage = await picker.pickImage(
       source: ImageSource.gallery,
-      imageQuality: 70,
+      imageQuality: 100,
     );
 
     if (pickedImage != null) {
-      // 이미지 크기를 조절하여 maxHeight에 맞춤
-      File resizedImage = await resizeImage(pickedImage.path, 250.h);
-
-      faceImage.value = XFile(resizedImage.path);
+      faceImage.value = XFile(pickedImage.path);
     }
     updateFaceImage();
     // 이미지 저장 후 잘린 이미지 요청하기.
@@ -243,14 +254,11 @@ class AgeVM extends GetxController {
     ImagePicker picker = ImagePicker();
     XFile? pickedImage = await picker.pickImage(
       source: ImageSource.camera,
-      imageQuality: 70,
+      imageQuality: 100,
     );
 
     if (pickedImage != null) {
-      // 이미지 크기를 조절하여 maxHeight에 맞춤
-      File resizedImage = await resizeImage(pickedImage.path, 250.h);
-
-      faceImage.value = XFile(resizedImage.path);
+      faceImage.value = XFile(pickedImage.path);
     }
     await updateFaceImage();
     await getCroppedImage();
@@ -279,6 +287,13 @@ class AgeVM extends GetxController {
 
   // 이전 예측 결과를 삭제.
   resetResults() {
+    faceImage.value = null;
+    displayAnswer.value = false;
+
+    for (RxBool display in displayStates) {
+      display.value = false;
+    }
+    showMessage();
     result.value = AgeResult(
       // 결과모델 초기화
       age: '',
@@ -293,15 +308,14 @@ class AgeVM extends GetxController {
   }
 
   // 화면 시작 시 메시지를 단계적으로 보여주기 위해.
-  showMessage() {
-    Future.delayed(const Duration(milliseconds: 700), () {
-      displayGreeting.value = true;
-      Future.delayed(const Duration(milliseconds: 900), () {
-        displayGuide1.value = true;
-        Future.delayed(const Duration(milliseconds: 1500), () {
-          displayGuide2.value = true;
-        });
-      });
-    });
+  Future showMessage() async {
+    await Future.delayed(const Duration(milliseconds: 700));
+    displayStates[0].value = true;
+
+    await Future.delayed(const Duration(milliseconds: 1100));
+    displayStates[1].value = true;
+
+    await Future.delayed(const Duration(milliseconds: 1100));
+    displayStates[2].value = true;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:final_main_project/viewmodel/age_vm.dart';
 import 'package:final_main_project/widget/more/charge_widget.dart';
+import 'package:final_main_project/widget/more/untiy_Ads_Widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -62,28 +63,32 @@ class ChargeWidget extends StatelessWidget {
           ),
           Container(
             width: 360.w,
-            height: 453.2.h,
-            color: Colors.grey,
+            height: 460.h,
+            color: Theme.of(context).colorScheme.onInverseSurface,
             child: Column(
               children: [
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 15.h,
+                ),
+                adsWidget(context),
+                SizedBox(
+                  height: 15.h,
                 ),
                 coinTile("코인 32개", "₩ 1,500", context),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 15.h,
                 ),
                 coinTile("코인 64개", "₩ 3,000", context),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 15.h,
                 ),
                 coinTile("코인 96개", "₩ 4,400", context),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 15.h,
                 ),
                 coinTile("코인 165개", "₩ 7,500", context),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 15.h,
                 ),
                 coinTile("코인 340개", "₩ 15,000", context),
               ],

@@ -15,32 +15,41 @@ class More extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text("예나 & 세아의 설정 칸"),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: Container(
               width: 360.w,
               height: 160.h,
-              color: Theme.of(context).colorScheme.onBackground,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 20.h,
+                    height: 15.h,
                   ),
                   // 유저 코인 보유 사항
                   holdingCoin(context),
                   // 끝
                   SizedBox(
-                    height: 20.h,
+                    height: 10.h,
                   ),
                   // 유저 충전, 사용
                   Container(
-                    width: 330.w,
+                    width: 315.w,
                     height: 40.h,
-                    color: Theme.of(context).colorScheme.background,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Theme.of(context).colorScheme.background,
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -48,6 +57,13 @@ class More extends StatelessWidget {
                       children: [
                         // 충전하기
                         coinCharging(context),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                          child: VerticalDivider(
+                            thickness: 1,
+                            width: 5,
+                          ),
+                        ),
                         // 사용 내역
                         useCoin(context)
                       ],
@@ -56,39 +72,39 @@ class More extends StatelessWidget {
                 ],
               ),
             ),
-            // 유저기본정보 끝
-            SizedBox(
-              height: 30.h,
-            ),
-            // 유저 프로필
-            userpage(),
-            // 유저 프로필 끝
-            SizedBox(
-              height: 10.h,
-            ),
-            // 페이먼트
-            paymentWidget(context),
-            // 페이먼트 끝
-            const SizedBox(
-              height: 30,
-            ),
-            // 알람
-            notification(),
-            // 알람 끝
-            const SizedBox(
-              height: 30,
-            ),
-            // 기타
-            etcWidget(context),
-            // 기타 끝
-            const SizedBox(
-              height: 30,
-            ),
-            // 로그아웃
-            logOut(),
-            // 로그아웃 끝
-          ],
-        ),
+          ),
+          // 유저기본정보 끝
+          SizedBox(
+            height: 30.h,
+          ),
+          // 유저 프로필
+          userpage(context),
+          // 유저 프로필 끝
+          SizedBox(
+            height: 25.h,
+          ),
+          // 페이먼트
+          paymentWidget(context),
+          // 페이먼트 끝
+          SizedBox(
+            height: 25.h,
+          ),
+          // 알람
+          notification(context),
+          // 알람 끝
+          SizedBox(
+            height: 25.h,
+          ),
+          // 기타
+          etcWidget(context),
+          // 기타 끝
+          SizedBox(
+            height: 25.h,
+          ),
+          // 로그아웃
+          logOut(context),
+          // 로그아웃 끝
+        ],
       ),
     );
   }
