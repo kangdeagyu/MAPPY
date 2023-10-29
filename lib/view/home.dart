@@ -14,6 +14,7 @@ class Home extends StatelessWidget {
         coverImage: 'assets/images/seah-cover.png',
         name: 'AI 세아',
         description: '심리 케어 서비스',
+        statusMessage: '세상을 더 아름답게 🌈',
         model: 'Transformers',
         trainingData: '160,000',
         tabbar_index: 2,
@@ -24,6 +25,7 @@ class Home extends StatelessWidget {
         coverImage: 'assets/images/yena-cover.png',
         name: 'AI 예나',
         description: '연령 예측 서비스',
+        statusMessage: '사진 분석 전문가! 😎',
         model: 'GAN',
         trainingData: '8,000',
         tabbar_index: 1,
@@ -65,9 +67,11 @@ class Home extends StatelessWidget {
                 aiProfiles[index].imagePath,
                 aiProfiles[index].coverImage,
                 aiProfiles[index].description,
-                aiProfiles[index].description,
+                aiProfiles[index].statusMessage,
                 aiProfiles[index].tabbar_index,
-                aiProfiles[index].text
+                aiProfiles[index].text,
+                aiProfiles[index].model,
+                aiProfiles[index].trainingData,
               );
             },
             child: Padding(
@@ -103,18 +107,20 @@ class Home extends StatelessWidget {
     );
   }
 
-  void _showFriendDetailSheet(BuildContext context, String name, String imagePath, String coverImagePath, String desc1, String desc2, int index, String text) {
+  void _showFriendDetailSheet(BuildContext context, String name, String imagePath, String coverImagePath, String desc, String status, int index, String text, String model, String data) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {
         return FriendDetailSheet(
           name: name,
           imagePath: imagePath,
+          description: desc,
+          statusMessage: status,
           coverImagePath: coverImagePath,
-          description1: desc1,
-          description2: desc2,
           tabbar_index: index,
           text: text,
+          model: model,
+          data: data,
         );
       },
       isScrollControlled: true, // 전체 화면을 사용하기 위해 true로 설정
