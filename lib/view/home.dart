@@ -1,148 +1,125 @@
+import 'package:final_main_project/model/aiProfile.dart';
 import 'package:final_main_project/view/tabbar_screen.dart';
+import 'package:final_main_project/widget/chat/friendDetailSheetWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  Home({super.key});
+
+  final List<AIProfile> aiProfiles = [
+    AIProfile(
+        imagePath: 'assets/images/Chatbot_Icon.png',
+        coverImage: 'assets/images/seah-cover.png',
+        name: 'AI 세아',
+        description: '심리 케어 서비스',
+        model: 'Transformers',
+        trainingData: '160,000',
+        tabbar_index: 2,
+        text: '세아와 대화하기',
+      ),
+    AIProfile(
+        imagePath: 'assets/images/yena_crop.png',
+        coverImage: 'assets/images/yena-cover.png',
+        name: 'AI 예나',
+        description: '연령 예측 서비스',
+        model: 'GAN',
+        trainingData: '8,000',
+        tabbar_index: 1,
+        text: '예나와 대화하기'
+      ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Home",
+        automaticallyImplyLeading: false,
+        title: const Row(
+          children: [
+            // CircleAvatar(
+            //   backgroundImage: AssetImage('assets/images/Chatbot_Icon.png'),
+            //   backgroundColor: Colors.white,
+            //   radius: 20,
+            // ),
+            SizedBox(width: 8),
+            Text(
+              '친구들',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
+        centerTitle: false,
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 300,
-              ),
-              Text(
-                "챗봇서비스",
-              ),
-              SizedBox(
-                width: 320.w,
-                child: Divider(
-                  // 줄 긋기
-                  height: 15.h, // 줄이 차지하는 크기
-                  color: const Color.fromARGB(255, 38, 29, 29), // 색상
-                  thickness: 2, // 줄 두께
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(6.0.h),
-                child: ElevatedButton(
-                  onPressed: () => Get.offAll(const TabBarScreen(), arguments: 2),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      //  버튼 모양 깎기
-                      borderRadius: BorderRadius.circular(30), // 10은 파라미터
-                    ),
-                    backgroundColor: Color.fromRGBO(255, 255, 255, 100.0),
-                    minimumSize: const Size(200, 150),
+      body: ListView.builder(
+        itemCount: aiProfiles.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              _showFriendDetailSheet(
+                context,
+                aiProfiles[index].name,
+                aiProfiles[index].imagePath,
+                aiProfiles[index].coverImage,
+                aiProfiles[index].description,
+                aiProfiles[index].description,
+                aiProfiles[index].tabbar_index,
+                aiProfiles[index].text
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(aiProfiles[index].imagePath),
+                    backgroundColor: Colors.white,
+                    radius: 20,
                   ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/images/Chatbot_Icon.png",
-                              width: 120.w,
-                              height: 120.h,
-                              fit: BoxFit.fill,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(8.0.h),
-                              child: const Text(
-                                "안녕하세요! 세아입니다.\n 저는 챗봇서비스를 제공해요",
-                                style: TextStyle(
-                                  // 글씨 스타일주기
-                                  color: Colors.black, // 글씨 색상
-                                  fontSize: 15, // 글씨 크기
-                                  fontWeight: FontWeight.bold, // 폰트 사이즈
-                                  letterSpacing: 3, // 글자 간 간격
-                                ),
-                              ),
-                            ),
-                          ],
+                  SizedBox(width: 10), // 원하는 간격을 조절합니다.
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        aiProfiles[index].name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
-                      ],
-                    ),
+                      ),
+                      Text(
+                        aiProfiles[index].description,
+                      ),
+                    ],
                   ),
-                ),
+                ],
               ),
-              SizedBox(
-                height: 40.h,
-              ),
-              Text(
-                "연령예측 서비스",
-              ),
-              SizedBox(
-                width: 320.w,
-                child: Divider(
-                  // 줄 긋기
-                  height: 15.h, // 줄이 차지하는 크기
-                  color: const Color.fromARGB(255, 38, 29, 29), // 색상
-                  thickness: 2, // 줄 두께
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(6.0.h),
-                child: ElevatedButton(
-                  onPressed: () => Get.offAll(const TabBarScreen(), arguments: 1),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      //  버튼 모양 깎기
-                      borderRadius: BorderRadius.circular(30), // 10은 파라미터
-                    ),
-                    backgroundColor: Color.fromRGBO(255, 255, 255, 100.0),
-                    minimumSize: const Size(200, 150),
-                  ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/images/Age_Icon.png",
-                              width: 120.w,
-                              height: 120.h,
-                              fit: BoxFit.fill,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(8.0.h),
-                              child: const Text(
-                                "안녕하세요! 예나입니다.\n저는 연령예측서비스를 제공해요",
-                                style: TextStyle(
-                                  // 글씨 스타일주기
-                                  color: Colors.black, // 글씨 색상
-                                  fontSize: 15, // 글씨 크기
-                                  fontWeight: FontWeight.bold, // 폰트 사이즈
-                                  letterSpacing: 3, // 글자 간 간격
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
+
+  void _showFriendDetailSheet(BuildContext context, String name, String imagePath, String coverImagePath, String desc1, String desc2, int index, String text) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return FriendDetailSheet(
+          name: name,
+          imagePath: imagePath,
+          coverImagePath: coverImagePath,
+          description1: desc1,
+          description2: desc2,
+          tabbar_index: index,
+          text: text,
+        );
+      },
+      isScrollControlled: true, // 전체 화면을 사용하기 위해 true로 설정
+    );
+  }
 }
+
+

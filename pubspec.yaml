@@ -71,6 +71,9 @@ dependencies:
   unity_ads_plugin: ^0.3.10
   # 개인정보 저장
   flutter_dotenv: ^5.1.0
+  #
+  flutter_slidable: ^3.0.0
+
 
 
 dev_dependencies:

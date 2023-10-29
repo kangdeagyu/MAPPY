@@ -4,6 +4,7 @@ import 'package:final_main_project/view/home.dart';
 import 'package:final_main_project/view/more.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class TabBarScreen extends StatefulWidget {
   const TabBarScreen({super.key});
@@ -19,7 +20,14 @@ class _TabBarScreenState extends State<TabBarScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    int initialTabIndex = Get.arguments ?? 0; // 인수 받아오기
+    _tabController = TabController(initialIndex: initialTabIndex, length: 4, vsync: this);
+
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        setState(() {});
+      }
+    });
   }
 
   @override
