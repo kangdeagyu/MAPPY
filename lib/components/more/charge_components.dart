@@ -63,7 +63,7 @@ class ChargeWidget extends StatelessWidget {
           ),
           Container(
             width: 360.w,
-            height: 460.h,
+            height: 470.h,
             color: Theme.of(context).colorScheme.onInverseSurface,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
