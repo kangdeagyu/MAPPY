@@ -10,7 +10,7 @@ class UseCoin extends StatelessWidget {
   Widget build(BuildContext context) {
     final vm = Get.put(PurchaseVM());
 
-    Text _getCategoryText(String payment) {
+    Text getCategoryText(String payment) {
       switch (payment) {
         case 'charge':
           return const Text("코인 충전");
@@ -23,7 +23,7 @@ class UseCoin extends StatelessWidget {
       }
     }
 
-    Text _getPriceText(String payment, int coin) {
+    Text getPriceText(String payment, int coin) {
       final coinPrefix = payment == 'charge' || payment == 'ads' ? '+' : '-';
       return Text("$coinPrefix$coin 코인");
     }
@@ -151,8 +151,8 @@ class UseCoin extends StatelessWidget {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _getCategoryText(payment.category),
-                          _getPriceText(payment.category, payment.price),
+                          getCategoryText(payment.category),
+                          getPriceText(payment.category, payment.price),
                         ],
                       ),
                       subtitle: Row(
