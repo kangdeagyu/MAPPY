@@ -10,16 +10,16 @@ class Home extends StatelessWidget {
 
   final List<AIProfile> aiProfiles = [
     AIProfile(
-        imagePath: 'assets/images/Chatbot_Icon.png',
-        coverImage: 'assets/images/seah-cover.png',
-        name: 'AI 세아',
-        description: '심리 케어 서비스',
-        statusMessage: '세상을 더 아름답게 🌈',
-        model: 'Transformers',
-        trainingData: '160,000',
-        tabbar_index: 2,
-        text: '세아와 대화하기',
-      ),
+      imagePath: 'assets/images/Chatbot_Icon.png',
+      coverImage: 'assets/images/seah-cover.png',
+      name: 'AI 세아',
+      description: '심리 케어 서비스',
+      statusMessage: '세상을 더 아름답게 🌈',
+      model: 'Transformers',
+      trainingData: '160,000',
+      tabbar_index: 2,
+      text: '세아와 대화하기',
+    ),
     AIProfile(
         imagePath: 'assets/images/yena_crop.png',
         coverImage: 'assets/images/yena-cover.png',
@@ -29,8 +29,7 @@ class Home extends StatelessWidget {
         model: 'GAN',
         trainingData: '8,000',
         tabbar_index: 1,
-        text: '예나와 대화하기'
-      ),
+        text: '예나와 대화하기'),
   ];
 
   @override
@@ -59,55 +58,87 @@ class Home extends StatelessWidget {
       body: ListView.builder(
         itemCount: aiProfiles.length,
         itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              _showFriendDetailSheet(
-                context,
-                aiProfiles[index].name,
-                aiProfiles[index].imagePath,
-                aiProfiles[index].coverImage,
-                aiProfiles[index].description,
-                aiProfiles[index].statusMessage,
-                aiProfiles[index].tabbar_index,
-                aiProfiles[index].text,
-                aiProfiles[index].model,
-                aiProfiles[index].trainingData,
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage(aiProfiles[index].imagePath),
-                    backgroundColor: Colors.white,
-                    radius: 20,
-                  ),
-                  SizedBox(width: 10), // 원하는 간격을 조절합니다.
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          return Column(
+            children: [
+              InkWell(
+                onTap: () {
+                  _showFriendDetailSheet(
+                    context,
+                    aiProfiles[index].name,
+                    aiProfiles[index].imagePath,
+                    aiProfiles[index].coverImage,
+                    aiProfiles[index].description,
+                    aiProfiles[index].statusMessage,
+                    aiProfiles[index].tabbar_index,
+                    aiProfiles[index].text,
+                    aiProfiles[index].model,
+                    aiProfiles[index].trainingData,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
                     children: [
-                      Text(
-                        aiProfiles[index].name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      CircleAvatar(
+                        backgroundImage:
+                            AssetImage(aiProfiles[index].imagePath),
+                        backgroundColor: Colors.white,
+                        radius: 20,
                       ),
-                      Text(
-                        aiProfiles[index].description,
+                      SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            aiProfiles[index].name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            aiProfiles[index].description,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 150.h,
+                      ),
+                      IconButton(
+                        icon: Image.asset(
+                          'assets/images/insta.png',
+                          scale: 15,
+                        ),
+                        onPressed: () {},
+                        iconSize: 10,
+                        color: Colors.white,
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+              if (index != aiProfiles.length - 1)
+                Divider(
+                  height: 1.0,
+                  color: Colors.grey[200],
+                ), // 마지막 항목이 아닐 때만 Divider 추가
+            ],
           );
         },
       ),
     );
   }
 
-  void _showFriendDetailSheet(BuildContext context, String name, String imagePath, String coverImagePath, String desc, String status, int index, String text, String model, String data) {
+  void _showFriendDetailSheet(
+      BuildContext context,
+      String name,
+      String imagePath,
+      String coverImagePath,
+      String desc,
+      String status,
+      int index,
+      String text,
+      String model,
+      String data) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {
@@ -127,5 +158,3 @@ class Home extends StatelessWidget {
     );
   }
 }
-
-
