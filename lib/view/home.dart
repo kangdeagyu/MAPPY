@@ -86,23 +86,23 @@ class Home extends StatelessWidget {
                         radius: 20,
                       ),
                       SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            aiProfiles[index].name,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              aiProfiles[index].name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Text(
-                            aiProfiles[index].description,
-                          ),
-                        ],
+                            Text(
+                              aiProfiles[index].description,
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        width: 150.h,
-                      ),
+                      Spacer(), // 여기에 Spacer를 추가
                       IconButton(
                         icon: Image.asset(
                           'assets/images/insta.png',
