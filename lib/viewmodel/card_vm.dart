@@ -54,11 +54,12 @@ class CardVm extends GetxController {
     uId.value = prefs.getString("p_userId") ?? '';
   }
 
-  // 저장된 유저 아이디, 테마 지우기
+  // 저장된 유저 아이디, 테마, 알림 설정 지우기
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("p_userId");
     prefs.remove('isDarkMode');
+    prefs.remove('notificationMode');
   }
 
   // 카드 정보 불러오기
