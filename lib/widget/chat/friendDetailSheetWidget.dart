@@ -45,7 +45,7 @@ class FriendDetailSheet extends StatelessWidget {
             top: 30.h,
             left: 15.h,
             child: Container(
-              padding: EdgeInsets.all(1),
+              padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
                 shape: BoxShape.circle, // 원형의 테두리를 생성
                 border:
@@ -105,7 +105,6 @@ class FriendDetailSheet extends StatelessWidget {
                             icon: const Icon(Icons.chat),
                             onPressed: () {
                               Navigator.pop(context); // 바텀시트 닫기
-                              print(tabbar_index);
                               Get.offAll(() => const TabBarScreen(),
                                   arguments: tabbar_index);
                             },
@@ -114,7 +113,7 @@ class FriendDetailSheet extends StatelessWidget {
                           ),
                           Text(
                             text,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
@@ -138,7 +137,7 @@ class FriendDetailSheet extends StatelessWidget {
                             iconSize: 30,
                             color: Colors.white,
                           ),
-                          Text(
+                          const Text(
                             '인스타그램',
                             style: TextStyle(
                               color: Colors.white,
@@ -152,7 +151,8 @@ class FriendDetailSheet extends StatelessWidget {
                   ),
                 ],
               ),
-              Expanded(child: SizedBox()), // 이 부분을 추가하여 아래의 Row를 화면 하단으로 밀어냅니다.
+              // Expanded(child: SizedBox()), // 이 부분을 추가하여 아래의 Row를 화면 하단으로 밀어냅니다.
+              const Spacer(), // 이 부분을 추가하여 아래의 Row를 화면 하단으로 밀어냅니다.
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -160,13 +160,13 @@ class FriendDetailSheet extends StatelessWidget {
                     children: [
                       Text(
                         model,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
-                      Text(
+                      const Text(
                         '학습 모델 📝',
                         style: TextStyle(
                           color: Colors.white,
@@ -180,13 +180,13 @@ class FriendDetailSheet extends StatelessWidget {
                     children: [
                       Text(
                         "$data개",
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
-                      Text(
+                      const Text(
                         '학습 데이터',
                         style: TextStyle(
                           color: Colors.white,
