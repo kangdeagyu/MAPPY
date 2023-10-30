@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_main_project/view/loginpage.dart';
 import 'package:final_main_project/view/register.dart';
 import 'package:final_main_project/view/tabbar_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
   bool _visibility = true;
   int deleted = 0;
 
-  late AppLifecycleState _lastLifeCycleState;
+  //late AppLifecycleState _lastLifeCycleState;
 
   @override
   void initState() {
@@ -31,33 +32,33 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
     uidController = TextEditingController();
     upasswordController = TextEditingController();
 
-    WidgetsBinding.instance.addObserver(this);
-    _initSharedPreferences(); // Shared Preference 초기화
+    //WidgetsBinding.instance.addObserver(this);
+    //_initSharedPreferences(); // Shared Preference 초기화
   }
 
-  //  ID PW 지우기    앱상태로 프린트찍기  => Observer
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.detached:
-        print("detached");
-        break;
-      case AppLifecycleState.resumed:
-        print("resume");
-        break;
-      case AppLifecycleState.inactive:
-        _disposeSharedPreferences();
-        print("inactive");
-        break;
-      case AppLifecycleState.paused:
-        print("paused");
-        break;
-      case AppLifecycleState.hidden:
-      // TODO: Handle this case.
-    }
-    _lastLifeCycleState = state;
-    super.didChangeAppLifecycleState(state);
-  }
+  // //  ID PW 지우기    앱상태로 프린트찍기  => Observer
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   switch (state) {
+  //     case AppLifecycleState.detached:
+  //       print("detached");
+  //       break;
+  //     case AppLifecycleState.resumed:
+  //       print("resume");
+  //       break;
+  //     case AppLifecycleState.inactive:
+  //       _disposeSharedPreferences();
+  //       print("inactive");
+  //       break;
+  //     case AppLifecycleState.paused:
+  //       print("paused");
+  //       break;
+  //     case AppLifecycleState.hidden:
+  //     // TODO: Handle this case.
+  //   }
+  //   _lastLifeCycleState = state;
+  //   super.didChangeAppLifecycleState(state);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -170,25 +171,26 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          await selectFirebase();
-                          print("del?${deleted}");
-                          Future<int> rs = loginCheck(uidController.text.trim(),
-                              upasswordController.text.trim());
-                          int rsNum = await rs;
-                          if (rsNum == 1) {
-                            // 로그인 성공
-                            _saveSharedPreferences();
-                            Get.to(const TabBarScreen());
-                          } else {
-                            // 로그인 실패
-                            if (deleted == 0) {
-                              // 로그인 실패사유: 아이디비번 불일치
-                              _FailAlert();
-                            } else {
-                              // 로그인 실패사유 : 탈퇴회원
-                              _FailAlert2();
-                            }
-                          }
+                          // await selectFirebase();
+                          // print("del?${deleted}");
+                          Get.to(LoginPage());
+                          // Future<int> rs = loginCheck(uidController.text.trim(),
+                          //     upasswordController.text.trim());
+                          // int rsNum = await rs;
+                          // if (rsNum == 1) {
+                          //   // 로그인 성공
+                          //   _saveSharedPreferences();
+                          //   Get.to(const TabBarScreen());
+                          // } else {
+                          //   // 로그인 실패
+                          //   if (deleted == 0) {
+                          //     // 로그인 실패사유: 아이디비번 불일치
+                          //     _FailAlert();
+                          //   } else {
+                          //     // 로그인 실패사유 : 탈퇴회원
+                          //     _FailAlert2();
+                          //   }
+                          // }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFFF4081), // 버튼 배경색
@@ -213,7 +215,8 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          _visibility = !_visibility;
+                          Get.to(LoginPage());
+                          // _visibility = !_visibility;
                           setState(() {});
                         },
                         style: ElevatedButton.styleFrom(
