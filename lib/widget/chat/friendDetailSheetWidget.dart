@@ -67,7 +67,7 @@ class FriendDetailSheet extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 400.h,
+                height: 350.h,
               ),
               // AI의 사진
               CircleAvatar(
@@ -93,7 +93,7 @@ class FriendDetailSheet extends StatelessWidget {
                   fontSize: 15,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
