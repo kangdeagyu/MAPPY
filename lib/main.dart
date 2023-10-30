@@ -1,6 +1,7 @@
 import 'package:final_main_project/view/login.dart';
 import 'package:final_main_project/view/tabbar_screen.dart';
 import 'package:final_main_project/viewmodel/card_vm.dart';
+import 'package:final_main_project/viewmodel/notification_vm.dart';
 import 'package:final_main_project/viewmodel/theme_obs.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,14 +9,28 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 import 'firebase_options.dart';
 import 'package:get/get.dart';
 
 void main() async {
-  await dotenv.load();
-  KakaoSdk.init(nativeAppKey: 'faa13ab1a0485a4e5528d40c061caaef');
+  // 최적화
   WidgetsFlutterBinding.ensureInitialized();
+  // env파일 불러오기
+  await dotenv.load();
+  // 타임 시간대 설정
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
+  // 알람 권한 설정
+  Get.put(NotificationVm());
+  Future.delayed(const Duration(seconds: 3),
+      () => Get.find<NotificationVm>().requestNotificationPermission());
+
+  // 카카오
+  KakaoSdk.init(nativeAppKey: 'faa13ab1a0485a4e5528d40c061caaef');
+
+  // 파이어베이스 초기화
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

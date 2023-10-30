@@ -1,5 +1,7 @@
+import 'package:final_main_project/viewmodel/notification_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 Widget notification(context) {
   return Column(
@@ -20,7 +22,14 @@ Widget notification(context) {
                 height: 0,
               ),
             ),
-            const Icon(Icons.arrow_forward_ios)
+            Obx(
+              () => Switch(
+                value: Get.find<NotificationVm>().isNotificationMode.value,
+                onChanged: (value) async {
+                  await Get.find<NotificationVm>().toggleNotification();
+                },
+              ),
+            )
           ],
         ),
       ),

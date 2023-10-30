@@ -11,8 +11,10 @@ Widget etcWidget(BuildContext context) {
       SizedBox(
         width: 320.w,
         height: 30.h,
-        child: Obx(() =>
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        child: Obx(
+          () => Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               Text(
                 '다크 모드',
                 style: TextStyle(
@@ -26,10 +28,12 @@ Widget etcWidget(BuildContext context) {
               Switch(
                 value: themeController.isDarkMode.value,
                 onChanged: (value) {
-                  themeController.isDarkMode.value = value;
+                  themeController.toggleDarkMode(value);
                 },
               )
-            ])),
+            ],
+          ),
+        ),
       ),
     ],
   );

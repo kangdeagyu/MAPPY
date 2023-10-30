@@ -3,6 +3,7 @@ class AIProfile {
   final String coverImage;
   final String name;
   final String description;
+  final String statusMessage;
   final String model;
   final String trainingData;
   final int tabbar_index;
@@ -13,6 +14,7 @@ class AIProfile {
     required this.coverImage,
     required this.name,
     required this.description,
+    required this.statusMessage,
     required this.model,
     required this.trainingData,
     required this.tabbar_index,

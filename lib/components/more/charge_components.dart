@@ -59,17 +59,15 @@ class ChargeWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(
-            height: 30,
+            height: 20,
           ),
           Container(
             width: 360.w,
-            height: 460.h,
+            height: 470.h,
             color: Theme.of(context).colorScheme.onInverseSurface,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 15.h,
-                ),
                 adsWidget(context),
                 SizedBox(
                   height: 15.h,
