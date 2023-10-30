@@ -66,7 +66,7 @@ Widget selectCard(String coin, String pay, BuildContext context) {
               onTap: () {
                 Get.bottomSheet(
                   Container(
-                    height: 300.h,
+                    height: 330.h,
                     decoration: BoxDecoration(
                       color: Colors.grey[300],
                       borderRadius: const BorderRadius.only(
