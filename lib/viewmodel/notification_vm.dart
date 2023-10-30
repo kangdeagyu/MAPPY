@@ -39,13 +39,14 @@ class NotificationVm extends GetxController with WidgetsBindingObserver {
   Future<void> initializeNotifications() async {
     tz.initializeTimeZones();
     AndroidInitializationSettings androidInitializationSettings =
-        const AndroidInitializationSettings('mipmap/ic_launcher'); // 아이콘 알람
+        const AndroidInitializationSettings(
+            "@mipmap/notification_icon"); // 아이콘 알람
 
     DarwinInitializationSettings iosInitializationSettings =
         const DarwinInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
     );
 
     InitializationSettings initializationSettings = InitializationSettings(
@@ -108,22 +109,28 @@ class NotificationVm extends GetxController with WidgetsBindingObserver {
       iOS: DarwinNotificationDetails(badgeNumber: 1),
     );
 
-    final morningTime =
-        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 2));
-    final eveningTime =
-        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 2));
-
     flutterLocalNotificationsPlugin.zonedSchedule(
-        0, 'Good Morning!', 'Wake up!', morningTime, notificationDetails,
+        0, 'Good Morning!', 'Wake up!', makeDate(8, 0, 0), notificationDetails,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time);
 
-    flutterLocalNotificationsPlugin.zonedSchedule(
-        1, 'Good Evening!', 'Time to relax!', eveningTime, notificationDetails,
+    flutterLocalNotificationsPlugin.zonedSchedule(1, 'Good Evening!',
+        'Time to relax!', makeDate(20, 0, 0), notificationDetails,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time);
+  }
+
+  makeDate(hour, min, sec) {
+    var now = tz.TZDateTime.now(tz.local);
+    var when =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, min, sec);
+    if (when.isBefore(now)) {
+      return when.add(const Duration(days: 1));
+    } else {
+      return when;
+    }
   }
 
   // 테스트

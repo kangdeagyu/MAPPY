@@ -79,6 +79,8 @@ dependencies:
   timezone: ^0.9.2
   # 권한설정
   permission_handler: ^11.0.1
+  # 아이콘 생성
+  flutter_launcher_icons: ^0.13.1
 
 
 
@@ -93,6 +95,11 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
+# 알람 아이콘 생성
+flutter_icons:
+  android: "notification_icon"
+  ios: true
+  image_path: "assets/images/login.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
