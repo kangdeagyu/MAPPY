@@ -10,6 +10,13 @@ class VisibleController extends GetxController{
 
   List infoList = [];
 
+    @override
+    void onClose() {
+      textEditingController.text = "";
+      super.onClose();
+    }
+
+
   increase(){
     if (counter >= 4){
       counter = 4 ;
