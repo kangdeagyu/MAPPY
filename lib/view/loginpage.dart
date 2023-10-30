@@ -1,4 +1,5 @@
 import 'package:final_main_project/view/register.dart';
+import 'package:final_main_project/view/tabbar_screen.dart';
 import 'package:final_main_project/viewmodel/login_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -121,7 +122,28 @@ class LoginPage extends StatelessWidget {
                     height: 20.h,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      print("del?${controller.deleted}");
+                      Get.to(LoginPage());
+                      Future<int> rs = controller.loginCheck(
+                          controller.uidController.text.trim(),
+                          controller.upasswordController.text.trim());
+                      int rsNum = await rs;
+                      if (rsNum == 1) {
+                        // 로그인 성공
+                        controller.saveSharedPreferences();
+                        Get.to(const TabBarScreen());
+                      } else {
+                        // 로그인 실패
+                        if (controller.deleted == 0) {
+                          // 로그인 실패사유: 아이디비번 불일치
+                          controller.FailAlert();
+                        } else {
+                          // 로그인 실패사유 : 탈퇴회원
+                          controller.FailAlert2();
+                        }
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       shape: RoundedRectangleBorder(
@@ -141,7 +163,7 @@ class LoginPage extends StatelessWidget {
                     height: 15.h,
                   ),
                   Padding(
-                    padding:  EdgeInsets.all(20.0.w),
+                    padding: EdgeInsets.all(20.0.w),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -178,8 +200,16 @@ class LoginPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(1),
                         ),
                         child: InkWell(
-                          onTap: () {
+                          onTap: () async {
                             // 이미지 버튼을 탭했을 때 수행할 작업
+                            await controller.selectFirebase();
+                            if (controller.deleted == 0) {
+                              //udeleted 가 0이면 회원
+                              controller.kakao();
+                            } else {
+                              //udeleted 가 1이면 탈퇴회원
+                              controller.FailAlert2();
+                            }
                           },
                           child: Image.asset(
                             "assets/images/kakao.png",
@@ -243,39 +273,39 @@ class LoginPage extends StatelessWidget {
                   ),
                   const Spacer(),
                   Padding(
-                    padding:  EdgeInsets.fromLTRB(0, 0, 0, 30.h),
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 30.h),
                     child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "아직 회원이 아니시라면 ?",
-                              style: TextStyle(
-                                // 글씨 스타일주기
-                                color: Colors.black, // 글씨 색상
-                                fontSize: 15, // 글씨 크기
-                                //fontWeight: FontWeight.bold, // 폰트 사이즈
-                                //letterSpacing: 1, // 글자 간 간격
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                // 버튼 누르기 액션
-                                // dart code
-                                Get.to(const Register());
-                              },
-                              style: TextButton.styleFrom(
-                                // 버튼 스타일
-                                foregroundColor: Colors.blue,
-                              ),
-                              child: const Text(
-                                "회원가입",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                          ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "아직 회원이 아니시라면 ?",
+                          style: TextStyle(
+                            // 글씨 스타일주기
+                            color: Colors.black, // 글씨 색상
+                            fontSize: 15, // 글씨 크기
+                            //fontWeight: FontWeight.bold, // 폰트 사이즈
+                            //letterSpacing: 1, // 글자 간 간격
+                          ),
                         ),
+                        TextButton(
+                          onPressed: () {
+                            // 버튼 누르기 액션
+                            // dart code
+                            Get.to(const Register());
+                          },
+                          style: TextButton.styleFrom(
+                            // 버튼 스타일
+                            foregroundColor: Colors.blue,
+                          ),
+                          child: const Text(
+                            "회원가입",
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

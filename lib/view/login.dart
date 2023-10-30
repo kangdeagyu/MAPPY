@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                           decoration: InputDecoration(
                             labelText: '비밀번호',
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
@@ -171,26 +171,26 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          // await selectFirebase();
-                          // print("del?${deleted}");
+                          await selectFirebase();
+                          print("del?${deleted}");
                           Get.to(LoginPage());
-                          // Future<int> rs = loginCheck(uidController.text.trim(),
-                          //     upasswordController.text.trim());
-                          // int rsNum = await rs;
-                          // if (rsNum == 1) {
-                          //   // 로그인 성공
-                          //   _saveSharedPreferences();
-                          //   Get.to(const TabBarScreen());
-                          // } else {
-                          //   // 로그인 실패
-                          //   if (deleted == 0) {
-                          //     // 로그인 실패사유: 아이디비번 불일치
-                          //     _FailAlert();
-                          //   } else {
-                          //     // 로그인 실패사유 : 탈퇴회원
-                          //     _FailAlert2();
-                          //   }
-                          // }
+                          Future<int> rs = loginCheck(uidController.text.trim(),
+                              upasswordController.text.trim());
+                          int rsNum = await rs;
+                          if (rsNum == 1) {
+                            // 로그인 성공
+                            _saveSharedPreferences();
+                            Get.to(const TabBarScreen());
+                          } else {
+                            // 로그인 실패
+                            if (deleted == 0) {
+                              // 로그인 실패사유: 아이디비번 불일치
+                              _FailAlert();
+                            } else {
+                              // 로그인 실패사유 : 탈퇴회원
+                              _FailAlert2();
+                            }
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFFF4081), // 버튼 배경색
@@ -198,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                               Theme.of(context).colorScheme.onPrimary, // 버튼 글씨색
                           shape: RoundedRectangleBorder(
                             //  버튼 모양 깎기
-                            borderRadius: BorderRadius.circular(10), // 10은 파라미터
+                            borderRadius: BorderRadius.circular(5), // 10은 파라미터
                           ),
                         ),
                         child: const Text(
@@ -222,7 +222,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             //  버튼 모양 깎기
-                            borderRadius: BorderRadius.circular(30), // 10은 파라미터
+                            borderRadius: BorderRadius.circular(5), // 10은 파라미터
                           ),
                           minimumSize: const Size(300, 40),
                         ),
@@ -240,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             //  버튼 모양 깎기
-                            borderRadius: BorderRadius.circular(30), // 10은 파라미터
+                            borderRadius: BorderRadius.circular(5), // 10은 파라미터
                           ),
                           minimumSize: const Size(300, 40),
                         ),
@@ -265,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             //  버튼 모양 깎기
-                            borderRadius: BorderRadius.circular(30), // 10은 파라미터
+                            borderRadius: BorderRadius.circular(5), // 10은 파라미터
                           ),
                           backgroundColor:
                               const Color.fromARGB(255, 255, 240, 0),
