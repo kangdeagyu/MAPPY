@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_main_project/view/register.dart';
 import 'package:final_main_project/view/tabbar_screen.dart';
+import 'package:final_main_project/widget/register/register_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -79,9 +80,11 @@ class LoginVM extends GetxController {
         if (rs == 1) {
           //_showDialog();
           ksaveSharedPreferences(user.kakaoAccount?.email);
+
           Get.to(const TabBarScreen());
         } else {
           // 회원가입페이지로 이동
+          Message_wook.kid = user.kakaoAccount?.email;
           kakaoRegisterCheck();
         }
       } catch (error) {
