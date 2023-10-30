@@ -258,7 +258,11 @@ class AgeVM extends GetxController {
     );
 
     if (pickedImage != null) {
-      faceImage.value = XFile(pickedImage.path);
+
+      File resizedImage = await resizeImage(pickedImage.path, 700.h);
+
+      faceImage.value = XFile(resizedImage.path);
+      
     }
     //await updateFaceImage();
     await getCroppedImage();
