@@ -1,7 +1,6 @@
 import 'package:final_main_project/widget/register/register_widget.dart';
 import 'package:flutter/material.dart';
 
-
 class Register extends StatefulWidget {
   const Register({super.key});
 
@@ -46,7 +45,8 @@ class _RegisterState extends State<Register> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            "회원가입 폼",
+            "회원가입",
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         body: PageView(
@@ -83,4 +83,3 @@ class _RegisterState extends State<Register> {
     );
   }
 }
-

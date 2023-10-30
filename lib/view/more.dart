@@ -18,9 +18,10 @@ class More extends StatelessWidget {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: false,
           automaticallyImplyLeading: false,
           title: const Text(
-            "예나 & 세아의 설정 칸",
+            "MAPPY 더보기",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),

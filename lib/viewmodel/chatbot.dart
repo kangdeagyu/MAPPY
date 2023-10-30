@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Chatbot extends GetxController {
-
   // var id;
   // String userid;
   // String content;
@@ -17,7 +16,6 @@ class Chatbot extends GetxController {
     loadUserID();
     checkCoin();
   }
-  
 
   // Chatbot(
   //   {
@@ -76,7 +74,7 @@ class Chatbot extends GetxController {
     }
   }
 
-    Future<void> insertHistory() async {
+  Future<void> insertHistory() async {
     String userId = await loadUserID();
 
     // 'chat' 컬렉션 참조
@@ -92,8 +90,8 @@ class Chatbot extends GetxController {
     await historys.add({
       'category': 'seah', // 'yena' or 'seah' or 'charge'
       'price': 10, // 충전이든 사용이든 여기에 넣어주기.
+      'coinHistory': myCoin.value - 10,
       'usedate': Timestamp.fromDate(DateTime.now())
     });
   }
-
 }

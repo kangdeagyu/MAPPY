@@ -14,7 +14,10 @@ class UserPage extends StatelessWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('프로필 수정'), // Appbar에 표시할 타이틀 텍스트
+          title: const Text(
+            '프로필 수정',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ), // Appbar에 표시할 타이틀 텍스트
         ),
         body: GetBuilder<MyPageVM>(
           builder: (controller) {
@@ -61,26 +64,30 @@ class UserPage extends StatelessWidget {
                                 width: 250,
                                 child: TextField(
                                   readOnly: true,
-                                  controller: Get.find<MyPageVM>().uidController,
+                                  controller:
+                                      Get.find<MyPageVM>().uidController,
                                   decoration: const InputDecoration(
                                     labelText: "계정",
                                   ),
                                   style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onBackground,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ),
                                 ),
                               ),
                               SizedBox(
                                 width: 250,
                                 child: TextField(
-                                  controller: Get.find<MyPageVM>().unameController,
+                                  controller:
+                                      Get.find<MyPageVM>().unameController,
                                   decoration: const InputDecoration(
                                     labelText: "이름을 입력하세요",
                                   ),
                                   style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onBackground,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ),
                                 ),
                               ),
@@ -96,8 +103,9 @@ class UserPage extends StatelessWidget {
                                     labelText: "비밀번호를 입력하세요",
                                   ),
                                   style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onBackground,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ),
                                 ),
                               ),
@@ -113,22 +121,24 @@ class UserPage extends StatelessWidget {
                                     labelText: "비밀번호 확인",
                                   ),
                                   style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onBackground,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ),
                                 ),
                               ),
                               SizedBox(
                                 width: 250,
                                 child: TextField(
-                                  controller:
-                                      Get.find<MyPageVM>().uinsertdateController,
+                                  controller: Get.find<MyPageVM>()
+                                      .uinsertdateController,
                                   decoration: const InputDecoration(
                                     labelText: "회원가입 일자",
                                   ),
                                   style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onBackground,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ),
                                   readOnly: true,
                                 ),
@@ -139,7 +149,9 @@ class UserPage extends StatelessWidget {
                                     : "",
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: Theme.of(context).colorScheme.onBackground,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -153,8 +165,8 @@ class UserPage extends StatelessWidget {
                                     padding: EdgeInsets.all(8.0.h),
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        bool rs =
-                                            Get.find<MyPageVM>().deleteFirebase();
+                                        bool rs = Get.find<MyPageVM>()
+                                            .deleteFirebase();
                                         if (rs) {
                                           deletesnackBarsFunction();
                                         } else {
@@ -167,8 +179,8 @@ class UserPage extends StatelessWidget {
                                         foregroundColor: Colors.white, // 버튼 글씨색
                                         shape: RoundedRectangleBorder(
                                           //  버튼 모양 깎기
-                                          borderRadius:
-                                              BorderRadius.circular(10), // 10은 파라미터
+                                          borderRadius: BorderRadius.circular(
+                                              10), // 10은 파라미터
                                         ),
                                       ),
                                       child: const Text(
@@ -184,8 +196,8 @@ class UserPage extends StatelessWidget {
                                     padding: EdgeInsets.all(8.0.h),
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        var rs =
-                                            Get.find<MyPageVM>().updateFirebase();
+                                        var rs = Get.find<MyPageVM>()
+                                            .updateFirebase();
                                         if (rs) {
                                           _SuccessAlert();
                                         } else {
@@ -198,8 +210,8 @@ class UserPage extends StatelessWidget {
                                         foregroundColor: Colors.white, // 버튼 글씨색
                                         shape: RoundedRectangleBorder(
                                           //  버튼 모양 깎기
-                                          borderRadius:
-                                              BorderRadius.circular(10), // 10은 파라미터
+                                          borderRadius: BorderRadius.circular(
+                                              10), // 10은 파라미터
                                         ),
                                       ),
                                       child: const Text(

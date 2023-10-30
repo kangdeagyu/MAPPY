@@ -211,6 +211,7 @@ class AgeVM extends GetxController {
     await historys.add({
       'category': 'yena', // 'yena' or 'seah' or 'charge'
       'price': 30, // 충전이든 사용이든 여기에 넣어주기.
+      'coinHistory': myCoin.value - 30,
       'usedate': Timestamp.fromDate(DateTime.now())
     });
   }
@@ -258,11 +259,9 @@ class AgeVM extends GetxController {
     );
 
     if (pickedImage != null) {
-
       File resizedImage = await resizeImage(pickedImage.path, 700.h);
 
       faceImage.value = XFile(resizedImage.path);
-      
     }
     //await updateFaceImage();
     await getCroppedImage();
@@ -291,7 +290,6 @@ class AgeVM extends GetxController {
 
   // 이전 예측 결과를 삭제.
   resetResults() {
-    
     faceImage.value = null;
     displayAnswer.value = false;
 

@@ -159,14 +159,9 @@ class UseCoin extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(payment.getFormattedDate()),
-                          Obx(
-                            () {
-                              // 코인 변화 rx로 실시간관리
-                              return Text(
-                                "${vm.myCoin.value.toString()} 코인",
-                              );
-                            },
-                          ),
+                          Text(
+                            "${payment.coinHistory} 코인",
+                          )
                         ],
                       ),
                     );

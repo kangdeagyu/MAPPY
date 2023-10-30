@@ -14,7 +14,10 @@ class PaymentPage extends StatelessWidget {
     final vm = Get.find<CardVm>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('카드 등록'),
+        title: const Text(
+          '카드 등록',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

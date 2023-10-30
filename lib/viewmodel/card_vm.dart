@@ -45,6 +45,7 @@ class CardVm extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    remove();
     loadUserID().then((value) => userCardData());
   }
 
