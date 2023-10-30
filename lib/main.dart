@@ -1,4 +1,4 @@
-import 'package:final_main_project/view/login.dart';
+import 'package:final_main_project/view/firstpage.dart';
 import 'package:final_main_project/view/tabbar_screen.dart';
 import 'package:final_main_project/viewmodel/card_vm.dart';
 import 'package:final_main_project/viewmodel/theme_obs.dart';
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
               ),
               home: userid.uId.value.isNotEmpty
                   ? const TabBarScreen()
-                  : const LoginScreen(),
+                  : const First(),
             ));
       },
     );
