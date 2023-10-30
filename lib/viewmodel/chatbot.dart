@@ -76,4 +76,24 @@ class Chatbot extends GetxController {
     }
   }
 
+    Future<void> insertHistory() async {
+    String userId = await loadUserID();
+
+    // 'chat' 컬렉션 참조
+    CollectionReference chat = FirebaseFirestore.instance.collection('chat');
+
+    // 'userid'를 문서로 사용
+    DocumentReference userDoc = chat.doc(userId);
+
+    // 해당 'userid' 문서 아래의 'history' 컬렉션 참조
+    CollectionReference historys = userDoc.collection('history');
+
+    // 'messages' 컬렉션에 채팅 내용 추가
+    await historys.add({
+      'category': 'seah', // 'yena' or 'seah' or 'charge'
+      'price': 10, // 충전이든 사용이든 여기에 넣어주기.
+      'usedate': Timestamp.fromDate(DateTime.now())
+    });
+  }
+
 }

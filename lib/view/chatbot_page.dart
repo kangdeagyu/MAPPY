@@ -137,8 +137,34 @@ class _ChatbotViewState extends State<ChatbotView>
                       fontSize: 17, fontWeight: FontWeight.bold),
                 );
               }),
-              SizedBox(
-                width: 30,
+              IconButton(
+                icon: Icon(Icons.refresh),
+                onPressed: () {
+                  // 모달 띄우기
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('대화를 다시 시작하시겠습니까?'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('아니오'),
+                            onPressed: () {
+                              Navigator.of(context).pop(); // 모달 닫기
+                            },
+                          ),
+                          TextButton(
+                            child: Text('예'),
+                            onPressed: () async {
+                              Navigator.of(context).pop(); // 모달 닫기
+                              await _deleteAndRecreateMessages(userId!);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),
@@ -358,6 +384,7 @@ class _ChatbotViewState extends State<ChatbotView>
 
   Future<void> sendChatText(String text) async {
     vm.useCoin(10);
+    vm.insertHistory();
     // 1. 사용자 메시지 화면에 즉시 표시
     input(userId!, text);
     _scrollToBottom();
@@ -460,6 +487,30 @@ class _ChatbotViewState extends State<ChatbotView>
   Future<String?> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('p_userId');
+  }
+
+  Future<void> _deleteAndRecreateMessages(String userid) async {
+    // 'chat' 컬렉션 참조
+    CollectionReference chat = FirebaseFirestore.instance.collection('chat');
+
+    // 'userid'를 문서로 사용
+    DocumentReference userDoc = chat.doc(userid);
+
+    // 해당 'userid' 문서 아래의 'messages' 컬렉션 참조
+    CollectionReference messages = userDoc.collection('messages');
+
+    QuerySnapshot querySnapshot = await messages.get();
+    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+      await doc.reference.delete();
+    }
+
+    messages.add({
+      'speaker': "seah",
+      'content': '대화를 다시 시작합니다! 자유롭게 대화를 나눠주세요 ☺️',
+      'insertdate': Timestamp.fromDate(DateTime.now()),
+    });
+
+    // 필요한 경우 새 문서나 데이터를 추가합니다. (여기서는 삭제만 진행)
   }
 
   // //보유 코인 개수 가져오기
