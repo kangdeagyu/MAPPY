@@ -19,7 +19,10 @@ class More extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text("예나 & 세아의 설정 칸"),
+          title: const Text(
+            "예나 & 세아의 설정 칸",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
         body: Column(
           children: [

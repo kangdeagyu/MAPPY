@@ -36,7 +36,10 @@ class AgePrediction extends StatelessWidget {
                 radius: 20,
               ),
               SizedBox(width: 8.w),
-              const Text('예나'),
+              const Text(
+                '예나',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ],
           ),
           // 현재 코인 관리
@@ -50,7 +53,8 @@ class AgePrediction extends StatelessWidget {
             Obx(() {
               return Text(
                 '${vm.myCoin.value}',
-                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               );
             }),
             SizedBox(width: 30.w),
@@ -86,7 +90,7 @@ class AgePrediction extends StatelessWidget {
                     ],
                   ),
                 ),
-    // 이미지 업로드 시 my message.
+                // 이미지 업로드 시 my message.
                 Padding(
                   padding: EdgeInsets.all(5.0.h),
                   child: Align(
@@ -94,7 +98,7 @@ class AgePrediction extends StatelessWidget {
                     child: photoBox(),
                   ),
                 ),
-    // 예나 result message.
+                // 예나 result message.
                 answerWidget(context),
               ],
             ),

@@ -35,8 +35,6 @@ class _ChatbotViewState extends State<ChatbotView>
   String? userId;
 
   final vm = Get.put(Chatbot());
-  
-
 
   @override
   void dispose() {
@@ -87,12 +85,10 @@ class _ChatbotViewState extends State<ChatbotView>
     _loadUserId();
   } // init State
 
-    _loadUserId() async {
+  _loadUserId() async {
     userId = await getUserId();
-    setState(() {});  // UI 업데이트
+    setState(() {}); // UI 업데이트
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +114,10 @@ class _ChatbotViewState extends State<ChatbotView>
                   radius: 20,
                 ),
                 SizedBox(width: 8),
-                Text('세아'),
+                Text(
+                  '세아',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ],
             ),
             centerTitle: false,
@@ -134,7 +133,8 @@ class _ChatbotViewState extends State<ChatbotView>
               Obx(() {
                 return Text(
                   '${vm.myCoin.value}',
-                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 17, fontWeight: FontWeight.bold),
                 );
               }),
               SizedBox(
@@ -330,7 +330,6 @@ class _ChatbotViewState extends State<ChatbotView>
                           },
                           child: const Text('취소'),
                         ),
-
                         TextButton(
                           onPressed: () async {
                             Get.back();
@@ -397,29 +396,28 @@ class _ChatbotViewState extends State<ChatbotView>
   Future<DocumentReference> input(String userid, String content) async {
     // 'chat' 컬렉션 참조
     CollectionReference chat = FirebaseFirestore.instance.collection('chat');
-    
+
     // 'userid'를 문서로 사용
     DocumentReference userDoc = chat.doc(userid);
-    
+
     // 해당 'userid' 문서 아래의 'messages' 컬렉션 참조
     CollectionReference messages = userDoc.collection('messages');
-    
+
     // 'messages' 컬렉션에 채팅 내용 추가
     return await messages.add({
-      'speaker' : userid,
+      'speaker': userid,
       'content': content,
       'insertdate': Timestamp.fromDate(DateTime.now()),
     });
   }
 
-
   Future<DocumentReference> output(String userid, String content) async {
     // 'chat' 컬렉션 참조
     CollectionReference chat = FirebaseFirestore.instance.collection('chat');
-    
+
     // 'userid'를 문서로 사용
     DocumentReference userDoc = chat.doc(userid);
-    
+
     // 해당 'userid' 문서 아래의 'messages' 컬렉션 참조
     CollectionReference messages = userDoc.collection('messages');
     return await messages.add({
@@ -428,8 +426,6 @@ class _ChatbotViewState extends State<ChatbotView>
       'insertdate': Timestamp.fromDate(DateTime.now()),
     });
   }
-
-  
 
   void _scrollToBottom() {
     Future.delayed(Duration(milliseconds: 100), () {
@@ -483,8 +479,4 @@ class _ChatbotViewState extends State<ChatbotView>
   //     // print("코인 가져오기 오류: $error");
   //   }
   // }
-
-
-
-
 }   // End View
