@@ -287,8 +287,11 @@ class AgeVM extends GetxController {
 
   // 이전 예측 결과를 삭제.
   resetResults() {
+    
     faceImage.value = null;
     displayAnswer.value = false;
+
+    cropResponeCode.value = null;
 
     for (RxBool display in displayStates) {
       display.value = false;

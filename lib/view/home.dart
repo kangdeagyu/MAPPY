@@ -94,12 +94,16 @@ class Home extends StatelessWidget {
                             children: [
                               Text(
                                 aiProfiles[index].name,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                               ),
                               Text(
                                 aiProfiles[index].description,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                             ],
                           ),
