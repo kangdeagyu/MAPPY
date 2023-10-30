@@ -8,7 +8,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 class NotificationVm extends GetxController with WidgetsBindingObserver {
   // 알람 스위치 상태관리
-  RxBool isNotificationMode = true.obs;
+  RxBool isNotificationMode = false.obs;
 
   // 알람
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -74,7 +74,10 @@ class NotificationVm extends GetxController with WidgetsBindingObserver {
     } else {
       var result = await requestNotificationPermission();
       if (result) {
+        isNotificationMode.value = true; // 사용자가 권한을 허용했을 때
         scheduleNotification();
+      } else {
+        isNotificationMode.value = false; // 사용자가 권한을 거부했을 때
       }
     }
   }
@@ -186,6 +189,6 @@ class NotificationVm extends GetxController with WidgetsBindingObserver {
   // shard preferences 저장
   Future<void> loadNotificationMode() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    isNotificationMode.value = prefs.getBool('notificationMode') ?? true;
+    isNotificationMode.value = prefs.getBool('notificationMode') ?? false;
   }
 }

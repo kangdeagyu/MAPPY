@@ -11,7 +11,7 @@ Widget coinCharging(BuildContext context) {
       onPressed: () {
         Get.bottomSheet(
           Container(
-            height: 600.h,
+            height: 604.h,
             color: Colors.white,
             child: const ChargeWidget(),
           ),
