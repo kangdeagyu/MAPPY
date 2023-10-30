@@ -112,14 +112,14 @@ class NotificationVm extends GetxController with WidgetsBindingObserver {
       iOS: DarwinNotificationDetails(badgeNumber: 1),
     );
 
-    flutterLocalNotificationsPlugin.zonedSchedule(
-        0, 'Good Morning!', 'Wake up!', makeDate(8, 0, 0), notificationDetails,
+    flutterLocalNotificationsPlugin.zonedSchedule(0, '좋은 아침입니다.!',
+        '활기찬 하루를 보내길 바랄게요!', makeDate(8, 0, 0), notificationDetails,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time);
 
-    flutterLocalNotificationsPlugin.zonedSchedule(1, 'Good Evening!',
-        'Time to relax!', makeDate(20, 0, 0), notificationDetails,
+    flutterLocalNotificationsPlugin.zonedSchedule(1, '하루 잘 보내셨나요?',
+        '오늘 하루도 고생 많았어요!', makeDate(20, 0, 0), notificationDetails,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time);
