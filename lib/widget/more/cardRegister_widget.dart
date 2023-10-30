@@ -114,6 +114,25 @@ Widget cardwidget(BuildContext context, cardCount) {
         width: 340.w,
         child: ElevatedButton(
           onPressed: () async {
+            // 카드 번호가 16자리 숫자인지 확인
+            if (!RegExp(r"^\d{16}$").hasMatch(vm.stCardnumber.value)) {
+              Get.snackbar("등록오류", "카드번호는 16자리 숫자로 입력해주세요.");
+              return;
+            }
+
+            // 만료 날짜가 MM/YY 형태인지 확인
+            if (!RegExp(r"^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$")
+                .hasMatch(vm.stCarddate.value)) {
+              Get.snackbar("등록오류", "만료날짜는 MM/YY 형식으로 입력해주세요.");
+              return;
+            }
+
+            // CVC 코드가 3자리 숫자인지 확인
+            if (!RegExp(r"^\d{3}$").hasMatch(vm.stCardcvc.value)) {
+              Get.snackbar("등록오류", "cvc번호는 3자리 숫자로 입력해주세요.");
+              return;
+            }
+
             // firebase에 카드 등록
             CardModel newCard = CardModel(
               id: "",

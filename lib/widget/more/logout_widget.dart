@@ -1,4 +1,4 @@
-import 'package:final_main_project/view/login.dart';
+import 'package:final_main_project/view/firstpage.dart';
 import 'package:final_main_project/viewmodel/card_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +9,7 @@ Widget logOut(context) {
 
   return InkWell(
     onTap: () {
-      Get.offAll(const LoginScreen());
+      Get.offAll(const First());
       vm.logout();
     },
     child: SizedBox(
