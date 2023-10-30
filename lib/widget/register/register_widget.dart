@@ -13,8 +13,6 @@ class RegistrationPage extends StatelessWidget {
   final VoidCallback nextPage;
   final VoidCallback previousPage;
   late Future<bool> dup;
-  
-
 
   RegistrationPage({
     required this.labelText,
@@ -43,6 +41,9 @@ class RegistrationPage extends StatelessWidget {
                   labelText: labelText,
                   hintText: hintText,
                 ),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
               ),
             ),
             Padding(
@@ -62,9 +63,9 @@ class RegistrationPage extends StatelessWidget {
                         print(controller.infoList);
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFFF4081),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor:
-                            Theme.of(context).colorScheme.onPrimary,
+                            Theme.of(context).colorScheme.background,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -80,8 +81,8 @@ class RegistrationPage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       if (controller.counter == 4) {
-                        controller.infoList.add(
-                                  controller.textEditingController.text.trim());
+                        controller.infoList
+                            .add(controller.textEditingController.text.trim());
                         insertActionFirebase(controller);
                       } else {
                         if (controller.counter == 1) {
@@ -98,7 +99,9 @@ class RegistrationPage extends StatelessWidget {
                             } else {
                               controller.counter = 1;
                               // 중복에러
-                              Message_wook.errorID? snackBarID() : snackBarFunction();
+                              Message_wook.errorID
+                                  ? snackBarID()
+                                  : snackBarFunction();
                             }
                           });
                         } else {
@@ -115,8 +118,8 @@ class RegistrationPage extends StatelessWidget {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFF4081),
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.background,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -149,6 +152,7 @@ snackBarFunction() {
       backgroundColor: Colors.red,
       colorText: Colors.white);
 }
+
 //아이디입력 스낵바
 snackBarID() {
   Get.snackbar(
@@ -205,10 +209,10 @@ errorSnackBar() {
 
 // 파이어베이스 DB에 user 정보 추가
 insertActionFirebase(VisibleController controller) {
-  if (controller.counter == 4 && 
-  controller.infoList[1].isNotEmpty &&
-  controller.infoList[2].isNotEmpty &&
-  controller.infoList[3].isNotEmpty ) {
+  if (controller.counter == 4 &&
+      controller.infoList[1].isNotEmpty &&
+      controller.infoList[2].isNotEmpty &&
+      controller.infoList[3].isNotEmpty) {
     // 현재 시간 생성
     Timestamp now = Timestamp.now();
     FirebaseFirestore.instance.collection("user").add({
@@ -223,7 +227,7 @@ insertActionFirebase(VisibleController controller) {
 
     // 'chat' 컬렉션 참조
     CollectionReference chat = FirebaseFirestore.instance.collection('chat');
-    
+
     // 'userid'를 문서로 사용
     DocumentReference userDoc = chat.doc(controller.infoList[0]);
 
@@ -244,7 +248,7 @@ insertActionFirebase(VisibleController controller) {
 // 파이어베이스 DB에서 아이디 중복체크하기
 Future<bool> dupcheck(VisibleController controller) async {
   bool rs = false;
-  if (controller.textEditingController.text.trim().isNotEmpty){
+  if (controller.textEditingController.text.trim().isNotEmpty) {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("user")
         .where("uid", isEqualTo: controller.textEditingController.text.trim())
@@ -255,23 +259,18 @@ Future<bool> dupcheck(VisibleController controller) async {
       //중복일때  Message_wook.errorID = false;
       rs = false;
       Message_wook.errorID = false;
-    }else{
-      rs= true;
+    } else {
+      rs = true;
     }
-  }else{
+  } else {
     // 아이디 비었을때 Message_wook.errorID = true;
     Message_wook.errorID = true;
   }
-    // 아이디 사용가능하면 true리턴
-    return rs;
-
-
+  // 아이디 사용가능하면 true리턴
+  return rs;
 }
 
-
-
-
-class Message_wook{
+class Message_wook {
   static bool errorID = false;
-
+  static String? kid = "";
 }

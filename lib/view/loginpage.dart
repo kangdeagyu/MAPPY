@@ -16,10 +16,11 @@ class LoginPage extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(),
         body: GetBuilder<LoginVM>(
           builder: (controller) {
-            return Center(
+            return SizedBox(
               child: Column(
                 children: [
                   Padding(
@@ -169,7 +170,7 @@ class LoginPage extends StatelessWidget {
                       children: [
                         Container(
                           width: 80, // 원하는 가로줄 두께 설정
-                          color: Colors.black, // 가로줄의 색상 설정
+                          color: Theme.of(context).colorScheme.onBackground, // 가로줄의 색상 설정
                           height: 1, // 가로줄의 높이 설정
                         ),
                         Padding(
@@ -184,7 +185,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         Container(
                           width: 80, // 원하는 가로줄 두께 설정
-                          color: Colors.black, // 가로줄의 색상 설정
+                          color: Theme.of(context).colorScheme.onBackground, // 가로줄의 색상 설정
                           height: 1, // 가로줄의 높이 설정
                         ),
                       ],
@@ -194,8 +195,8 @@ class LoginPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Container(
-                        width: 50,
-                        height: 50,
+                        width: 50.w,
+                        height: 50.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(1),
                         ),
@@ -213,14 +214,14 @@ class LoginPage extends StatelessWidget {
                           },
                           child: Image.asset(
                             "assets/images/kakao.png",
-                            width: 30,
-                            height: 30,
+                            width: 30.w,
+                            height: 30.h,
                           ),
                         ),
                       ),
                       Container(
-                        width: 50,
-                        height: 50,
+                        width: 50.w,
+                        height: 50.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(1),
                         ),
@@ -230,14 +231,14 @@ class LoginPage extends StatelessWidget {
                           },
                           child: Image.asset(
                             "assets/images/google.png",
-                            width: 30,
-                            height: 30,
+                            width: 30.w,
+                            height: 30.h,
                           ),
                         ),
                       ),
                       Container(
-                        width: 50,
-                        height: 50,
+                        width: 50.w,
+                        height: 50.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(1),
                         ),
@@ -247,14 +248,14 @@ class LoginPage extends StatelessWidget {
                           },
                           child: Image.asset(
                             "assets/images/naver.png",
-                            width: 30,
-                            height: 30,
+                            width: 30.w,
+                            height: 30.h,
                           ),
                         ),
                       ),
                       Container(
-                        width: 50,
-                        height: 50,
+                        width: 50.w,
+                        height: 50.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(1),
                         ),
@@ -264,8 +265,8 @@ class LoginPage extends StatelessWidget {
                           },
                           child: Image.asset(
                             "assets/images/apple.png",
-                            width: 30,
-                            height: 30,
+                            width: 30.w,
+                            height: 30.h,
                           ),
                         ),
                       ),
@@ -277,11 +278,11 @@ class LoginPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           "아직 회원이 아니시라면 ?",
                           style: TextStyle(
                             // 글씨 스타일주기
-                            color: Colors.black, // 글씨 색상
+                            color: Theme.of(context).colorScheme.onBackground, // 글씨 색상
                             fontSize: 15, // 글씨 크기
                             //fontWeight: FontWeight.bold, // 폰트 사이즈
                             //letterSpacing: 1, // 글자 간 간격
