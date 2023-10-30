@@ -85,14 +85,14 @@ class Home extends StatelessWidget {
                         backgroundColor: Colors.white,
                         radius: 20,
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               aiProfiles[index].name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -102,7 +102,7 @@ class Home extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Spacer(), // 여기에 Spacer를 추가
+                      const Spacer(), // 여기에 Spacer를 추가
                       IconButton(
                         icon: Image.asset(
                           'assets/images/insta.png',
