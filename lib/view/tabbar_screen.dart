@@ -44,8 +44,8 @@ class _TabBarScreenState extends State<TabBarScreen>
     return Scaffold(
       body: TabBarView(
         controller: _tabController,
-        // 탭바 스와이프 제한
-        //physics: const NeverScrollableScrollPhysics(),
+        //탭바 스와이프 제한
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           Home(),
           AgePrediction(),

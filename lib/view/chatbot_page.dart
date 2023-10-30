@@ -100,100 +100,103 @@ class _ChatbotViewState extends State<ChatbotView>
         KeyboardVisibilityProvider.isKeyboardVisible(context);
     isKeyboardVisible ? _keyboardOpenScrollToBottom() : print("키보드 닫힘");
 
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: AssetImage('assets/images/Chatbot_Icon.png'),
-                backgroundColor: Colors.white,
-                radius: 20,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: const Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/Chatbot_Icon.png'),
+                  backgroundColor: Colors.white,
+                  radius: 20,
+                ),
+                SizedBox(width: 8),
+                Text('세아'),
+              ],
+            ),
+            centerTitle: false,
+            actions: [
+              const Icon(
+                Icons.monetization_on,
+                color: Colors.green,
+                size: 25,
               ),
-              SizedBox(width: 8),
-              Text('세아'),
+              SizedBox(
+                width: 5,
+              ),
+              Obx(() {
+                return Text(
+                  '${vm.myCoin.value}',
+                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                );
+              }),
+              SizedBox(
+                width: 30,
+              ),
             ],
           ),
-          centerTitle: false,
-          actions: [
-            const Icon(
-              Icons.monetization_on,
-              color: Colors.green,
-              size: 25,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Obx(() {
-              return Text(
-                '${vm.myCoin.value}',
-                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-              );
-            }),
-            SizedBox(
-              width: 30,
-            ),
-          ],
-        ),
-        body: Stack(
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 60,
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection("chat")
-                          .doc(userId)
-                          .collection('messages')
-                          .orderBy('insertdate', descending: false)
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          final messages = snapshot.data!.docs;
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            primary: false,
-                            itemCount: messages.length,
-                            itemBuilder: (context, index) {
-                              final message = messages[index];
-                              final speaker = message['speaker'] ?? '';
-                              final content = message['content'] ?? '';
-                              // final userId = message['userid'];
-                              return _buildChatItem(speaker, content);
-                            },
-                          );
-                        }
-                      },
-                    ),
-                  ],
+          body: Stack(
+            children: <Widget>[
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 60,
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection("chat")
+                            .doc(userId)
+                            .collection('messages')
+                            .orderBy('insertdate', descending: false)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            final messages = snapshot.data!.docs;
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              primary: false,
+                              itemCount: messages.length,
+                              itemBuilder: (context, index) {
+                                final message = messages[index];
+                                final speaker = message['speaker'] ?? '';
+                                final content = message['content'] ?? '';
+                                // final userId = message['userid'];
+                                return _buildChatItem(speaker, content);
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: _buildChatInputField(),
-            ),
-          ],
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: _buildChatInputField(),
+              ),
+            ],
+          ),
+          // bottomSheet: ,
         ),
-        // bottomSheet: ,
       ),
     );
   }

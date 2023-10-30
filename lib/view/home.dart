@@ -34,96 +34,99 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Row(
-          children: [
-            // CircleAvatar(
-            //   backgroundImage: AssetImage('assets/images/Chatbot_Icon.png'),
-            //   backgroundColor: Colors.white,
-            //   radius: 20,
-            // ),
-            SizedBox(width: 8),
-            Text(
-              '친구들',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        centerTitle: false,
-      ),
-      body: ListView.builder(
-        itemCount: aiProfiles.length,
-        itemBuilder: (context, index) {
-          return Column(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Row(
             children: [
-              InkWell(
-                onTap: () {
-                  _showFriendDetailSheet(
-                    context,
-                    aiProfiles[index].name,
-                    aiProfiles[index].imagePath,
-                    aiProfiles[index].coverImage,
-                    aiProfiles[index].description,
-                    aiProfiles[index].statusMessage,
-                    aiProfiles[index].tabbar_index,
-                    aiProfiles[index].text,
-                    aiProfiles[index].model,
-                    aiProfiles[index].trainingData,
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage:
-                            AssetImage(aiProfiles[index].imagePath),
-                        backgroundColor: Colors.white,
-                        radius: 20,
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              aiProfiles[index].name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              aiProfiles[index].description,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Spacer(), // 여기에 Spacer를 추가
-                      IconButton(
-                        icon: Image.asset(
-                          'assets/images/insta.png',
-                          scale: 15,
-                        ),
-                        onPressed: () {},
-                        iconSize: 10,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
+              // CircleAvatar(
+              //   backgroundImage: AssetImage('assets/images/Chatbot_Icon.png'),
+              //   backgroundColor: Colors.white,
+              //   radius: 20,
+              // ),
+              SizedBox(width: 8),
+              Text(
+                '친구들',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              if (index != aiProfiles.length - 1)
-                Divider(
-                  height: 1.0,
-                  color: Colors.grey[200],
-                ), // 마지막 항목이 아닐 때만 Divider 추가
             ],
-          );
-        },
+          ),
+          centerTitle: false,
+        ),
+        body: ListView.builder(
+          itemCount: aiProfiles.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    _showFriendDetailSheet(
+                      context,
+                      aiProfiles[index].name,
+                      aiProfiles[index].imagePath,
+                      aiProfiles[index].coverImage,
+                      aiProfiles[index].description,
+                      aiProfiles[index].statusMessage,
+                      aiProfiles[index].tabbar_index,
+                      aiProfiles[index].text,
+                      aiProfiles[index].model,
+                      aiProfiles[index].trainingData,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage:
+                              AssetImage(aiProfiles[index].imagePath),
+                          backgroundColor: Colors.white,
+                          radius: 20,
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                aiProfiles[index].name,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                aiProfiles[index].description,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Spacer(), // 여기에 Spacer를 추가
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/images/insta.png',
+                            scale: 15,
+                          ),
+                          onPressed: () {},
+                          iconSize: 10,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                if (index != aiProfiles.length - 1)
+                  Divider(
+                    height: 1.0,
+                    color: Colors.grey[200],
+                  ), // 마지막 항목이 아닐 때만 Divider 추가
+              ],
+            );
+          },
+        ),
       ),
     );
   }
