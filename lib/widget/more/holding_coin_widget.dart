@@ -16,7 +16,7 @@ Widget holdingCoin(BuildContext context) {
             '  현재 보유 코인',
             style: TextStyle(
               color: Colors.black,
-              fontSize: 17,
+              fontSize: 18,
             ),
           ),
         ),

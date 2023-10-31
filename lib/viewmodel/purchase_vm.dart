@@ -11,9 +11,10 @@ class PurchaseVM extends GetxController {
   var uId = ''.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    loadUserID().then((value) {
+    payments.clear(); // 기존 리스트를 비웁니다.
+    await loadUserID().then((value) {
       checkCoin();
       paymentCoin();
     });
@@ -176,7 +177,6 @@ class PurchaseVM extends GetxController {
           .listen(
         (querySnapshot) {
           if (querySnapshot.docs.isNotEmpty) {
-            payments.clear(); // 기존 리스트를 비웁니다.
             querySnapshot.docs.forEach((doc) {
               payments.add(HistoryModel.fromDocument(doc)); // 새로운 데이터를 추가합니다.
             });

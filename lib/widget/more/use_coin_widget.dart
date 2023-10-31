@@ -25,7 +25,9 @@ Widget useCoin(BuildContext context) {
       label: Text(
         '사용내역',
         style: TextStyle(
-            color: Theme.of(context).colorScheme.primary, fontSize: 20),
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 20),
       ),
       style: TextButton.styleFrom(
         shape: BeveledRectangleBorder(

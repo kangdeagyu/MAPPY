@@ -16,7 +16,7 @@ Widget paymentWidget(BuildContext context) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '등록카드',
+            '카드',
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontSize: 20,
