@@ -1,10 +1,10 @@
-import 'package:final_main_project/viewmodel/chatbot.dart';
+import 'package:final_main_project/viewmodel/purchase_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget holdingCoin(BuildContext context) {
-  final vm = Get.put(Chatbot());
+  final vm = Get.put(PurchaseVM());
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: Column(

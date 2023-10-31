@@ -1,4 +1,4 @@
-import 'package:final_main_project/viewmodel/age_vm.dart';
+import 'package:final_main_project/viewmodel/purchase_vm.dart';
 import 'package:final_main_project/widget/more/charge_widget.dart';
 import 'package:final_main_project/widget/more/untiy_Ads_Widget.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ class ChargeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Get.put(AgeVM());
+    final vm = Get.put(PurchaseVM());
     return Scaffold(
       appBar: AppBar(
         title: const Text('코인 구매'),

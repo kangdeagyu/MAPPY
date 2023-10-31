@@ -10,6 +10,7 @@ Widget logOut(context) {
   return InkWell(
     onTap: () {
       Get.offAll(const First());
+      vm.clearMyData();
       vm.logout();
     },
     child: SizedBox(
