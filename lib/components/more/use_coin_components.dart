@@ -13,24 +13,56 @@ class UseCoin extends StatelessWidget {
     Text getCategoryText(String payment) {
       switch (payment) {
         case 'charge':
-          return const Text("코인 충전");
+          return const Text(
+            "코인 충전",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          );
         case 'yena':
-          return const Text("얼굴나이 예측");
+          return const Text(
+            "얼굴나이 예측",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          );
         case 'ads':
-          return const Text("광고보상");
+          return const Text(
+            "광고보상",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          );
         default:
-          return const Text("챗봇");
+          return const Text(
+            "챗봇",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          );
       }
     }
 
     Text getPriceText(String payment, int coin) {
       final coinPrefix = payment == 'charge' || payment == 'ads' ? '+' : '-';
-      return Text("$coinPrefix$coin 코인");
+      return Text(
+        "$coinPrefix $coin 코인",
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('사용 내역'),
+        title: const Text(
+          '사용 내역',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         shape: const Border(
           bottom: BorderSide(
             color: Colors.grey,

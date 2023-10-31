@@ -47,8 +47,8 @@ class UntiyAd extends GetxController {
       onComplete: (placementId) {
         // 광고 시청이 완료되었을 때 동작
         try {
-          purchaseObs.updateCoin(10);
-          purchaseObs.insertHistoryAds(10);
+          purchaseObs.updateCoin(50);
+          purchaseObs.insertHistoryAds(50);
         } catch (e) {
           // 오류 처리
         }

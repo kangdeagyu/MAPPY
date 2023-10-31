@@ -25,6 +25,7 @@ Widget coinCharging(BuildContext context) {
       label: Text(
         '충전하기',
         style: TextStyle(
+          fontWeight: FontWeight.bold,
           color: Theme.of(context).colorScheme.primary,
           fontSize: 20,
         ),
