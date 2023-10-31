@@ -34,6 +34,7 @@ class AgeVM extends GetxController {
     percent70: 0,
   ).obs;
 
+  var uId = ''.obs;
   RxInt myCoin = 0.obs; // 실시간 관리 위해 obs 사용
   RxString userName = ''.obs; // 유저이름 저장
   Rx<int?> cropResponeCode = Rx<int?>(null);
@@ -44,9 +45,11 @@ class AgeVM extends GetxController {
   // 앱 실행 후 바로 firebase에서 정보 가져오기
   void onInit() {
     super.onInit();
-    checkCoin();
-    getUserName();
-    loadUserID();
+    
+    loadUserID().then((value) {
+      checkCoin();
+      getUserName();
+    });
   }
 
   // 탭 이동시 delay 시작되게.
@@ -138,8 +141,10 @@ class AgeVM extends GetxController {
 
   // 코인 차감.
   Future<void> useCoin(int price) async {
+
+    String userId = uId.value;
+
     try {
-      String userId = await loadUserID();
 
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection("user")
@@ -161,8 +166,10 @@ class AgeVM extends GetxController {
 
   //보유 코인 개수 가져오기
   Future<void> checkCoin() async {
+
+    String userId = uId.value;
+
     try {
-      String userId = await loadUserID();
       FirebaseFirestore.instance
           .collection("user")
           .where("uid", isEqualTo: userId)
@@ -179,8 +186,10 @@ class AgeVM extends GetxController {
 
   // 유저 이름 가져오기
   Future<void> getUserName() async {
+
+    String userId = uId.value;
+
     try {
-      String userId = await loadUserID();
       FirebaseFirestore.instance
           .collection("user")
           .where("uid", isEqualTo: userId)
@@ -196,7 +205,8 @@ class AgeVM extends GetxController {
   }
 
   Future<void> insertHistory() async {
-    String userId = await loadUserID();
+
+    String userId = uId.value;
 
     // 'chat' 컬렉션 참조
     CollectionReference chat = FirebaseFirestore.instance.collection('chat');
@@ -211,26 +221,45 @@ class AgeVM extends GetxController {
     await historys.add({
       'category': 'yena', // 'yena' or 'seah' or 'charge'
       'price': 30, // 충전이든 사용이든 여기에 넣어주기.
-      'coinHistory': myCoin.value - 30,
       'usedate': Timestamp.fromDate(DateTime.now())
     });
   }
 
   // 유저 아이디 들고오기
-  Future<String> loadUserID() async {
+  // 유저 아이디 들고오기
+  Future<void> loadUserID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    uId.value = prefs.getString("p_userId") ?? '';
+  }
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  // 코인 업데이트
+  Future<void> updateCoin(int coin) async {
+    String userid = uId.value;
+
     try {
-      String? userId = prefs.getString("p_userId");
-      if (userId != null) {
-        return userId;
-      } else {
-        // 유저 아이디가 없는 경우에 대한 처리
-        return ""; // 또는 다른 기본값 설정
+      QuerySnapshot querySnapshot = await firestore
+          .collection('user')
+          .where('uid', isEqualTo: userid)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        String docId = querySnapshot.docs.first.id;
+
+        // 현재 코인 값 가져오기
+        DocumentSnapshot docSnapshot =
+            await firestore.collection('user').doc(docId).get();
+        int currentCoin = docSnapshot.get('coin');
+
+        // 현재 코인 값에 새로운 코인 값을 더해 업데이트
+        await firestore.collection('user').doc(docId).update({
+          'coin': currentCoin + coin,
+        });
       }
     } catch (e) {
-      // 예외 처리
-      print('로드 유저 아이디 함수 오류: $e');
-      return ""; // 오류가 발생한 경우에 대한 처리
+      print(e.toString());
+      // 에러 처리를 추가합니다.
     }
   }
 
@@ -259,9 +288,11 @@ class AgeVM extends GetxController {
     );
 
     if (pickedImage != null) {
+
       File resizedImage = await resizeImage(pickedImage.path, 700.h);
 
       faceImage.value = XFile(resizedImage.path);
+      
     }
     //await updateFaceImage();
     await getCroppedImage();
@@ -290,6 +321,7 @@ class AgeVM extends GetxController {
 
   // 이전 예측 결과를 삭제.
   resetResults() {
+    
     faceImage.value = null;
     displayAnswer.value = false;
 

@@ -40,11 +40,11 @@ Widget predictButton(context, buttonStyle) {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Get.back();
                   vm.useCoin(30);
                   vm.sendFaceImage();
                   vm.insertHistory();
                   vm.resetResults();
+                  Get.back();
                   Get.to(const AgeResultScreen());
                 },
                 child: const Text('확인'),
