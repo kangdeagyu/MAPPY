@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
 class UntiyAd extends GetxController {
-  final purchaseObs = Get.put(PurchaseVM());
+  final vm = Get.find<PurchaseVM>();
   final placements = {
     AdManager.interstitialVideoAdPlacementId: true.obs,
   }.obs;
@@ -47,8 +47,8 @@ class UntiyAd extends GetxController {
       onComplete: (placementId) {
         // 광고 시청이 완료되었을 때 동작
         try {
-          purchaseObs.updateCoin(50);
-          purchaseObs.insertHistoryAds(50);
+          vm.updateCoin(50);
+          vm.insertHistoryAds(50);
         } catch (e) {
           // 오류 처리
         }

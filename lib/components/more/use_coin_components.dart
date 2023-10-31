@@ -8,7 +8,7 @@ class UseCoin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Get.put(PurchaseVM());
+    final vm = Get.find<PurchaseVM>();
 
     Text getCategoryText(String payment) {
       switch (payment) {

@@ -10,7 +10,7 @@ class ChargeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Get.put(PurchaseVM());
+    final vm = Get.find<PurchaseVM>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('코인 구매'),

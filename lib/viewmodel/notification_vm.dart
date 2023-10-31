@@ -113,7 +113,7 @@ class NotificationVm extends GetxController with WidgetsBindingObserver {
     );
 
     flutterLocalNotificationsPlugin.zonedSchedule(0, '좋은 아침입니다.!',
-        '활기찬 하루를 보내길 바랄게요!', makeDate(8, 0, 0), notificationDetails,
+        '활기찬 하루를 보내길 바랄게요!', makeDate(12, 0, 0), notificationDetails,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time);
@@ -170,7 +170,7 @@ class NotificationVm extends GetxController with WidgetsBindingObserver {
     saveNotificationMode(isNotificationMode.value);
     if (isNotificationMode.value) {
       showNowNotification();
-      //scheduleNotification(); // 실제 적용 될 알람
+      scheduleNotification(); // 실제 적용 될 알람
     } else {
       cancelNotification();
     }
