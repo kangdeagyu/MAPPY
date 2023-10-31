@@ -124,8 +124,9 @@ class LoginPage extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () async {
+                      controller.selectFirebase();
                       print("del?${controller.deleted}");
-                      Get.to(LoginPage());
+                      // Get.to(LoginPage());
                       Future<int> rs = controller.loginCheck(
                           controller.uidController.text.trim(),
                           controller.upasswordController.text.trim());
@@ -203,14 +204,15 @@ class LoginPage extends StatelessWidget {
                         child: InkWell(
                           onTap: () async {
                             // 이미지 버튼을 탭했을 때 수행할 작업
-                            await controller.selectFirebase();
-                            if (controller.deleted == 0) {
-                              //udeleted 가 0이면 회원
-                              controller.kakao();
-                            } else {
-                              //udeleted 가 1이면 탈퇴회원
-                              controller.FailAlert2();
-                            }
+                            // await controller.selectFirebase();
+                            // if (controller.deleted == 0) {
+                            //   //udeleted 가 0이면 회원
+                            //   controller.kakao();
+                            // } else {
+                            //   //udeleted 가 1이면 탈퇴회원
+                            //   controller.FailAlert2();
+                            // }
+                            controller.kakao();
                           },
                           child: Image.asset(
                             "assets/images/kakao.png",
