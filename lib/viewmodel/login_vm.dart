@@ -78,11 +78,17 @@ class LoginVM extends GetxController {
         int rs = await rsNum;
         print("중복은${rs}");
         if (rs == 1) {
-          //_showDialog();
+          // 가입된회원
+          if (deleted == 0){
           ksaveSharedPreferences(user.kakaoAccount?.email);
 
           Get.to(const TabBarScreen());
+
+          }else{
+            FailAlert2();
+          }
         } else {
+          // 가입되지 않은 회원
           // 회원가입페이지로 이동
           Message_wook.kid = user.kakaoAccount?.email;
           kakaoRegisterCheck();
@@ -98,9 +104,15 @@ class LoginVM extends GetxController {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("user")
         .where("uid", isEqualTo: id)
-        .where("udeleted", isEqualTo: 0)
+        // .where("udeleted", isEqualTo: 0)
         .get();
     int count = querySnapshot.size; // 문서 개수 세기
+    if(querySnapshot.size>0){
+      deleted = querySnapshot.docs[0]["udeleted"] ?? 0;
+    }else{
+      print("아이디없음");
+    }
+    update();
     return count;
   }
 
@@ -179,7 +191,7 @@ class LoginVM extends GetxController {
   kakaoRegisterCheck() {
     Get.defaultDialog(
       title: "",
-      middleText: "회원가입을 진행하시겠습니까?.",
+      middleText: "가입되어있지 않은 회원입니다.\n회원가입을 진행하시겠습니까?",
       barrierDismissible: false,
       actions: [
         Row(
