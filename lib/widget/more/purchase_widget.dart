@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget purchase(String coin, String pay, String number) {
-  final vm = Get.find<PurchaseVM>();
+  final purchaseObs = Get.put(PurchaseVM());
 
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
@@ -105,7 +105,7 @@ Widget purchase(String coin, String pay, String number) {
                   "계정:",
                   style: TextStyle(fontSize: 16),
                 ),
-                Obx(() => Text(vm.uId.value)),
+                Obx(() => Text(purchaseObs.uId.value)),
               ],
             ),
           ],
@@ -115,9 +115,9 @@ Widget purchase(String coin, String pay, String number) {
         height: 10.h,
       ),
       Obx(
-        () => vm.isProcessing.value
+        () => purchaseObs.isProcessing.value
             ? const CircularProgressIndicator()
-            : vm.isComplete.value
+            : purchaseObs.isComplete.value
                 ? const Icon(
                     Icons.check,
                     color: Colors.green,
@@ -126,12 +126,12 @@ Widget purchase(String coin, String pay, String number) {
                 : ElevatedButton(
                     onPressed: () async {
                       // 결제 창과 데이터베이스에 코인 업데이트
-                      await vm.makePayment(extractNumber(coin));
+                      await purchaseObs.makePayment(extractNumber(coin));
                       // 결제 내역 데이터베이스에 저장해줘야됨
-                      await vm.insertPayment(
+                      await purchaseObs.insertPayment(
                           extractNumber(coin), number, extractNumber(pay));
                       // 사용 내역 히스토리
-                      await vm.insertHistory(extractNumber(coin));
+                      await purchaseObs.insertHistory(extractNumber(coin));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.indigo[800],

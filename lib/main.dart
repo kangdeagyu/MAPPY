@@ -2,7 +2,6 @@ import 'package:final_main_project/view/firstpage.dart';
 import 'package:final_main_project/view/tabbar_screen.dart';
 import 'package:final_main_project/viewmodel/card_vm.dart';
 import 'package:final_main_project/viewmodel/notification_vm.dart';
-import 'package:final_main_project/viewmodel/purchase_vm.dart';
 import 'package:final_main_project/viewmodel/theme_obs.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,7 +24,6 @@ void main() async {
   tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
   // 알람 권한 설정
   Get.put(NotificationVm());
-  Get.put(PurchaseVM());
   Future.delayed(const Duration(seconds: 3),
       () => Get.find<NotificationVm>().requestNotificationPermission());
 
