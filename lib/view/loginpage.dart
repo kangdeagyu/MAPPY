@@ -104,6 +104,7 @@ class LoginPage extends StatelessWidget {
                         TextButton(
                           onPressed: () {
                             // 버튼 누르기 액션
+                            controller.findPW(context);
                           },
                           style: TextButton.styleFrom(
                             // 버튼 스타일
