@@ -4,6 +4,7 @@ import 'package:final_main_project/view/tabbar_screen.dart';
 import 'package:final_main_project/widget/register/register_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +13,10 @@ class LoginVM extends GetxController {
   // property
   late TextEditingController uidController;
   late TextEditingController upasswordController;
+  // 비밀번호 찾기위한 변수
+  TextEditingController id = TextEditingController();
+  TextEditingController birth = TextEditingController();
+
   bool passwordVisible = false;
   int deleted = 0;
 
@@ -27,15 +32,11 @@ class LoginVM extends GetxController {
     upasswordController = TextEditingController();
   }
 
-
   // 비밀번호 보이기 안보이기
   transPW() {
     passwordVisible = !passwordVisible;
     update();
   }
-
-
-
 
 // ==================================== functions ====================================
 
@@ -79,12 +80,11 @@ class LoginVM extends GetxController {
         print("중복은${rs}");
         if (rs == 1) {
           // 가입된회원
-          if (deleted == 0){
-          ksaveSharedPreferences(user.kakaoAccount?.email);
+          if (deleted == 0) {
+            ksaveSharedPreferences(user.kakaoAccount?.email);
 
-          Get.to(const TabBarScreen());
-
-          }else{
+            Get.to(const TabBarScreen());
+          } else {
             FailAlert2();
           }
         } else {
@@ -107,9 +107,9 @@ class LoginVM extends GetxController {
         // .where("udeleted", isEqualTo: 0)
         .get();
     int count = querySnapshot.size; // 문서 개수 세기
-    if(querySnapshot.size>0){
+    if (querySnapshot.size > 0) {
       deleted = querySnapshot.docs[0]["udeleted"] ?? 0;
-    }else{
+    } else {
       print("아이디없음");
     }
     update();
@@ -127,6 +127,16 @@ class LoginVM extends GetxController {
     int count = querySnapshot.size; // 문서 개수 세기
     return count;
   }
+// 파이어베이스 DB에서 아이디 중복체크하기
+  Future<String> pwFinder() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("user")
+        .where("uid", isEqualTo: id.text)
+        .where("ubirth", isEqualTo: birth.text)
+        .where("udeleted", isEqualTo: 0)
+        .get();
+    return querySnapshot.docs[0]["upassword"];
+  }
 
 // Firebase select
   Future<void> selectFirebase() async {
@@ -134,9 +144,9 @@ class LoginVM extends GetxController {
         .collection("user")
         .where("uid", isEqualTo: uidController.text.trim())
         .get();
-    if(querySnapshot.size>0){
+    if (querySnapshot.size > 0) {
       deleted = querySnapshot.docs[0]["udeleted"] ?? 0;
-    }else{
+    } else {
       print("아이디없음");
     }
     update();
@@ -170,6 +180,102 @@ class LoginVM extends GetxController {
     Get.defaultDialog(
       title: "로그인실패",
       middleText: "탈퇴된 계정입니다.",
+      barrierDismissible: false,
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: () => Get.back(),
+              child: const Text(
+                "OK",
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+// 비밀번호 찾기
+  findPW(BuildContext context) {
+    Get.defaultDialog(
+      title: "비밀번호 찾기",
+      middleText: "비밀번호를 복구하기 위한 이메일을 입력하세요.",
+      barrierDismissible: false,
+      content: Column(
+        children: [
+          TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            controller: id, // Assuming you have an email controller
+            decoration: const InputDecoration(
+              labelText: "이메일",
+              hintText: "이메일을 입력하세요",
+            ),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+          ),
+          TextFormField(
+            keyboardType: TextInputType.number,
+            controller: birth, // Assuming you have an email controller
+            decoration: const InputDecoration(
+              labelText: "생년월일",
+              hintText: "생년월일을 입력하세요",
+            ),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () {
+                  // 버튼 누르기 액션
+                  Get.back();
+                },
+                style: TextButton.styleFrom(
+                  // 버튼 스타일
+                  foregroundColor: Colors.blue,
+                ),
+                child: const Text(
+                  "뒤로가기",
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () async{
+                  // 버튼 누르기 액션
+                  String pw = await pwFinder();
+                  showPW(pw);
+
+                },
+                style: TextButton.styleFrom(
+                  // 버튼 스타일
+                  foregroundColor: Colors.blue,
+                ),
+                child: const Text(
+                  "비밀번호 찾기",
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 비밀번호 알려주기
+  showPW(String pw) {
+    Get.defaultDialog(
+      title: "비밀번호",
+      middleText:  "${pw} 입니다",
       barrierDismissible: false,
       actions: [
         Row(
@@ -257,5 +363,4 @@ class LoginVM extends GetxController {
     final prefernece = await SharedPreferences.getInstance();
     prefernece.clear();
   }
-
 } // end
