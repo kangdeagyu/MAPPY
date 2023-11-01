@@ -45,7 +45,7 @@ class AgeVM extends GetxController {
   // 앱 실행 후 바로 firebase에서 정보 가져오기
   void onInit() {
     super.onInit();
-    
+
     loadUserID().then((value) {
       checkCoin();
       getUserName();
@@ -141,11 +141,9 @@ class AgeVM extends GetxController {
 
   // 코인 차감.
   Future<void> useCoin(int price) async {
-
     String userId = uId.value;
 
     try {
-
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection("user")
           .where("uid", isEqualTo: userId)
@@ -166,7 +164,6 @@ class AgeVM extends GetxController {
 
   //보유 코인 개수 가져오기
   Future<void> checkCoin() async {
-
     String userId = uId.value;
 
     try {
@@ -186,7 +183,6 @@ class AgeVM extends GetxController {
 
   // 유저 이름 가져오기
   Future<void> getUserName() async {
-
     String userId = uId.value;
 
     try {
@@ -205,7 +201,6 @@ class AgeVM extends GetxController {
   }
 
   Future<void> insertHistory() async {
-
     String userId = uId.value;
 
     // 'chat' 컬렉션 참조
@@ -221,6 +216,7 @@ class AgeVM extends GetxController {
     await historys.add({
       'category': 'yena', // 'yena' or 'seah' or 'charge'
       'price': 30, // 충전이든 사용이든 여기에 넣어주기.
+      'coinHistory': myCoin.value - 30,
       'usedate': Timestamp.fromDate(DateTime.now())
     });
   }
@@ -288,11 +284,9 @@ class AgeVM extends GetxController {
     );
 
     if (pickedImage != null) {
-
       File resizedImage = await resizeImage(pickedImage.path, 700.h);
 
       faceImage.value = XFile(resizedImage.path);
-      
     }
     //await updateFaceImage();
     await getCroppedImage();
@@ -321,7 +315,6 @@ class AgeVM extends GetxController {
 
   // 이전 예측 결과를 삭제.
   resetResults() {
-    
     faceImage.value = null;
     displayAnswer.value = false;
 
