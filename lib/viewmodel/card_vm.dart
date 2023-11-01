@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_main_project/model/card_model.dart';
+import 'package:final_main_project/viewmodel/age_vm.dart';
 import 'package:final_main_project/viewmodel/purchase_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -65,6 +66,7 @@ class CardVm extends GetxController {
     // 인스턴스 지우기
     Get.delete<PurchaseVM>();
     Get.delete<CardVm>();
+    Get.delete<AgeVM>();
   }
 
   // 카드 정보 불러오기
