@@ -35,7 +35,7 @@ class RegistrationPage extends StatelessWidget {
               width: 340.w,
               //height: 200.h,
               child: TextFormField(
-                keyboardType: controller.counter==3 ? TextInputType.text : TextInputType.number,
+                keyboardType: TextInputType.text,
                 controller: controller.textEditingController,
                 decoration: InputDecoration(
                   labelText: labelText,
