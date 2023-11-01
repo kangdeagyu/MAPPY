@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget logOut(context) {
-  final vm = Get.find<CardVm>();
+  final vm = Get.put(CardVm());
 
   return InkWell(
     onTap: () {

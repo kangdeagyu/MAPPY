@@ -148,8 +148,10 @@ class PurchaseVM extends GetxController {
 
   //보유 코인 개수 가져오기
   Future<void> checkCoin() async {
+    print("여기다!!!");
     try {
       String userId = uId.value;
+      print("ddddddd$userId");
       FirebaseFirestore.instance
           .collection("user")
           .where("uid", isEqualTo: userId)
@@ -177,9 +179,12 @@ class PurchaseVM extends GetxController {
           .listen(
         (querySnapshot) {
           if (querySnapshot.docs.isNotEmpty) {
+            payments.clear(); // 기존 리스트를 비웁니다.
             querySnapshot.docs.forEach((doc) {
               payments.add(HistoryModel.fromDocument(doc)); // 새로운 데이터를 추가합니다.
             });
+            // 추가적인 정렬이 필요한 경우 아래 코드를 사용합니다.
+            payments.sort((a, b) => b.usedate.compareTo(a.usedate));
           }
         },
       );
