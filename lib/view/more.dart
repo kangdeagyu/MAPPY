@@ -1,10 +1,10 @@
-import 'package:final_main_project/widget/more/coin_Charging_widget.dart';
+import 'package:final_main_project/widget/more/charge/coin_Charging_widget.dart';
 import 'package:final_main_project/widget/more/etc_widget.dart';
 import 'package:final_main_project/widget/more/holding_coin_widget.dart';
 import 'package:final_main_project/widget/more/logout_widget.dart';
 import 'package:final_main_project/widget/more/notification_widget.dart';
-import 'package:final_main_project/widget/more/payment_widget.dart';
-import 'package:final_main_project/widget/more/use_coin_widget.dart';
+import 'package:final_main_project/widget/more/card/card_widget.dart';
+import 'package:final_main_project/widget/more/use/use_coin_widget.dart';
 import 'package:final_main_project/widget/more/userpage_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -89,9 +89,9 @@ class More extends StatelessWidget {
             SizedBox(
               height: 25.h,
             ),
-            // 페이먼트
-            paymentWidget(context),
-            // 페이먼트 끝
+            // 카드등록
+            cardWidget(context),
+            // 카드등록 끝
             SizedBox(
               height: 25.h,
             ),

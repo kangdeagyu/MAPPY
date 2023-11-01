@@ -1,5 +1,5 @@
 import 'package:final_main_project/viewmodel/purchase_vm.dart';
-import 'package:final_main_project/widget/more/charge_widget.dart';
+import 'package:final_main_project/widget/more/charge/charge_widget.dart';
 import 'package:final_main_project/widget/more/untiy_Ads_Widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

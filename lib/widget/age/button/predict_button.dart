@@ -1,5 +1,5 @@
 import 'package:final_main_project/view/age_result.dart';
-import 'package:final_main_project/components/more/charge_components.dart';
+import 'package:final_main_project/view/charge_page.dart';
 import 'package:final_main_project/styles/text_style.dart';
 import 'package:final_main_project/viewmodel/age_vm.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Widget predictButton(context, buttonStyle) {
-
   final vm = Get.find<AgeVM>();
 
   return ElevatedButton(

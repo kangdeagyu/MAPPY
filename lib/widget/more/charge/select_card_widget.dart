@@ -1,6 +1,6 @@
 import 'package:final_main_project/viewmodel/card_vm.dart';
-import 'package:final_main_project/widget/more/cardRegister_widget.dart';
-import 'package:final_main_project/widget/more/purchase_widget.dart';
+import 'package:final_main_project/widget/more/card/cardRegister_widget.dart';
+import 'package:final_main_project/widget/more/charge/purchase_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -126,7 +126,7 @@ Widget selectCard(String coin, String pay, BuildContext context) {
               Container(
                 height: 420.h,
                 color: Theme.of(context).colorScheme.background,
-                child: cardwidget(context, vm.cardDataList.length),
+                child: cardRegisterWidget(context, vm.cardDataList.length),
               ),
               isScrollControlled: true,
               isDismissible: false,

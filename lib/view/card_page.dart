@@ -5,8 +5,8 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class PaymentPage extends StatelessWidget {
-  const PaymentPage({super.key});
+class CardPage extends StatelessWidget {
+  const CardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,8 @@ class PaymentPage extends StatelessWidget {
                       Container(
                         height: 420.h,
                         color: Theme.of(context).colorScheme.background,
-                        child: cardwidget(context, vm.cardDataList.length),
+                        child:
+                            cardRegisterWidget(context, vm.cardDataList.length),
                       ),
                       isScrollControlled: true,
                       isDismissible: false,

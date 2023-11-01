@@ -6,7 +6,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget cardwidget(BuildContext context, cardCount) {
+Widget cardRegisterWidget(BuildContext context, cardCount) {
   final vm = Get.find<CardVm>();
 
   // 카드 색상

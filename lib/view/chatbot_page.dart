@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:final_main_project/components/more/charge_components.dart';
+import 'package:final_main_project/view/charge_page.dart';
 import 'package:final_main_project/styles/text_style.dart';
 import 'package:final_main_project/viewmodel/chatbot.dart';
 import 'package:flutter/material.dart';
