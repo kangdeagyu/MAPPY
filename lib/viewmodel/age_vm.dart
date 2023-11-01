@@ -280,7 +280,7 @@ class AgeVM extends GetxController {
     ImagePicker picker = ImagePicker();
     XFile? pickedImage = await picker.pickImage(
       source: ImageSource.camera,
-      imageQuality: 100,
+      imageQuality: 80,
     );
 
     if (pickedImage != null) {
