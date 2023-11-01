@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_main_project/model/card_model.dart';
+import 'package:final_main_project/viewmodel/purchase_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,6 +62,9 @@ class CardVm extends GetxController {
     prefs.remove("p_userId");
     prefs.remove('isDarkMode');
     prefs.remove('notificationMode');
+    // 인스턴스 지우기
+    Get.delete<PurchaseVM>();
+    Get.delete<CardVm>();
   }
 
   // 카드 정보 불러오기
