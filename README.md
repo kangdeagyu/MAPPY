@@ -10,8 +10,6 @@
 # APP Mockup
 ![이미지 설명](목업.png)
 
-# 시연영상
-
 # Database
 
 - Firebase
